@@ -1,0 +1,18 @@
+{
+    "Bangla":"বাংলা",
+    "English":"ইংরেজি",
+    "Dashboard":"ড্যাশবোর্ড",
+    "Bank Account":"ব্যাংক একাউন্ট",
+    "District":"জেলা",
+    "Tender":"টেন্ডার",
+    "Labour":"শ্রমিক",
+    "Payment Received":"পেমেন্ট রিসিভ",
+    "Category":"ক্যাটাগরি",
+    "Offical Expense":"অফিসের খরচ",
+    "Expenses":"খরচ সমূহ",
+    "Official Expense":"অফিসের খরচ",
+    "Tender Expense":"টেন্ডার খরচ",
+    "Labour Salary":"শ্রমিকদের সেলারি",
+    "Report":"রিপোর্ট",
+    "Available balance account should not be deleted":"ব্যালেন্স শূন্য (০) না হলে ডিলিট করা যাবে না"
+}

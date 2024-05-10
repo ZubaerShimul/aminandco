@@ -1,0 +1,450 @@
+/*-------------- Start device screen 2560 --------------*/
+
+@media screen and (min-width: 2560px) {
+    .sdr-hero-list {
+        padding-left: 100px;
+    }
+}
+
+/*-------------- Start device screen 1440 --------------*/
+@media screen and (min-width: 1440px) {
+    .sdr-reg-form .auth-form {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .sdr-reg-form {
+        padding-top: 50px;
+        padding-bottom: 0;
+    }
+
+    .sdr-login-form .sdr-auth-content {
+        padding-right: 150px;
+    }
+}
+
+/*-------------- Start device screen 1440 --------------*/
+@media screen and (max-width: 1440px) {}
+
+/*-------------- Start device screen 1366 --------------*/
+
+@media screen and (min-width: 1199px) {
+    .sdr-reg-form .auth-form {
+        height: inherit;
+    }
+
+    .sdr-login-form .auth-form {
+        height: 90vh;
+    }
+}
+
+/*-------------- Start device screen 1366 --------------*/
+
+@media screen and (max-width: 1366px) {}
+
+/*-------------- Start device screen 1199 --------------*/
+
+@media screen and (max-width: 1199px) {
+    .sdr-feature-content {
+        padding-left: 60px;
+    }
+
+    .appointment-content {
+        padding-right: 50px;
+    }
+}
+
+/*-------------- Start device screen 1024 --------------*/
+
+@media screen and (max-width: 1024px) {
+    .forget-pass-form .sdr-auth-content {
+        padding-right: 150px;
+    }
+}
+
+/*-------------- Start device screen 991 --------------*/
+
+@media screen and (max-width: 991px) {
+
+    .sdr-header .container-fluid {
+        justify-content: flex-end;
+    }
+
+    .sdr-header .navbar-brand {
+        margin-right: auto;
+    }
+
+    .sdr-header .navbar-toggler {
+        margin-right: 30px;
+    }
+
+    .sdr-header .navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+    .sdr-header .navbar-collapse {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 100%;
+        background: #14334f;
+        z-index: 9;
+        padding: 0 30px;
+    }
+
+    .navbar-nav .nav-item:not(:last-child) {
+        margin-bottom: 10px;
+    }
+
+    .navbar-nav {
+        padding: 30px 0;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+        color: #fff;
+    }
+
+    .sdr-hero-section {
+        padding: 100px 0;
+    }
+
+    .sdr-hero-list,
+    .sdr-hero-content {
+        height: inherit;
+    }
+
+    .sdr-hero-list {
+        padding-left: 0;
+        justify-content: flex-start;
+        margin-top: 50px;
+    }
+
+    .appointment-sec,
+    .sdr-feature-sec {
+        padding: 80px 0;
+    }
+
+    .sdr-feature-content {
+        padding-left: 15px;
+    }
+
+    .sdr-feature-card {
+        margin-left: 0px;
+    }
+
+    .client-logo:not(:last-child) {
+        margin-right: 30px;
+    }
+
+    .sdr-reg-form {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .sdr-auth-section::after {
+        width: 100%;
+        right: 0;
+        top: 32%;
+        transform: skew(0);
+    }
+
+    .auth-form,
+    .sdr-auth-content {
+        height: inherit;
+    }
+
+    .sdr-auth-content {
+        padding-top: 150px;
+        padding-bottom: 100px;
+    }
+
+    .auth-form {
+        padding: 50px 0 90px;
+    }
+
+    .sdr-auth-content h1 {
+        font-size: 34px;
+        margin-bottom: 15px;
+    }
+
+    .sdr-login-form .sdr-auth-content {
+        padding: 50px 240px;
+    }
+
+    .sdr-auth-section.sdr-login-form::after {
+        top: 41%;
+    }
+
+    .sdr-auth-section.sdr-login-form .auth-form {
+        padding-bottom: 70px;
+    }
+
+    .forget-pass-form .user-form {
+        width: 50%;
+    }
+
+    .forget-pass-form .sdr-auth-content {
+        padding-right: 0;
+        padding: 50px 250px 100px;
+    }
+
+    .sdr-auth-section.forget-pass-form::after {
+        top: 45%;
+    }
+
+    .sdr-auth-section.reset-pass-form::after {
+        top: 40%;
+    }
+
+
+
+
+}
+
+/*-------------- Start device screen 768 --------------*/
+
+@media screen and (max-width: 768px) {
+    .client-logo-wrapper {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .client-logo {
+        flex-basis: 25%;
+        width: 25%;
+        padding: 10px;
+    }
+
+    .client-logo img {
+        width: 100%;
+    }
+
+    .sdr-footer-logo img {
+        width: 150px;
+    }
+
+    .sdr-hero-content {
+        padding-right: 0;
+    }
+
+    .appointment-content {
+        padding-right: 0;
+    }
+
+    .sdr-auth-content {
+        padding-top: 150px;
+        padding-bottom: 100px;
+        padding-left: 65px;
+        padding-right: 65px;
+    }
+
+    .sdr-login-form .sdr-auth-content {
+        padding: 50px 130px 80px;
+    }
+
+    .sdr-auth-section.sdr-login-form::after {
+        top: 43%;
+    }
+
+    .forget-pass-form .user-form {
+        width: 60%;
+    }
+
+    .forget-pass-form .sdr-auth-content {
+        padding-right: 0;
+        padding: 50px 150px 100px;
+    }
+}
+
+/*-------------- Start device screen 576 --------------*/
+
+@media screen and (max-width: 576px) {
+
+    .sdr-header .navbar-toggler {
+        margin-right: 0;
+    }
+
+    .header-right {
+        width: 100%;
+        padding: 15px 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .sdr-feature-card {
+        margin-left: 100px;
+    }
+
+    .sdr-feature-card::before {
+        left: -80px;
+    }
+
+    .sdr-feature-card:not(:last-child):after {
+        left: -60px;
+    }
+
+    .sdr-hero-list ul li:not(:last-child) {
+        margin-bottom: 15px;
+    }
+
+    .sdr-hero-list ul li {
+        padding: 5px 10px;
+    }
+
+    .sdr-hero-section::before {
+        width: 100%;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        transform: skew(0);
+    }
+
+    .sdr-hero-section::after {
+        display: none;
+    }
+
+    .sdr-hero-section h1 {
+        font-size: 40px;
+    }
+
+    .sdr-hero-section {
+        padding: 60px 0;
+    }
+
+    .sdr-hero-section h1 {
+        font-size: 30px;
+        margin-bottom: 15px;
+    }
+
+    .appointment-content h2,
+    .sdr-feature-content h2 {
+        font-size: 28px;
+        margin-bottom: 15px;
+        line-height: 30px;
+    }
+
+    .sdr-auth-section::after {
+        top: 22%;
+    }
+
+    .sdr-auth-content {
+        padding-top: 150px;
+        padding-bottom: 100px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .sdr-login-form .sdr-auth-content {
+        padding: 50px 50px 80px;
+    }
+
+    .forget-pass-form .sdr-auth-content {
+        padding-right: 0;
+        padding: 50px 50px 100px;
+    }
+
+    .forget-pass-form .user-form {
+        width: 80%;
+    }
+
+}
+
+/*-------------- Start device screen 425 --------------*/
+
+@media screen and (max-width: 425px) {
+
+    .sdr-feature-card::after,
+    .sdr-feature-card::before {
+        display: none;
+    }
+
+    .sdr-feature-card {
+        margin-left: 0;
+        padding: 30px;
+    }
+
+    .client-logo {
+        flex-basis: 40%;
+        width: 40%;
+        padding: 10px;
+    }
+
+    .sdr-footer {
+        padding: 50px 0;
+    }
+
+    .sdr-auth-content {
+        padding-top: 130px;
+        padding-bottom: 40px;
+    }
+
+    .auth-form {
+        padding: 50px 0 50px;
+    }
+
+    .sdr-login-form .sdr-auth-content {
+        padding: 50px 16px 80px;
+    }
+
+    .forget-pass-form .sdr-auth-content {
+        padding-right: 0;
+        padding: 50px 15px 100px;
+    }
+
+    .forget-pass-form .user-form {
+        width: 100%;
+    }
+
+    .sdr-auth-section.forget-pass-form::after {
+        top: 49%;
+    }
+
+    .sdr-auth-section.reset-pass-form::after {
+        top: 43%;
+    }
+
+}
+
+/*-------------- Start device screen 375 --------------*/
+
+@media screen and (max-width: 375px) {
+    .sdr-auth-section::after {
+        top: 25%;
+    }
+
+    .sdr-auth-section.sdr-login-form::after {
+        top: 46%;
+    }
+
+    .sdr-auth-section.forget-pass-form::after {
+        top: 52%;
+    }
+
+    .sdr-auth-section.reset-pass-form::after {
+        top: 48%;
+    }
+}
+
+/*-------------- Start device screen 320 --------------*/
+
+@media screen and (max-width: 320px) {
+    .client-logo {
+        margin-right: 0 !important;
+        width: 100%;
+    }
+
+    .sdr-auth-section::after {
+        top: 27%;
+    }
+
+    .sdr-auth-section.forget-pass-form::after {
+        top: 54%;
+    }
+
+    .sdr-auth-section.reset-pass-form::after {
+        top: 49%;
+    }
+
+
+}
