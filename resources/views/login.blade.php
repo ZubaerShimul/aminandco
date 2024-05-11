@@ -9,7 +9,7 @@
     <meta name="description" content="Tender admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, Tender admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
-    <title>Login Page - Tender </title>
+    <title>Login Page - Welcome to Amin & CO </title>
     <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
@@ -80,17 +80,17 @@
                                             </g>
                                         </g>
                                     </svg>
-                                    <h2 class="brand-text text-primary ms-1">Tender</h2>
+                                    <h2 class="brand-text text-primary ms-1">Amin & CO</h2>
                                 </a>
 
-                                <h4 class="card-title mb-1">Welcome to Tender! 👋</h4>
+                                <h4 class="card-title mb-1">Welcome to Amin & CO! 👋</h4>
                                 <form class="auth-login-form mt-2" action="{{route('admin.login.process') }}" method="POST">
                                     @csrf
                                     <div class="mb-1">
                                         <label for="login-email" class="form-label">Email</label>
                                         <input type="text" class="form-control" id="login-email" name="email" aria-describedby="login-email" tabindex="1" autofocus />
                                         <span class="text-danger">{{$errors->first('email')}}</span>
-                                   
+
                                     </div>
 
                                     <div class="mb-1">
@@ -102,7 +102,7 @@
                                         </div>  --}}
                                         <div class="input-group input-group-merge form-password-toggle">
                                             <input type="password" class="form-control form-control-merge" id="login-password" name="password" tabindex="2" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="login-password" />
-                                            <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>                                       
+                                            <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                                         </div>
                                         <span class="text-danger">{{$errors->first('password')}}</span>
                                     </div>

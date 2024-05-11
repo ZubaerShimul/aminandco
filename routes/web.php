@@ -8,6 +8,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\LaborController;
 use App\Http\Controllers\LabourSalaryController;
 use App\Http\Controllers\OfficialExpenseController;
+use App\Http\Controllers\PaymentToController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Report\ExpenseController;
 use App\Http\Controllers\TenderController;
@@ -45,7 +46,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('profile-update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
 
-    
+
     Route::get('password', [ProfileController::class, 'password'])->name('password');
     Route::post('password-update', [ProfileController::class, 'passwordUpdate'])->name('password.update');
 
@@ -158,4 +159,28 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
         Route::get('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense');
         Route::post('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense.report');
     });
+
+    // ************************** new ************************************\\
+
+    /**
+     * payment received
+     */
+    Route::get('payment-to-list', [PaymentToController::class, 'index'])->name('payment.to.list');
+    Route::get('payment-to-create', [PaymentToController::class, 'create'])->name('payment.to.create');
+    Route::post('payment-to-store', [PaymentToController::class, 'store'])->name('payment.to.store');
+    Route::get('payment-to-edit/{id?}', [PaymentToController::class, 'edit'])->name('payment.to.edit');
+    Route::post('payment-to-update', [PaymentToController::class, 'update'])->name('payment.to.update');
+    Route::get('payment-to-delete/{id?}', [PaymentToController::class, 'delete'])->name('payment.to.delete');
+
+
+    /**
+     * site/ partner name
+     */
+    Route::get('site-list', [PaymentToController::class, 'index'])->name('site.list');
+    Route::get('site-create', [PaymentToController::class, 'create'])->name('site.create');
+    Route::post('site-store', [PaymentToController::class, 'store'])->name('site.store');
+    Route::get('site-edit/{id?}', [PaymentToController::class, 'edit'])->name('site.edit');
+    Route::post('site-update', [PaymentToController::class, 'update'])->name('site.update');
+    Route::get('site-delete/{id?}', [PaymentToController::class, 'delete'])->name('site.delete');
+
 });
