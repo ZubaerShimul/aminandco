@@ -47,6 +47,19 @@
                             </div>
                         </form>
                     </div>
+                    <div class="card-body border-bottom">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h4 class="card-title">@lang('Payment To List')</h4>
+                            </div>
+                            <div class="col-md-3 ">
+                            <div class="d-flex justify-content-end">
+                                <a type="button" class="btn btn-info" id="btn-edit" style="display: none;" href="#">Edit</a>
+                                <a type="button" class="btn btn-danger mx-1" id="btn-delete" style="display: none;" href="#">Delete</a>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table report_cases">
                             <thead class="table-light">
