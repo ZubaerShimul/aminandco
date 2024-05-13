@@ -46,7 +46,7 @@ class PaymentToController extends Controller
         try {
 
             PaymentTo::create([
-                'user_id'   => Auth::user()->id,
+                // 'user_id'   => Auth::user()->id,
                 'name' => $request->name,
                 'type' => $request->type,
                 'mobile_number' => $request->mobile_number,
@@ -64,7 +64,7 @@ class PaymentToController extends Controller
     {
         $paymentTo = PaymentTo::where('id', $id)->first();
         if($paymentTo) {
-            return view('category.payment_to.edit',['data' => $paymentTo]);
+            return view('category.payment_to.index',['data' => $paymentTo]);
         }
         return redirect()->route('payment.to.list')->with('dismiss', "Not found");
     }

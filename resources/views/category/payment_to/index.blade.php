@@ -10,23 +10,42 @@
 @endpush
 @section('content')
     <div class="content-wrapper">
-        @include('widgets.breadcrumb', ['title' => __('Payment To Management'), 'subtitle'=> __('Payment To'), 'button' => '<a type="button" class="btn btn-primary" href="'.route('payment.to.create').'">'. __('Add New') .'</a>'])
+        @include('widgets.breadcrumb', ['title' => __('Payment To Management'), 'subtitle'=> __('Payment To'), 'button' => ''])
         <div class="content-body">
             <section class="app-user-list">
                 <!-- list and filter start -->
                 <div class="card">
-                    <div class="card-body border-bottom">
-                        <div class="row">
-                            <div class="col-md-9">
-                                <h4 class="card-title">@lang('Payment To')</h4>
+                    <div class="card-body">
+                        <form action="{{route('payment.to.store')}}" method="post" class="form">
+                            @csrf
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="mb-2">
+                                        <label class="form-label" for="name">@lang('Name') <span class="text-danger">*</span></label>
+                                        <input type="text" id="name" class="form-control" name="name" value="{{ isset($data) ? $data->name :  old('name')}}" required/>
+                                        <span class="text-danger">{{$errors->first('name')}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-2">
+                                        <label class="form-label" for="type">@lang('Type') <span class="text-danger">*</span></label>
+                                        <input type="text" id="type" class="form-control" name="type" value="{{ isset($data) ? $data->type : old('type')}}" required/>
+                                        <span class="text-danger">{{$errors->first('type')}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-2">
+                                        <label class="form-label" for="name">@lang('Mob No') <span class="text-danger">*</span></label>
+                                        <input type="text" id="mobile_number" class="form-control" name="mobile_number" value="{{isset($data) ? $data->mobile_number : old('mobile_number')}}" required/>
+                                        <span class="text-danger">{{$errors->first('mobile_number')}}</span>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="id" value="{{ isset($data) ? $data->id : null }}">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary me-1">{{ isset($data) ? __("Update") : __("Add") }}</button>
+                                </div>
                             </div>
-                            <div class="col-md-3 ">
-                            <div class="d-flex justify-content-end">
-                                <a type="button" class="btn btn-info" id="btn-edit" style="display: none;" href="#">Edit</a>
-                                <a type="button" class="btn btn-danger mx-1" id="btn-delete" style="display: none;" href="#">Delete</a>
-                            </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table report_cases">
