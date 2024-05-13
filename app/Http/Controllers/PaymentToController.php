@@ -14,6 +14,9 @@ class PaymentToController extends Controller
         if ($request->ajax()) {
             $report_paymentTo = PaymentTo::query();
             return datatables($report_paymentTo)
+                ->editColumn('checkin', function ($paymentTo) {
+                    return '<input type="checkbox" class="item-checkbox" data-id="'.$paymentTo->id.'">';
+                })
                 ->editColumn('created_at', function ($paymentTo) {
                     return date('d M Y', strtotime($paymentTo->created_at));
                 })
@@ -22,7 +25,7 @@ class PaymentToController extends Controller
                     // $action .= status_change_modal($paymentTo). '</div>';
                     return $action;
                 })
-                ->rawColumns(['paid','expense','account_id', 'created_at', 'status', 'payment_status', 'actions'])
+                ->rawColumns(['checkin','paid','expense','account_id', 'created_at', 'status', 'payment_status', 'actions'])
                 ->make(TRUE);
         }
         return view('category.payment_to.index');

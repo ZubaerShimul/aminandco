@@ -20,12 +20,19 @@
                             <div class="col-md-9">
                                 <h4 class="card-title">@lang('Payment To')</h4>
                             </div>
+                            <div class="col-md-3 ">
+                            <div class="d-flex justify-content-end">
+                                <a type="button" class="btn btn-info" id="btn-edit" style="display: none;" href="#">Edit</a>
+                                <a type="button" class="btn btn-danger mx-1" id="btn-delete" style="display: none;" href="#">Delete</a>
+                            </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table report_cases">
                             <thead class="table-light">
                             <tr>
+                                <th></th>
                                 <th>@lang('Name')</th>
                                 <th>@lang('Type')</th>
                                 <th>@lang('Mob No')</th>
@@ -59,6 +66,7 @@
             {"targets": 2, "className": "text-left"},
         ],
         columns: [
+                {"data": "checkin", orderable: false, searchable: false},
                 {"data": "name"},
                 {"data": "type"},
                 {"data": "mobile_number"},
@@ -70,6 +78,31 @@
             data: function (d) {
                 d.tender_id = $('#tender').val(); // Pass the selected tender ID as parameter
             }
+        },
+        initComplete: function() {
+            const checkboxes = document.querySelectorAll('.item-checkbox');
+            const editButton = document.getElementById('btn-edit');
+            const deleteButton = document.getElementById('btn-delete');
+            let lastCheckedCheckbox = null;
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (lastCheckedCheckbox && lastCheckedCheckbox !== this) {
+                        lastCheckedCheckbox.checked = false;
+                    }
+                    lastCheckedCheckbox = this;
+
+                    const itemId = this.dataset.id;
+                    
+                    // Update the route parameter with the checked item ID
+                    editButton.href = this.checked ? "/edit/" + itemId : "#";
+                    deleteButton.href = this.checked ? "/delete/" + itemId : "#";
+
+                    // Show/hide edit and delete buttons based on checkbox state
+                    editButton.style.display = this.checked ? 'inline-block' : 'none';
+                    deleteButton.style.display = this.checked ? 'inline-block' : 'none';
+                });
+            });
         }
     });
 
