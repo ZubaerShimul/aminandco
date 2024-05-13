@@ -112,10 +112,10 @@
                     lastCheckedCheckbox = this;
 
                     const itemId = this.dataset.id;
-                    
+
                     // Update the route parameter with the checked item ID
-                    editButton.href = this.checked ? "/edit/" + itemId : "#";
-                    deleteButton.href = this.checked ? "/delete/" + itemId : "#";
+                    editButton.href = this.checked ? "/payment-to-edit/" + itemId : "#";
+                    deleteButton.href = this.checked ? "/payment-to-delete/" + itemId : "#";
 
                     // Show/hide edit and delete buttons based on checkbox state
                     editButton.style.display = this.checked ? 'inline-block' : 'none';
@@ -132,11 +132,13 @@
     });
 
     $(document).on('click', '.action-btn', function() {
-        // Fetch details using AJAX or any other method here 
+        // Fetch details using AJAX or any other method here
         var details = {
             name: this.dataset.name,
+            type: this.dataset.type,
+            mobile_number: this.dataset.mobile_number,
         };
-        $('#detailsPlaceholder').html('<p>Name: ' + details.name + '</p>');
+        $('#detailsPlaceholder').html('<p>Name: ' + details.name + '</p><p>Type: ' + details.type + '</p><p>Mobile No: ' + details.mobile_number + '</p>');
         $('#detailsModal').modal('show');
     });
 });
