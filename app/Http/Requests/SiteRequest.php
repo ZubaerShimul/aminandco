@@ -11,7 +11,7 @@ class SiteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class SiteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:255',
+            'type' => 'required',
+            'division' => 'required|max:255',
+            'area' => 'required|max:255',
+            'mobile_number' => 'required|max:255',
         ];
     }
 }

@@ -24,5 +24,9 @@ const CATEGORY_ID_PAYMENT_INCOME    = 4;
 const MODEL_ACCOUNT = "App\Models\BankAccount";
 
 
+// **************************** NEW ***************************/**
+const TYPE_SITE = "Site";
+const TYPE_PARTNER = "Partner";
+
 
 

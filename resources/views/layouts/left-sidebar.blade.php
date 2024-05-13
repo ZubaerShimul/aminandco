@@ -50,7 +50,7 @@
                 <ul class="menu-content">
                     <li class="@if(request()->routeIs('payment.to.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('payment.to.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Payment To")</span></a>
                     </li>
-                    <li class="@if(request()->routeIs('expense.tender.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('expense.tender.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Site/Partner Name")</span></a>
+                    <li class="@if(request()->routeIs('site.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('site.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Site/Partner Name")</span></a>
                     </li>
 
                 </ul>

@@ -11,6 +11,7 @@ use App\Http\Controllers\OfficialExpenseController;
 use App\Http\Controllers\PaymentToController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Report\ExpenseController;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TenderExpenseController;
 use App\Http\Controllers\TenderPaymentController;
@@ -176,11 +177,9 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     /**
      * site/ partner name
      */
-    Route::get('site-list', [PaymentToController::class, 'index'])->name('site.list');
-    Route::get('site-create', [PaymentToController::class, 'create'])->name('site.create');
-    Route::post('site-store', [PaymentToController::class, 'store'])->name('site.store');
-    Route::get('site-edit/{id?}', [PaymentToController::class, 'edit'])->name('site.edit');
-    Route::post('site-update', [PaymentToController::class, 'update'])->name('site.update');
-    Route::get('site-delete/{id?}', [PaymentToController::class, 'delete'])->name('site.delete');
+    Route::get('site/partner-list', [SiteController::class, 'index'])->name('site.list');
+    Route::post('site/partner-store-update', [SiteController::class, 'storeUpdate'])->name('site.store_update');
+    Route::get('site/partner-edit/{id?}', [SiteController::class, 'edit'])->name('site.edit');
+    Route::get('site/partner-delete/{id?}', [SiteController::class, 'delete'])->name('site.delete');
 
 });
