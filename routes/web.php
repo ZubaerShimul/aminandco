@@ -52,17 +52,6 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('password-update', [ProfileController::class, 'passwordUpdate'])->name('password.update');
 
     /**
-     * bank account
-     */
-    Route::get('bank-account-list', [BankAccountController::class, 'index'])->name('account.list');
-    Route::get('bank-account-create', [BankAccountController::class, 'create'])->name('account.create');
-    Route::post('bank-account-store', [BankAccountController::class, 'store'])->name('account.store');
-    Route::get('bank-account-edit/{id?}', [BankAccountController::class, 'edit'])->name('account.edit');
-    Route::post('bank-account-update', [BankAccountController::class, 'update'])->name('account.update');
-    Route::get('bank-account-delete/{id?}', [BankAccountController::class, 'delete'])->name('account.delete');
-
-
-    /**
      * Official Expense
      */
     Route::get('official-expense-list', [OfficialExpenseController::class, 'index'])->name('expense.official.list');
@@ -181,5 +170,13 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('site/partner-store-update', [SiteController::class, 'storeUpdate'])->name('site.store_update');
     Route::get('site/partner-edit/{id?}', [SiteController::class, 'edit'])->name('site.edit');
     Route::get('site/partner-delete/{id?}', [SiteController::class, 'delete'])->name('site.delete');
+
+    /**
+     * bank
+     */
+    Route::get('category/bank-list', [BankAccountController::class, 'index'])->name('bank_account.list');
+    Route::post('category/bank-store-update', [BankAccountController::class, 'storeUpdate'])->name('bank_account.store_update');
+    Route::get('category/bank-edit/{id?}', [BankAccountController::class, 'edit'])->name('bank_account.edit');
+    Route::get('category/bank-delete/{id?}', [BankAccountController::class, 'delete'])->name('bank_account.delete');
 
 });

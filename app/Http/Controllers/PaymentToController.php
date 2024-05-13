@@ -46,7 +46,7 @@ class PaymentToController extends Controller
         try {
 
             PaymentTo::create([
-                // 'user_id'   => Auth::user()->id,
+                'created_by'   => Auth::user()->id,
                 'name' => $request->name,
                 'type' => $request->type,
                 'mobile_number' => $request->mobile_number,

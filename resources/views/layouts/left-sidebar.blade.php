@@ -52,6 +52,8 @@
                     </li>
                     <li class="@if(request()->routeIs('site.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('site.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Site/Partner Name")</span></a>
                     </li>
+                    <li class="@if(request()->routeIs('bank_account.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('bank_account.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Bank Name")</span></a>
+                    </li>
 
                 </ul>
             </li>

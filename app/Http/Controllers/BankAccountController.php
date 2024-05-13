@@ -3,79 +3,91 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AccountRequest;
-use App\Http\Services\BankAccountService;
+use App\Http\Requests\BankAccountRequest;
 use App\Models\BankAccount;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BankAccountController extends Controller
 {
-    private $accountService;
-    public function __construct(BankAccountService $accountService)
-    {
-        $this->accountService = $accountService;
-    }
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $report_categories = BankAccount::query();
-            return datatables($report_categories)
-                ->editColumn('created_at', function ($account) {
-                    return date('d M Y', strtotime($account->created_at));
+            $report_bank = BankAccount::query();
+            return datatables($report_bank)
+                ->editColumn('checkin', function ($bank) {
+                    return '<input type="checkbox" class="item-checkbox" data-id="'.$bank->id.'">';
                 })
-
-                ->addColumn('actions', function ($account) {
-                    $action = '<a href="' . route('account.edit', ['id' => $account->id]) . '" class="btn btn-sm  btn-info text-white" style="margin-right:10px">' . EDIT_ICON . '</a>';
-                    if (!$account->is_cash) {
-                        $action .= delete_modal($account->id, 'account.delete') . '</div>';
-                    }
-
+                ->addColumn('actions', function ($bank) {
+                    $action = '<button type="button"
+                    data-name="'.$bank->name.'"
+                    data-account_number="'.$bank->account_number.'"
+                    data-branch="'.$bank->branch.'"
+                    data-balance="'.$bank->balance.'"
+                     class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
+                    // $action .= status_change_modal($bank). '</div>';
                     return $action;
                 })
-                ->rawColumns(['created_at', 'actions'])
+                ->rawColumns(['checkin', 'actions'])
                 ->make(TRUE);
         }
-        return view('account.index');
+        return view('category.bank_account.index');
     }
 
-    public function create()
+    public function storeUpdate(BankAccountRequest $request)
     {
-        return view('account.create');
-    }
-
-    public function store(AccountRequest $request)
-    {
-        $account = $this->accountService->store($request);
-        if ($account['success'] == true) {
-            return redirect()->route('account.list')->with('success', $account['message']);
+        $bank = null;
+        if(!empty($request->id)) {
+            $bank = BankAccount::where(['id' => $request->id])->first();
+            if(empty($bank)) {
+                return redirect()->route('bank_account.list')->with('dismiss', __("Not Found"));
+            }
         }
-        return redirect()->back()->with('dismiss', $account['message']);
+        $data = [
+            'created_by'       => !empty($bank) ? $bank->user_id : Auth::user()->id,
+            'name'             => $request->name,
+            'account_number'   => $request->account_number,
+            'branch'            => $request->branch,
+        ];
+        try {
+
+            // update record
+            if(!empty($bank)) {
+                $bank->update($data);
+                return redirect()->route('bank_account.list')->with('success', __("Updated successfully"));
+            }
+
+            // create new record
+            BankAccount::create($data);
+            return redirect()->route('bank_account.list')->with('success', __("Added successfully"));
+
+    }catch(Exception $exception){
+        return redirect()->route('bank_account.list')->with('dismiss', $exception->getMessage());
+    }
     }
 
-    public function edit($id = null)
+    // edit
+
+    public  function edit($id = null)
     {
-        $account = BankAccount::where(['id' => $id])->first();
-        if (!empty($account)) {
-            return view('account.edit', ['account' => $account]);
+        $bank = BankAccount::where('id', $id)->first();
+        if($bank) {
+            return view('category.bank_account.index',['data' => $bank]);
         }
-        return redirect()->route('account.list')->with('dismiss', __("account not found"));
+        return redirect()->route('bank_account.list')->with('dismiss', "Not found");
     }
 
-    public function update(accountRequest $request)
+
+    // delete
+    public  function delete($id = null)
     {
-        $manufacturer = $this->accountService->update($request);
-
-        if ($manufacturer['success'] == TRUE) {
-            return redirect()->route('account.list')->with('success', $manufacturer['message']);
+        $bank = BankAccount::where('id', $id)->first();
+        if($bank) {
+            $bank->delete();
+            return redirect()->route('bank_account.list')->with('success', __("deleted successfully"));
         }
-        return redirect()->back()->with('dismiss', $manufacturer['message']);
+        return redirect()->route('bank_account.list')->with('dismiss', "Not found");
     }
 
-    public function delete($id = null)
-    {
-        $account = $this->accountService->delete($id);
-        if ($account['success'] == true) {
-            return redirect()->route('account.list')->with('success', $account['message']);
-        }
-        return redirect()->route('account.list')->with('dismiss', $account['message']);
-    }
 }

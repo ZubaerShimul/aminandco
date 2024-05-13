@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('bank_accounts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('branch')->nullable();
             $table->string('account_number')->nullable();
-            $table->string('holder_name')->nullable();
-            $table->decimal('opening_balance',19,2)->default(0);
+            $table->string('branch')->nullable();
             $table->decimal('balance',19,2)->default(0);
-            $table->boolean('is_cash')->default(0);
+            $table->integer('created_by');
+            $table->boolean('is_draft')->default(ENABLE);
             $table->softDeletes();
             $table->timestamps();
         });

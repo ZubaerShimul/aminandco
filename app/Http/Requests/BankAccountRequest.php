@@ -11,7 +11,7 @@ class BankAccountRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class BankAccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:191',
+            'account_number' => 'required|max:191',
+            'branch' => 'required|max:191',
         ];
     }
 }
