@@ -21,7 +21,7 @@ class PaymentToController extends Controller
                     return date('d M Y', strtotime($paymentTo->created_at));
                 })
                 ->addColumn('actions', function ($paymentTo) {
-                    $action = '<a href="' . route('payment.to.edit', ['id' => $paymentTo->id]) . '" class="btn btn-sm  btn-info text-white" style="margin-right:10px">' . VIEW_ICON . '</a>';
+                    $action = '<button type="button" data-name="'.$paymentTo->name.'" class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
                     // $action .= status_change_modal($paymentTo). '</div>';
                     return $action;
                 })
