@@ -54,6 +54,8 @@
                     </li>
                     <li class="@if(request()->routeIs('bank_account.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('bank_account.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Bank Name")</span></a>
                     </li>
+                    <li class="@if(request()->routeIs('payment_method.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('payment_method.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Payment Method")</span></a>
+                    </li>
 
                 </ul>
             </li>

@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sites', function (Blueprint $table) {
+        Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type');
-            $table->string('division')->nullable();
-            $table->string('area')->nullable();
-            $table->string('mobile_number')->nullable();
             $table->integer('created_by');
             $table->boolean('is_draft')->default(ENABLE);
             $table->softDeletes();
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sites');
+        Schema::dropIfExists('payment_methods');
     }
 };

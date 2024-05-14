@@ -8,6 +8,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\LaborController;
 use App\Http\Controllers\LabourSalaryController;
 use App\Http\Controllers\OfficialExpenseController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentToController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Report\ExpenseController;
@@ -178,5 +179,14 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('category/bank-store-update', [BankAccountController::class, 'storeUpdate'])->name('bank_account.store_update');
     Route::get('category/bank-edit/{id?}', [BankAccountController::class, 'edit'])->name('bank_account.edit');
     Route::get('category/bank-delete/{id?}', [BankAccountController::class, 'delete'])->name('bank_account.delete');
+
+     /**
+     * paymnet method
+     */
+    Route::get('category/payment-method-list', [PaymentMethodController::class, 'index'])->name('payment_method.list');
+    Route::post('category/payment-method-store-update', [PaymentMethodController::class, 'storeUpdate'])->name('payment_method.store_update');
+    Route::get('category/payment-method-edit/{id?}', [PaymentMethodController::class, 'edit'])->name('payment_method.edit');
+    Route::get('category/payment-method-delete/{id?}', [PaymentMethodController::class, 'delete'])->name('payment_method.delete');
+
 
 });
