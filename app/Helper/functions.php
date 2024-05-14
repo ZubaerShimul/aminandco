@@ -87,12 +87,12 @@ function parse_contact($contact_no)
          $destinationPath = public_path($path);
          # resize image
          $file->move($destinationPath, $file_name);
- 
+
          return $path . $file_name;
      } catch (Exception $e) {
          // dd($e);
          return null;
      }
  }
- 
+
 

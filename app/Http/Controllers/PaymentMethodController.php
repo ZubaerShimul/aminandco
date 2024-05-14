@@ -48,6 +48,7 @@ class PaymentMethodController extends Controller
             'created_by'       => !empty($payment_method) ? $payment_method->created_by : Auth::user()->id,
             'name'             => $request->name,
         ];
+        
         try {
 
             // update record

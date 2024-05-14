@@ -28,5 +28,8 @@ const MODEL_ACCOUNT = "App\Models\BankAccount";
 const TYPE_SITE = "Site";
 const TYPE_PARTNER = "Partner";
 
+const DOCUMENT_PATH = "uploads/documents/";
+
+
 
 

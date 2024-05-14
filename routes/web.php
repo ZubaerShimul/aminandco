@@ -5,6 +5,7 @@ use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardContrller;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LaborController;
 use App\Http\Controllers\LabourSalaryController;
 use App\Http\Controllers\OfficialExpenseController;
@@ -154,7 +155,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     // ************************** new ************************************\\
 
     /**
-     * payment received
+     * payment to
      */
     Route::get('payment-to-list', [PaymentToController::class, 'index'])->name('payment.to.list');
     Route::get('payment-to-create', [PaymentToController::class, 'create'])->name('payment.to.create');
@@ -187,6 +188,17 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('category/payment-method-store-update', [PaymentMethodController::class, 'storeUpdate'])->name('payment_method.store_update');
     Route::get('category/payment-method-edit/{id?}', [PaymentMethodController::class, 'edit'])->name('payment_method.edit');
     Route::get('category/payment-method-delete/{id?}', [PaymentMethodController::class, 'delete'])->name('payment_method.delete');
+
+
+    /**
+     * Employee
+     */
+    Route::get('employee-list', [EmployeeController::class, 'index'])->name('employee.list');
+    Route::get('employee-create', [EmployeeController::class, 'create'])->name('employee.create');
+    Route::post('employee-store', [EmployeeController::class, 'store'])->name('employee.store');
+    Route::get('employee-edit/{id?}', [EmployeeController::class, 'edit'])->name('employee.edit');
+    Route::post('employee-update', [EmployeeController::class, 'update'])->name('employee.update');
+    Route::get('employee-delete/{id?}', [EmployeeController::class, 'delete'])->name('employee.delete');
 
 
 });
