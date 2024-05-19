@@ -13,6 +13,7 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentToController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Report\ExpenseController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TenderExpenseController;
@@ -199,6 +200,16 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('employee-edit/{id?}', [EmployeeController::class, 'edit'])->name('employee.edit');
     Route::post('employee-update', [EmployeeController::class, 'update'])->name('employee.update');
     Route::get('employee-delete/{id?}', [EmployeeController::class, 'delete'])->name('employee.delete');
+
+      /**
+     * Employee
+     */
+    Route::get('salary-list', [SalaryController::class, 'index'])->name('salary.list');
+    Route::get('salary-create', [SalaryController::class, 'create'])->name('salary.create');
+    Route::post('salary-store', [SalaryController::class, 'store'])->name('salary.store');
+    Route::get('salary-edit/{id?}', [SalaryController::class, 'edit'])->name('salary.edit');
+    Route::post('salary-update', [SalaryController::class, 'update'])->name('salary.update');
+    Route::get('salary-delete/{id?}', [SalaryController::class, 'delete'])->name('salary.delete');
 
 
 });

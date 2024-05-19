@@ -65,6 +65,13 @@
                 </a>
             </li>
 
+            <li class="nav-item @if(request()->routeIs('salary.*')) active @endif">
+                <a class="d-flex align-items-center" href="{{route('salary.list')}}">
+                    <i data-feather="layout"></i>
+                    <span class="menu-title text-truncate">@lang('Salary')</span>
+                </a>
+            </li>
+
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Report")</span></a>
                 <ul class="menu-content">
                     <li class="@if(request()->routeIs('report.official.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.official.expense') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Official Expense")</span></a>
