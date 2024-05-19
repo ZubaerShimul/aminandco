@@ -62,7 +62,7 @@
                                                         <option value="{{ null }}">@lang('Select')</option>
                                                         @if(isset($data['payment_methods'][0]))
                                                         @foreach ($data['payment_methods'] as $payment_method )
-                                                            <option value="{{ $payment_method->id.'-'.$payment_method->name}}">{{ $payment_method->name }}</option>
+                                                            <option value="{{ $payment_method->name}}">{{ $payment_method->name }}</option>
                                                         @endforeach
                                                         @endif
                                                     </select>
@@ -72,7 +72,7 @@
                                         <div class="col-6">
                                             <div class="mb-2">
                                                 <label class="form-label" for="salary">@lang('Salary') <span class="text-danger">*</span></label>
-                                                <input type="number" id="salary" class="form-control" name="salary" value="{{old('salary')}}" required/>
+                                                <input type="number" id="salary" class="form-control" name="salary" value="{{old('salary')}}" onkeyup="totalSalary()" required/>
                                                 <span class="text-danger">{{$errors->first('salary')}}</span>
                                             </div>
                                         </div>
@@ -123,38 +123,19 @@
 
 @push('script')
 
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function(){
-        const tenderSelect=$('#tender')
-        const labourSelect= $('#labour');
-        
-        tenderSelect.change( function(){
-            
-            const tenderId=$(this).val();
-            $.ajax({
-                url: `/labour/${tenderId}`,
-                method: 'GET',
-                success: function (response) {
-                     labourSelect.empty();
-                     labourSelect.append($('<option>', {
-                            value: '',
-                            text: 'Select'
-                        }));
-                     $.each(response, function (index, labor) {
-                        const option = $('<option>', {
-                            value: labor.id,
-                            text: labor.name 
-                        });
-                        //console.log(labor.id,labor.name);
-                        labourSelect.append(option);
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error('AJAX request failed:', error);
-                }
-            });
 
-        });
-    });
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        function totalSalary()
+        {
+            var salary = $('#salary').val;
+            alert(salary);
+
+        }
+     
+      })
 </script>
 @endpush

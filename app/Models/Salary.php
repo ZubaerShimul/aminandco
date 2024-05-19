@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Salary extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+    public function account()
+    {
+        return $this->belongsTo(BankAccount::class, 'account_id');
+    }
+    
 }

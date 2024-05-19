@@ -27,9 +27,15 @@ class SalaryController extends Controller
                 })
                 ->addColumn('actions', function ($salary) {
                     $action = '<button type="button"
+                    data-date="' . $salary->date . '"
                     data-name="' . $salary->name . '"
-                    data-type="' . $salary->type . '"
-                    data-mobile_number="' . $salary->mobile_number . '"
+                    data-designation="' . $salary->designation . '"
+                    data-bank_name="' . $salary->bank_name  . '"
+                    data-payment_method="' . $salary->payment_method  . '"
+                    data-salary="' . $salary->salary  . '"
+                    data-ta_da="' . $salary->ta_da  . '"
+                    data-mobile_bill="' . $salary->mobile_bill  . '"
+                    data-total="' . $salary->total  . '"
                      class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
                     // $action .= status_change_modal($salary). '</div>';
                     return $action;

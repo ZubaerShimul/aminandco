@@ -36,15 +36,13 @@
                             <thead class="table-light">
                             <tr>
                                 <th></th>
+                                <th>@lang('Date')</th>
                                 <th>@lang('Name')</th>
                                 <th>@lang('Designation')</th>
-                                <th>@lang('Address')</th>
-                                <th>@lang('NID No')</th>
-                                <th>@lang('Contact No')</th>
-                                <th>@lang('Blood Group')</th>
-                                <th>@lang('Joining Date')</th>
-                                <th>@lang('Resign Date')</th>
-                                <th>@lang('Basic Salary')</th>
+                                <th>@lang('Gross Salary')</th>
+                                <th>@lang('TA/DA')</th>
+                                <th>@lang('Mobile Bill')</th>
+                                <th>@lang('Total')</th>
                                 <th width="30px">@lang('Actions')</th>
                             </tr>
                             </thead>
@@ -91,19 +89,22 @@
         columnDefs: [
             {"targets": 0, "className": "text-center"},
             {"targets": 1, "className": "text-center"},
-            {"targets": 2, "className": "text-left"},
+            {"targets": 2, "className": "text-center"},
+            {"targets": 3, "className": "text-center"},
+            {"targets": 4, "className": "text-center"},
+            {"targets": 5, "className": "text-center"},
+            {"targets": 6, "className": "text-center"},
+            {"targets": 7, "className": "text-left"},
         ],
         columns: [
                 {"data": "checkin", orderable: false, searchable: false},
-                {"data": "name"},
+                {"data": "date"}, 
+                {"data": "name"}, 
                 {"data": "designation"},
-                {"data": "address"},
-                {"data": "NID"},
-                {"data": "contact_no"},
-                {"data": "blood_group"},
-                {"data": "joining_date"},
-                {"data": "resigning_date"},
-                {"data": "basic_salary"},
+                {"data": "salary"},
+                {"data": "ta_da"},
+                {"data": "mobile_bill"},
+                {"data": "total"},
                 {"data": "actions", orderable: false, searchable: false}
             ],
         ajax: {
@@ -149,11 +150,18 @@
     $(document).on('click', '.action-btn', function() {
         // Fetch details using AJAX or any other method here
         var details = {
+            date: this.dataset.date,
             name: this.dataset.name,
-            type: this.dataset.type,
-            mobile_number: this.dataset.mobile_number,
+            designation: this.dataset.designation,
+            bank_name: this.dataset.bank_name,
+            payment_method: this.dataset.payment_method,
+            salary: this.dataset.salary,
+            ta_da: this.dataset.ta_da,
+            mobile_bill: this.dataset.mobile_bill,
+            total: this.dataset.total,
         };
-        $('#detailsPlaceholder').html('<p>Name: ' + details.name + '</p><p>Type: ' + details.type + '</p><p>Mobile No: ' + details.mobile_number + '</p>');
+        $('#detailsPlaceholder').html(
+            '<p>Date: ' + details.date + '</p><p>Name: ' + details.name + '</p><p>Designation: ' + details.designation + '</p><p>Bank Name: ' + details.bank_name + '</p><p>Payment Method: ' + details.payment_method + '</p><p>Gross Salary: ' + details.salary + '</p><p>TA/DA: ' + details.ta_da + '</p><p>Total Salary: ' + details.total + '</p>');
         $('#detailsModal').modal('show');
     });
 });

@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->integer('employee_id');
             $table->string('name')->nullable();
+            $table->string('designation')->nullable();
 
-            $table->integer('bank_id')->nullable();
+            $table->integer('account_id')->nullable();
             $table->string('bank_name')->nullable();
             $table->string('payment_method')->nullable();
 
-            $table->string('designation')->nullable();
             $table->decimal('salary')->default(0);
             $table->decimal('ta_da')->default(0);
             $table->decimal('mobile_bill')->default(0);
