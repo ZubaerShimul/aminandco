@@ -9,6 +9,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LaborController;
 use App\Http\Controllers\LabourSalaryController;
 use App\Http\Controllers\OfficialExpenseController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentToController;
 use App\Http\Controllers\ProfileController;
@@ -154,6 +155,18 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     });
 
     // ************************** new ************************************\\
+
+    
+    /**
+     * payment
+     */
+    Route::get('payment-list', [PaymentController::class, 'index'])->name('payment.list');
+    Route::get('payment-create', [PaymentController::class, 'create'])->name('payment.create');
+    Route::post('payment-store', [PaymentController::class, 'store'])->name('payment.store');
+    Route::get('payment-edit/{id?}', [PaymentController::class, 'edit'])->name('payment.edit');
+    Route::post('payment-update', [PaymentController::class, 'update'])->name('payment.update');
+    Route::get('payment-delete/{id?}', [PaymentController::class, 'delete'])->name('payment.delete');
+
 
     /**
      * payment to

@@ -3,9 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Services\TransactionService;
-use App\Models\BankAccount;
 use App\Models\Payment;
-use App\Models\Tender;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -21,46 +19,63 @@ class PaymentService
     }
 
     /*
-    * * Salary store and update
+    * * Payment store and update
     */
 
     public function store($request)
     {
-        $bankAccount = BankAccount::where(['id' => $request->account])->first();
-        if (empty($bankAccount)) {
-            return errorResponse("Account not found");
-        }
+        $payment_to =  explode('-', $request->payment_to);
+        $site       =  explode('-', $request->site);
+        $account    =  explode('-', $request->account);
+        // $bankAccount = BankAccount::where(['id' => $request->account])->first();
+        // if (empty($bankAccount)) {
+        //     return errorResponse("Account not found");
+        // }
+        // if($request->amount > $bankAccount->balance) {
+        //     return errorResponse("Insufficient account balance");
+        // }
 
+        $others_amount = $request->others_amount ?? 0;
         $paymentData = [
-            'user_id'           => Auth::id(),
-            'tender_id'        => $request->tender,
-            'account_id'        => $bankAccount->id,
+            'created_by'        => Auth::id(),
+            'payment_to_id'     => $payment_to[0],
+            'name'              => $payment_to[1],
 
-            'receiver'        => $request->receiver,
-            'bank_name'        => $request->bank_name,
-            'check_no'        => $request->check_no,
+            'site_id'           => $site[0],
+            'site_name'         => $site[1],
+            'district'          => $site[2],
+            'area'              => $site[3],
+
+            'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
+            'bank_name'         => isset($account[1]) ? $account[1] : null,
             'payment_method'    => $request->payment_method,
-            'total_amount'      => $request->total_amount,
-            'date'              => $request->date ? $request->date : Carbon::now()->toDateString(),
-            'description'       => $request->description,
-            'grand_total'       => $request->total_amount,
-            'category_id'       => CATEGORY_ID_PAYMENT_INCOME
+
+            'site_bank_name'    => $request->site_bank_name,
+            'site_account_no'   => $request->account_no,
+            'net_payment_amount'    => $request->net_payment_amount,
+            'others_amount'     => $others_amount,
+            'total'             => $others_amount + $request->net_payment_amount,
+            'date'              => $request->date ?? Carbon::now()->toDateString(),
+            'short_note'        => $request->short_note
         ];
+
+        if (!empty($request->document)) {
+            $paymentData['document'] = fileUpload($request->document, DOCUMENT_PATH);
+        }
 
         try {
 
             DB::beginTransaction();
-
             $payment = Payment::create($paymentData);
 
-            $transaction = $this->transactionService->incomeTransaction($payment, "App\Models\Payment", $payment->account_id, $payment->total_amount, CATEGORY_ID_PAYMENT_INCOME);
+            $transaction = $this->transactionService->expenseTransaction($payment, "App\Models\Payment", $payment->total, TRANSACTION_EMPLOYEE_PAYMENT);
             if ($transaction['success'] == false) {
                 DB::rollBack();
                 return errorResponse($transaction['message']);
             }
-            // transaction end
+
             DB::commit();
-            return successResponse("Payment successfully added");
+            return successResponse("Payment Added Successfully");
         } catch (Exception $e) {
             DB::rollBack();
             return errorResponse($e->getMessage());
@@ -72,43 +87,62 @@ class PaymentService
      */
     public function update($request)
     {
-        $payment = Payment::where(['id' => $request->edit_id])->first();
-        $oldSalary = Payment::where(['id' => $request->edit_id])->first();
-        if (empty($payment)) {
-            return errorResponse(__("Salary not found"));
+        $payment = Payment::where(['id' => $request->id])->first();
+        if(!empty($payment)) {
+            return errorResponse("Payment Not Found");
         }
-        $account = BankAccount::where(['id' => $payment->account_id])->first();
-        if (empty($account)) {
-            return errorResponse("Account not found");
-        }
-        $tender = Tender::where(['id' => $request->tender])->first();
-        if (empty($tender)) {
-            return errorResponse("Tender not found");
-        }
+        $payment_to =  explode('-', $request->payment_to);
+        $site       =  explode('-', $request->site);
+        // $account    =  explode('-', $request->account);
+        // $bankAccount = BankAccount::where(['id' => $request->account])->first();
+        // if (empty($bankAccount)) {
+        //     return errorResponse("Account not found");
+        // }
+        // if($request->amount > $bankAccount->balance) {
+        //     return errorResponse("Insufficient account balance");
+        // }
+
+        $others_amount = $request->others_amount ?? 0;
+        $total = $others_amount + $request->net_payment_amount;
 
         $paymentData = [
-            'user_id'           => Auth::id(),
-            'receiver'        => $request->receiver,
-            'bank_name'        => $request->bank_name,
-            'check_no'        => $request->check_no,
-            'tender_id'        => $request->tender,
+            'payment_to_id'     => $payment_to[0],
+            'name'              => $payment_to[1],
+
+            'site_id'           => $site[0],
+            'site_name'         => $site[1],
+            'district'          => $site[2],
+            'area'              => $site[3],
+
+            // 'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
+            // 'bank_name'         => isset($account[1]) ? $account[1] : null,
             'payment_method'    => $request->payment_method,
-            'total_amount'      => $request->total_amount,
-            'date'              => $request->date ? $request->date : Carbon::now()->toDateString(),
-            'description'       => $request->description,
-            'grand_total'       => $request->total_amount,
+
+            'site_bank_name'    => $request->site_bank_name,
+            'site_account_no'   => $request->account_no,
+            'net_payment_amount'    => $request->net_payment_amount,
+            'others_amount'     => $others_amount,
+            'total'             => $others_amount + $request->net_payment_amount,
+            'date'              => $request->date ?? $payment->date,
+            'short_note'        => $request->short_note
         ];
+
+        if (!empty($request->document)) {
+            $paymentData['document'] = fileUpload($request->document, DOCUMENT_PATH, $payment->document);
+        }
 
         try {
 
             DB::beginTransaction();
 
             // transaction start
-            $transaction = $this->transactionService->incomeTransactionUpdate($payment, "App\Models\Payment", $request->total_amount);
-            if ($transaction['success'] == false) {
-                return errorResponse($transaction['message']);
+            if ($total != $payment->total) {
+                $transaction = $this->transactionService->expenseTransactionUpdate($payment, "App\Models\Payment", $total);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
             }
-
             // transaction end
 
             $payment->update($paymentData);
@@ -117,7 +151,7 @@ class PaymentService
             return successResponse("Payment successfuly updated");
         } catch (Exception $e) {
             DB::rollBack();
-            return errorResponse($e->getMessage());
+            return errorResponse();
         }
     }
 
@@ -130,14 +164,15 @@ class PaymentService
     {
         $payment = Payment::where(['id' => $id])->first();
         if (empty($payment)) {
-            return errorResponse("Salary doesn't exist");
+            return errorResponse("Payment doesn't exist");
         }
+
 
         try {
 
             DB::beginTransaction();
 
-            $transaction = $this->transactionService->incomeTransactionDelete($payment, "App\Models\Payment");
+            $transaction = $this->transactionService->expenseTransactionDelete($payment, "App\Models\Payment");
             if ($transaction['success'] == false) {
                 return errorResponse($transaction['message']);
             }
@@ -145,7 +180,7 @@ class PaymentService
 
             DB::commit();
 
-            return successResponse("Salary successfuly deleted");
+            return successResponse("Payment successfuly deleted");
         } catch (Exception $e) {
             DB::rollBack();
             return errorResponse();

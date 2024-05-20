@@ -38,13 +38,15 @@
                     <span class="menu-title text-truncate">@lang('Labour')</span>
                 </a>
             </li> --}}
-            {{-- <li class="nav-item @if(request()->routeIs('payment.*')) active @endif">
+
+            
+
+            <li class="nav-item @if(request()->routeIs('payment.*')) active @endif">
                 <a class="d-flex align-items-center" href="{{route('payment.list')}}">
                     <i data-feather="layout"></i>
-                    <span class="menu-title text-truncate">@lang('Payment Received')</span>
+                    <span class="menu-title text-truncate">@lang('Payment')</span>
                 </a>
-            </li> --}}
-
+            </li>
 
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Category")</span></a>
                 <ul class="menu-content">

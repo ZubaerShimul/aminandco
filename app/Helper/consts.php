@@ -22,6 +22,7 @@ const CATEGORY_ID_PAYMENT_INCOME    = 4;
 
 #transactions 
 const TRANSACTION_EMPLOYEE_SALARY = 'Employee Salary';
+const TRANSACTION_EMPLOYEE_PAYMENT = 'Payment';
 
 # model
 const MODEL_ACCOUNT = "App\Models\BankAccount";

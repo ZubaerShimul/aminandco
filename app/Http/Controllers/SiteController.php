@@ -48,7 +48,7 @@ class SiteController extends Controller
             }
         }
         $data = [
-            'user_id'       => !empty($site) ? $site->user_id : Auth::user()->id,
+            'created_by'       => !empty($site) ? $site->created_by : Auth::user()->id,
             'name'          => $request->name,
             'type'          => $request->type,
             'division'      => $request->division,

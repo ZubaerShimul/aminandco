@@ -14,8 +14,12 @@ class Payment extends Model
         return $this->belongsTo(BankAccount::class);
     }
 
-    public function tender()
+    public function site()
     {
-        return $this->belongsTo(Tender::class);
+        return $this->belongsTo(Site::class);
+    }
+
+    public function getDocumentAttribute($document){
+        return asset($document);
     }
 }
