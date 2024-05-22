@@ -19,14 +19,14 @@
                                     @csrf
                                     <div class="row">
                                         
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="date">@lang('Date') <span class="text-danger">*</span> </label>
                                                 <input type="date" id="date" class="form-control" name="date" value="{{Carbon\Carbon::now()->toDateString()}}" required/>
                                                 <span class="text-danger">{{$errors->first('date')}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">{{ __("Select Employee") }} <span class="text-danger">*</span></label>
                                                     <select class="select2 form-select" id="employee" name="employee" required>
@@ -38,6 +38,13 @@
                                                         @endif
                                                     </select>
                                                 <span class="text-danger">{{$errors->first('employee')}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="designation">@lang('Designation') <span class="text-danger">*</span> </label>
+                                                <input type="text" id="designation" class="form-control" name="designation" value="{{ old('designation') }}"/>
+                                                <span class="text-danger">{{$errors->first('designation')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-6">

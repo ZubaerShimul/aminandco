@@ -12,8 +12,6 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-
-
     private $paymentService;
     public function __construct(PaymentService $paymentService)
     {

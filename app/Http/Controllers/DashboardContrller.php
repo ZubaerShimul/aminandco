@@ -17,9 +17,9 @@ class DashboardContrller extends Controller
     {
         $data['user'] = Auth::user();
         $data['total_received'] = Payment::sum('total');
-        $data['total_budget'] = Tender::sum('budget');
-        $data['toal_due_amount'] = Tender::sum('budget') - Payment::sum('total');
-        $data['recent_tenders'] = Tender::orderBy('id','desc')->limit(5)->get();
+        $data['total_budget'] = 0;
+        $data['toal_due_amount'] = 0;
+        $data['recent_tenders'] = [];
         $data['official_expenses'] = ExpenseIncome::whereDate('date', Carbon::now()->toDateString())->orderBy('id','desc')->get();
 
 
