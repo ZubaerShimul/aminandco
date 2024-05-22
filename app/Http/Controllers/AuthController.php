@@ -27,7 +27,7 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, true)) {
             return redirect()->route('admin.dashboard')->with('success', __("Successfully login"));
         }
         return redirect()->back()->with('dismiss', __("Email or Password not matched"));

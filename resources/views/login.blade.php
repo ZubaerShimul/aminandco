@@ -101,7 +101,7 @@
                                             </a>
                                         </div>  --}}
                                         <div class="input-group input-group-merge form-password-toggle">
-                                            <input type="password" class="form-control form-control-merge" id="login-password" name="password" tabindex="2" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="login-password" />
+                                            <input type="password" class="form-control form-control-merge" id="login-password" name="password" tabindex="2" aria-describedby="login-password" />
                                             <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                                         </div>
                                         <span class="text-danger">{{$errors->first('password')}}</span>

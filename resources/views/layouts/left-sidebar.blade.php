@@ -20,31 +20,20 @@
                     <span class="menu-title text-truncate">@lang('Dashboard')</span>
                 </a>
             </li>
-            {{-- <li class="nav-item @if(request()->routeIs('account.*')) active @endif">
-                <a class="d-flex align-items-center" href="{{route('account.list')}}">
+
+            <li class="nav-item @if(request()->routeIs('receive.*')) active @endif">
+                <a class="d-flex align-items-center" href="{{route('receive.list')}}">
                     <i data-feather="layout"></i>
-                    <span class="menu-title text-truncate">@lang('Bank Account')</span>
+                    <span class="menu-title text-truncate">@lang('Receive')</span>
                 </a>
-            </li> --}}
-            {{-- <li class="nav-item @if(request()->routeIs('tender.*')) active @endif">
-                <a class="d-flex align-items-center" href="{{route('tender.list')}}">
-                    <i data-feather="layout"></i>
-                    <span class="menu-title text-truncate">@lang('Tender')</span>
-                </a>
-            </li> --}}
-            {{-- <li class="nav-item @if(request()->routeIs('labour.*')) active @endif">
-                <a class="d-flex align-items-center" href="{{route('labour.list')}}">
-                    <i data-feather="layout"></i>
-                    <span class="menu-title text-truncate">@lang('Labour')</span>
-                </a>
-            </li> --}}
-            {{-- <li class="nav-item @if(request()->routeIs('payment.*')) active @endif">
+            </li>
+
+            <li class="nav-item @if(request()->routeIs('payment.list')) active @endif">
                 <a class="d-flex align-items-center" href="{{route('payment.list')}}">
                     <i data-feather="layout"></i>
-                    <span class="menu-title text-truncate">@lang('Payment Received')</span>
+                    <span class="menu-title text-truncate">@lang('Payment')</span>
                 </a>
-            </li> --}}
-
+            </li>
 
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Category")</span></a>
                 <ul class="menu-content">
@@ -62,6 +51,13 @@
                 <a class="d-flex align-items-center" href="{{route('employee.list')}}">
                     <i data-feather="layout"></i>
                     <span class="menu-title text-truncate">@lang('Employee')</span>
+                </a>
+            </li>
+
+            <li class="nav-item @if(request()->routeIs('salary.*')) active @endif">
+                <a class="d-flex align-items-center" href="{{route('salary.list')}}">
+                    <i data-feather="layout"></i>
+                    <span class="menu-title text-truncate">@lang('Salary')</span>
                 </a>
             </li>
 

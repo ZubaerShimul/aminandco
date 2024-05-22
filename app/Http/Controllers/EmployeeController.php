@@ -52,6 +52,7 @@ class EmployeeController extends Controller
             "resigning_date" => $request->resigning_date,
             "basic_salary"  => $request->basic_salary
         ];
+        
         if(!empty($request->image)) {
             $data['image'] = fileUpload($request->image, DOCUMENT_PATH);
         }

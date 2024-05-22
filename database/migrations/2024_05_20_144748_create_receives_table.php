@@ -11,25 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('receives', function (Blueprint $table) {
             $table->id();
-            $table->integer('payment_to_id');
-            $table->string('name');
             $table->integer('site_id');
-            $table->string('site_name');
+            $table->string('name');
             $table->string('district')->nullable();
             $table->string('area')->nullable();
 
             $table->integer('account_id')->nullable();
-            $table->integer('bank_name')->nullable();
-            
-            $table->string('site_bank_name')->nullable();
-            $table->string('site_account_no')->nullable();
-            $table->string('payment_method')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('account_no')->nullable();
 
+            $table->string('payment_method')->nullable();
             $table->decimal('net_payment_amount')->default(0);
             $table->decimal('others_amount')->default(0);
             $table->decimal('total')->default(0);
+            
             $table->date('date')->nullable();
             $table->string('short_note')->nullable();
             $table->string('document')->nullable();
@@ -46,6 +43,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('receives');
     }
 };

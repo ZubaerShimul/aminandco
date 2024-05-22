@@ -9,10 +9,13 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LaborController;
 use App\Http\Controllers\LabourSalaryController;
 use App\Http\Controllers\OfficialExpenseController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentToController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReceiveController;
 use App\Http\Controllers\Report\ExpenseController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TenderExpenseController;
@@ -63,85 +66,6 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('official-expense-update', [OfficialExpenseController::class, 'update'])->name('expense.official.update');
     Route::get('official-expense-delete/{id?}', [OfficialExpenseController::class, 'delete'])->name('expense.official.delete');
 
-    /**
-     * Official Expense
-     */
-    Route::get('tender-expense-list', [TenderExpenseController::class, 'index'])->name('expense.tender.list');
-    Route::get('tender-expense-create', [TenderExpenseController::class, 'create'])->name('expense.tender.create');
-    Route::post('tender-expense-store', [TenderExpenseController::class, 'store'])->name('expense.tender.store');
-    Route::get('tender-expense-edit/{id?}', [TenderExpenseController::class, 'edit'])->name('expense.tender.edit');
-    Route::post('tender-expense-update', [TenderExpenseController::class, 'update'])->name('expense.tender.update');
-    Route::get('tender-expense-delete/{id?}', [TenderExpenseController::class, 'delete'])->name('expense.tender.delete');
-
-
-    /**
-     * District
-     */
-    Route::get('district-list', [DistrictController::class, 'index'])->name('district.list');
-    Route::get('district-create', [DistrictController::class, 'create'])->name('district.create');
-    Route::post('district-store', [DistrictController::class, 'store'])->name('district.store');
-    Route::get('district-edit/{id?}', [DistrictController::class, 'edit'])->name('district.edit');
-    Route::post('district-update', [DistrictController::class, 'update'])->name('district.update');
-    Route::get('district-delete/{id?}', [DistrictController::class, 'delete'])->name('district.delete');
-
-    /**
-     * category
-     */
-    Route::get('category-list', [CategoryController::class, 'index'])->name('category.list');
-    Route::get('category-create', [CategoryController::class, 'create'])->name('category.create');
-    Route::post('category-store', [CategoryController::class, 'store'])->name('category.store');
-    Route::get('category-edit/{id?}', [CategoryController::class, 'edit'])->name('category.edit');
-    Route::post('category-update', [CategoryController::class, 'update'])->name('category.update');
-    Route::get('category-delete/{id?}', [CategoryController::class, 'delete'])->name('category.delete');
-
-
-    Route::get('tender-list', [TenderController::class, 'index'])->name('tender.list');
-    Route::get('tender-create', [TenderController::class, 'create'])->name('tender.create');
-    Route::post('tender-store', [TenderController::class, 'store'])->name('tender.store');
-    Route::get('tender-edit/{id?}', [TenderController::class, 'edit'])->name('tender.edit');
-    Route::post('tender-update', [TenderController::class, 'update'])->name('tender.update');
-    Route::get('tender-delete/{id?}', [TenderController::class, 'delete'])->name('tender.delete');
-
-    Route::get('tender-details/{id?}', [TenderController::class, 'details'])->name('tender.details');
-    Route::get('tender-invoice/{id?}', [TenderController::class, 'invoice'])->name('tender.invoice.create');
-
-    /**
-     * labour
-     */
-    Route::get('labour-list', [LaborController::class, 'index'])->name('labour.list');
-    Route::get('/employee/pdf', [LaborController::class, 'createPDF']);
-    Route::get('labour-create', [LaborController::class, 'create'])->name('labour.create');
-    Route::post('labour-store', [LaborController::class, 'store'])->name('labour.store');
-    Route::get('labour-edit/{id?}', [LaborController::class, 'edit'])->name('labour.edit');
-    Route::post('labour-update', [LaborController::class, 'update'])->name('labour.update');
-    Route::get('labour-delete/{id?}', [LaborController::class, 'delete'])->name('labour.delete');
-
-
-    /**
-     * labour salary
-     */
-    Route::get('labour-salary-list', [LabourSalaryController::class, 'index'])->name('salary.list');
-    Route::get('tender-labour-list', [LabourSalaryController::class, 'labourList'])->name('tender.labour.list');
-    Route::get('labour-salary-create', [LabourSalaryController::class, 'create'])->name('salary.create');
-    Route::post('labour-salary-store', [LabourSalaryController::class, 'store'])->name('salary.store');
-    Route::get('labour-salary-edit/{id?}', [LabourSalaryController::class, 'edit'])->name('salary.edit');
-    Route::post('labour-salary-update', [LabourSalaryController::class, 'update'])->name('salary.update');
-    Route::get('labour-salary-delete/{id?}', [LabourSalaryController::class, 'delete'])->name('salary.delete');
-    Route::get('labour/{tenderId}', [LabourSalaryController::class, 'getLaboursByTender']);
-
-
-    /**
-     * payment received
-     */
-    Route::get('payment-list', [TenderPaymentController::class, 'index'])->name('payment.list');
-    Route::get('tender-labour-list', [TenderPaymentController::class, 'labourList'])->name('tender.labour.list');
-    Route::get('payment-create', [TenderPaymentController::class, 'create'])->name('payment.create');
-    Route::post('payment-store', [TenderPaymentController::class, 'store'])->name('payment.store');
-    Route::get('payment-edit/{id?}', [TenderPaymentController::class, 'edit'])->name('payment.edit');
-    Route::post('payment-update', [TenderPaymentController::class, 'update'])->name('payment.update');
-    Route::get('payment-delete/{id?}', [TenderPaymentController::class, 'delete'])->name('payment.delete');
-
-
     Route::group(['prefix' => 'report'], function () {
         // official expense
         Route::get('official-expepense', [ExpenseController::class, 'officialExpense'])->name('report.official.expense');
@@ -153,6 +77,28 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     });
 
     // ************************** new ************************************\\
+
+    /**
+     * receive
+     */
+    Route::get('receive-list', [ReceiveController::class, 'index'])->name('receive.list');
+    Route::get('receive-create', [ReceiveController::class, 'create'])->name('receive.create');
+    Route::post('receive-store', [ReceiveController::class, 'store'])->name('receive.store');
+    Route::get('receive-edit/{id?}', [ReceiveController::class, 'edit'])->name('receive.edit');
+    Route::post('receive-update', [ReceiveController::class, 'update'])->name('receive.update');
+    Route::get('receive-delete/{id?}', [ReceiveController::class, 'delete'])->name('receive.delete');
+
+
+    /**
+     * payment
+     */
+    Route::get('payment-list', [PaymentController::class, 'index'])->name('payment.list');
+    Route::get('payment-create', [PaymentController::class, 'create'])->name('payment.create');
+    Route::post('payment-store', [PaymentController::class, 'store'])->name('payment.store');
+    Route::get('payment-edit/{id?}', [PaymentController::class, 'edit'])->name('payment.edit');
+    Route::post('payment-update', [PaymentController::class, 'update'])->name('payment.update');
+    Route::get('payment-delete/{id?}', [PaymentController::class, 'delete'])->name('payment.delete');
+
 
     /**
      * payment to
@@ -199,6 +145,16 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('employee-edit/{id?}', [EmployeeController::class, 'edit'])->name('employee.edit');
     Route::post('employee-update', [EmployeeController::class, 'update'])->name('employee.update');
     Route::get('employee-delete/{id?}', [EmployeeController::class, 'delete'])->name('employee.delete');
+
+      /**
+     * Employee
+     */
+    Route::get('salary-list', [SalaryController::class, 'index'])->name('salary.list');
+    Route::get('salary-create', [SalaryController::class, 'create'])->name('salary.create');
+    Route::post('salary-store', [SalaryController::class, 'store'])->name('salary.store');
+    Route::get('salary-edit/{id?}', [SalaryController::class, 'edit'])->name('salary.edit');
+    Route::post('salary-update', [SalaryController::class, 'update'])->name('salary.update');
+    Route::get('salary-delete/{id?}', [SalaryController::class, 'delete'])->name('salary.delete');
 
 
 });

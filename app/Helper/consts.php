@@ -20,6 +20,11 @@ const CATEGORY_ID_OFFICIAL_EXPENSE  = 2;
 const CATEGORY_ID_SALARY_EXPENSE    = 3;
 const CATEGORY_ID_PAYMENT_INCOME    = 4;
 
+#transactions 
+const TRANSACTION_EMPLOYEE_SALARY   = 'Salary';
+const TRANSACTION_EMPLOYEE_PAYMENT  = 'Payment';
+const TRANSACTION_RECEIVE           = 'Receive';
+
 # model
 const MODEL_ACCOUNT = "App\Models\BankAccount";
 
