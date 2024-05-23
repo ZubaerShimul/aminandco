@@ -112,6 +112,19 @@ class EmployeeController extends Controller
         }
         return redirect()->route('employee.list')->with('dismiss', "Not found");
     }
+    //details
+    public function details($id)
+    {
+        $employee = Employee::find($id);
 
+        if ($employee) {
+            return response()->json([
+                'designation' => $employee->designation,
+                'salary' => $employee->basic_salary
+            ]);
+        }
+
+        return response()->json(['error' => 'Employee not found'], 404);
+    }
 
 }
