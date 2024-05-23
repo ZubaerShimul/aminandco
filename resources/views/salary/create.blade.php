@@ -33,7 +33,7 @@
                                                         <option value="{{ null }}">@lang('Select')</option>
                                                         @if(isset($data['employees'][0]))
                                                         @foreach ($data['employees'] as $employee )
-                                                            <option value="{{ $employee->id.'-'.$employee->name.'-'.$employee->designation}}" >{{ $employee->name.' ('.$employee->designation.')' }} </option>
+                                                            <option value="{{ $employee->id.'-'.$employee->name.'-'.$employee->designation}}" >{{ $employee->name }} </option>
                                                         @endforeach
                                                         @endif
                                                     </select>
@@ -43,7 +43,7 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="designation">@lang('Designation') <span class="text-danger">*</span> </label>
-                                                <input type="text" id="designation" class="form-control" name="designation" value="{{ old('designation') }}"/>
+                                                <input type="text" id="designation" class="form-control" name="designation" value="{{ old('designation') }}" readonly/>
                                                 <span class="text-danger">{{$errors->first('designation')}}</span>
                                             </div>
                                         </div>
@@ -88,7 +88,7 @@
                                         <div class="col-6">
                                             <div class="mb-2">
                                                 <label class="form-label" for="ta_da">@lang('Ta/Da') <span class="text-danger">*</span></label>
-                                                <input type="number" id="ta_da" class="form-control" name="ta_da" value="{{old('ta_da') ?? 0}}" required/>
+                                                <input type="number" id="ta_da" class="form-control" name="ta_da" value="{{old('ta_da')}}" required/>
                                                 <span class="text-danger">{{$errors->first('ta_da')}}</span>
                                             </div>
                                         </div>                                       
@@ -96,7 +96,7 @@
                                         <div class="col-6">
                                             <div class="mb-2">
                                                 <label class="form-label" for="mobile_bill">@lang('Mobile Bill') <span class="text-danger">*</span></label>
-                                                <input type="number" id="mobile_bill" class="form-control" name="mobile_bill" value="{{old('mobile_bill') ?? 0}}" required/>
+                                                <input type="number" id="mobile_bill" class="form-control" name="mobile_bill" value="{{old('mobile_bill')}}" required/>
                                                 <span class="text-danger">{{$errors->first('mobile_bill')}}</span>
                                             </div>
                                         </div>
@@ -106,7 +106,7 @@
                                         <div class="col-6">
                                             <div class="mb-2">
                                                 <label class="form-label" for="total_salary">@lang('Total Salary')</label>
-                                                <input type="number" id="total_salary" class="form-control" name="total_salary" value="{{old('total_salary')}}"/>
+                                                <input type="number" id="total_salary" class="form-control" name="total_salary" value="{{old('total_salary')}}" readonly/>
                                                 <span class="text-danger">{{$errors->first('total_salary')}}</span>
                                             </div>
                                         </div>
