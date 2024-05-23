@@ -118,6 +118,8 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('site/partner-store-update', [SiteController::class, 'storeUpdate'])->name('site.store_update');
     Route::get('site/partner-edit/{id?}', [SiteController::class, 'edit'])->name('site.edit');
     Route::get('site/partner-delete/{id?}', [SiteController::class, 'delete'])->name('site.delete');
+    Route::get('site/{id?}', [SiteController::class, 'details'])->name('site.details');
+
 
     /**
      * bank

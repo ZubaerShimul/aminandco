@@ -88,7 +88,7 @@ class PaymentService
     public function update($request)
     {
         $payment = Payment::where(['id' => $request->id])->first();
-        if(!empty($payment)) {
+        if(empty($payment)) {
             return errorResponse("Payment Not Found");
         }
         $payment_to =  explode('-', $request->payment_to);
