@@ -82,7 +82,6 @@ class PaymentController extends Controller
 
     public function update(Request $request)
     {
-
         $payment = $this->paymentService->update($request);
 
         if ($payment['success'] == TRUE) {

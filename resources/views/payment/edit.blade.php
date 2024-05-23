@@ -59,14 +59,14 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="district">@lang('Division/District') <span class="text-danger">*</span></label>
-                                                <input type="text" id="district" class="form-control" name="district" value="{{$payment->district}}" required/>
+                                                <input type="text" id="district" class="form-control" name="district" value="{{$payment->district}}" readonly/>
                                                 <span class="text-danger">{{$errors->first('district')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="area">@lang('Area') <span class="text-danger">*</span></label>
-                                                <input type="text" id="area" class="form-control" name="area" value="{{$payment->area}}" required/>
+                                                <input type="text" id="area" class="form-control" name="area" value="{{$payment->area}}" readonly/>
                                                 <span class="text-danger">{{$errors->first('area')}}</span>
                                             </div>
                                         </div>
@@ -132,7 +132,7 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="total">@lang('Total Amount')</label>
-                                                <input type="number" id="total" class="form-control" name="total" value="{{$payment->total}}"/>
+                                                <input type="number" id="total" class="form-control" name="total" value="{{$payment->total}}" readonly/>
                                                 <span class="text-danger">{{$errors->first('total')}}</span>
                                             </div>
                                         </div>
@@ -185,13 +185,44 @@
 
     $(document).ready(function() {
 
-        function totalPayment()
-        {
-            var Payment = $('#Payment').val;
-            alert(Payment);
+        $(document).ready(function() {
+            $('#site').on('change', function() {
+                var siteID = $(this).val();
 
+                if (siteID) {
+                    $.ajax({
+                        url: '/site/' + siteID,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.error) {
+                                $('#district').val('');
+                                $('#area').val('');
+                                console.log(data.error);
+                            } else {
+                                $('#district').val(data.district);
+                                $('#area').val(data.area);
+                            }
+                        }
+                    });
+                } else {
+                    $('#district').val('');
+                    $('#area').val('');
+                }
+            });
+        });
+        
+        $('#net_payment_amount, #others_amount').on('input', function() {
+                calculateTotalSalary();
+        });
+
+        function calculateTotalSalary() {
+            var net_payment_amount = parseFloat($('#net_payment_amount').val()) || 0;
+            var others_amount = parseFloat($('#others_amount').val()) || 0;
+            var total = net_payment_amount + others_amount;
+            $('#total').val(total.toFixed(2));
         }
      
-      })
+    });
 </script>
 @endpush
