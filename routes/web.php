@@ -145,6 +145,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('employee-edit/{id?}', [EmployeeController::class, 'edit'])->name('employee.edit');
     Route::post('employee-update', [EmployeeController::class, 'update'])->name('employee.update');
     Route::get('employee-delete/{id?}', [EmployeeController::class, 'delete'])->name('employee.delete');
+    Route::get('employee/{id?}', [EmployeeController::class, 'details'])->name('employee.details');
 
       /**
      * Employee

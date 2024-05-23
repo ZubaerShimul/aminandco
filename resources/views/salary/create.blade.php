@@ -79,7 +79,7 @@
                                         <div class="col-6">
                                             <div class="mb-2">
                                                 <label class="form-label" for="salary">@lang('Salary') <span class="text-danger">*</span></label>
-                                                <input type="number" id="salary" class="form-control" name="salary" value="{{old('salary')}}" onkeyup="totalSalary()" required/>
+                                                <input type="number" id="salary" class="form-control" name="salary" value="{{old('salary')}}" required/>
                                                 <span class="text-danger">{{$errors->first('salary')}}</span>
                                             </div>
                                         </div>
@@ -136,13 +136,45 @@
 
     $(document).ready(function() {
 
-        function totalSalary()
-        {
-            var salary = $('#salary').val;
-            alert(salary);
+        $(document).ready(function() {
+            $('#employee').on('change', function() {
+                var employeeId = $(this).val();
 
+                if (employeeId) {
+                    $.ajax({
+                        url: '/employee/' + employeeId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.error) {
+                                $('#designation').val('');
+                                $('#salary').val('');
+                                console.log(data.error);
+                            } else {
+                                $('#designation').val(data.designation);
+                                $('#salary').val(data.salary);
+                            }
+                        }
+                    });
+                } else {
+                    $('#designation').val('');
+                    $('#salary').val('');
+                }
+            });
+        });
+        
+        $('#salary, #mobile_bill, #ta_da').on('input', function() {
+                calculateTotalSalary();
+        });
+
+        function calculateTotalSalary() {
+            var salary = parseFloat($('#salary').val()) || 0;
+            var mobileBill = parseFloat($('#mobile_bill').val()) || 0;
+            var taDa = parseFloat($('#ta_da').val()) || 0;
+            var totalSalary = salary + mobileBill + taDa;
+            $('#total_salary').val(totalSalary.toFixed(2));
         }
      
-      })
+    });
 </script>
 @endpush
