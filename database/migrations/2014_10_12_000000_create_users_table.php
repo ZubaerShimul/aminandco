@@ -15,12 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
+            $table->string('designation')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('image')->nullable();
             $table->boolean('is_admin')->default(DISABLE);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('enable_edit')->default(DISABLE);
+            $table->boolean('enable_delete')->default(DISABLE);
+            $table->tinyInteger('status')->default(USER_ACTIVE);
             $table->rememberToken();
             $table->timestamps();
         });

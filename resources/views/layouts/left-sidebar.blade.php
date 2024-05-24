@@ -11,6 +11,8 @@
             </li>
         </ul>
     </div>
+
+    {{--  Dashboard   --}}
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
@@ -20,20 +22,37 @@
                     <span class="menu-title text-truncate">@lang('Dashboard')</span>
                 </a>
             </li>
+            @if(Auth::id() && Auth::user()->is_admin)
+           {{--   user  --}}
+          <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("User")</span></a>
+            <ul class="menu-content">
+                <li class="@if(request()->routeIs('user.create') || request()->routeIs('user.edit')) active @endif"><a class="d-flex align-items-center" href="{{ route('user.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang( request()->routeIs('user.edit') ? "Update User" : "Create User")</span></a>
+                </li>
+                <li class="@if(request()->routeIs('user.list')) active @endif"><a class="d-flex align-items-center" href="{{ route('user.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("User List")</span></a>
+                </li>
+            </ul>
+        </li>
+            @endif
 
-            <li class="nav-item @if(request()->routeIs('receive.*')) active @endif">
-                <a class="d-flex align-items-center" href="{{route('receive.list')}}">
-                    <i data-feather="layout"></i>
-                    <span class="menu-title text-truncate">@lang('Receive')</span>
-                </a>
+            {{--   Receive  --}}
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Receive")</span></a>
+                <ul class="menu-content">
+                    <li class="@if(request()->routeIs('receive.create') || request()->routeIs('receive.edit')) active @endif"><a class="d-flex align-items-center" href="{{ route('receive.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang( request()->routeIs('receive.edit') ? "Update Receive" : "Create Receive")</span></a>
+                    </li>
+                    <li class="@if(request()->routeIs('receive.list')) active @endif"><a class="d-flex align-items-center" href="{{ route('receive.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Receive List")</span></a>
+                    </li>
+                </ul>
             </li>
 
-            <li class="nav-item @if(request()->routeIs('payment.*')) active @endif">
-                <a class="d-flex align-items-center" href="{{route('payment.list')}}">
-                    <i data-feather="layout"></i>
-                    <span class="menu-title text-truncate">@lang('Payment')</span>
-                </a>
-            </li>
+          {{--   Payment  --}}
+          <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Payment")</span></a>
+            <ul class="menu-content">
+                <li class="@if(request()->routeIs('payment.create') || request()->routeIs('payment.edit')) active @endif"><a class="d-flex align-items-center" href="{{ route('payment.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang( request()->routeIs('payment.edit') ? "Update Payment" : "Create Payment")</span></a>
+                </li>
+                <li class="@if(request()->routeIs('payment.list')) active @endif"><a class="d-flex align-items-center" href="{{ route('payment.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Payment List")</span></a>
+                </li>
+            </ul>
+        </li>
 
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Category")</span></a>
                 <ul class="menu-content">
@@ -47,19 +66,26 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item @if(request()->routeIs('employee.*')) active @endif">
-                <a class="d-flex align-items-center" href="{{route('employee.list')}}">
-                    <i data-feather="layout"></i>
-                    <span class="menu-title text-truncate">@lang('Employee')</span>
-                </a>
-            </li>
+            
+            {{--   Employee  --}}
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Employee")</span></a>
+              <ul class="menu-content">
+                  <li class="@if(request()->routeIs('employee.create') || request()->routeIs('employee.edit')) active @endif"><a class="d-flex align-items-center" href="{{ route('employee.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang( request()->routeIs('employee.edit') ? "Update Employee" : "Create Employee")</span></a>
+                  </li>
+                  <li class="@if(request()->routeIs('employee.list')) active @endif"><a class="d-flex align-items-center" href="{{ route('employee.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Employee List")</span></a>
+                  </li>
+              </ul>
+          </li>
 
-            <li class="nav-item @if(request()->routeIs('salary.*')) active @endif">
-                <a class="d-flex align-items-center" href="{{route('salary.list')}}">
-                    <i data-feather="layout"></i>
-                    <span class="menu-title text-truncate">@lang('Salary')</span>
-                </a>
-            </li>
+          {{--   Salary  --}}
+          <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Salary")</span></a>
+            <ul class="menu-content">
+                <li class="@if(request()->routeIs('salary.create') || request()->routeIs('salary.edit')) active @endif"><a class="d-flex align-items-center" href="{{ route('salary.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang( request()->routeIs('salary.edit') ? "Update Salary" : "Create Salary")</span></a>
+                </li>
+                <li class="@if(request()->routeIs('salary.list')) active @endif"><a class="d-flex align-items-center" href="{{ route('salary.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Salary List")</span></a>
+                </li>
+            </ul>
+        </li>
 
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Report")</span></a>
                 <ul class="menu-content">

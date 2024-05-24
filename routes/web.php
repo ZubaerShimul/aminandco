@@ -20,6 +20,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TenderExpenseController;
 use App\Http\Controllers\TenderPaymentController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -77,6 +78,18 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     });
 
     // ************************** new ************************************\\
+    
+    /**
+     * receive
+     */
+    Route::get('user-list', [UserController::class, 'index'])->name('user.list');
+    Route::get('user-create', [UserController::class, 'create'])->name('user.create');
+    Route::post('user-store', [UserController::class, 'store'])->name('user.store');
+    Route::get('user-edit/{id?}', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('user-update', [UserController::class, 'update'])->name('user.update');
+    Route::get('user-delete/{id?}', [UserController::class, 'delete'])->name('user.delete');
+
+
 
     /**
      * receive
