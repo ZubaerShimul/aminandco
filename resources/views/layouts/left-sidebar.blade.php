@@ -28,7 +28,7 @@
                 </a>
             </li>
 
-            <li class="nav-item @if(request()->routeIs('payment.list')) active @endif">
+            <li class="nav-item @if(request()->routeIs('payment.*')) active @endif">
                 <a class="d-flex align-items-center" href="{{route('payment.list')}}">
                     <i data-feather="layout"></i>
                     <span class="menu-title text-truncate">@lang('Payment')</span>
@@ -37,7 +37,7 @@
 
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Category")</span></a>
                 <ul class="menu-content">
-                    <li class="@if(request()->routeIs('payment.to.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('payment.to.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Payment To")</span></a>
+                    <li class="@if(request()->routeIs('payment_to.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('payment_to.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Payment To")</span></a>
                     </li>
                     <li class="@if(request()->routeIs('site.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('site.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Site/Partner Name")</span></a>
                     </li>

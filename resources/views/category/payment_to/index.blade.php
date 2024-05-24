@@ -16,7 +16,7 @@
                 <!-- list and filter start -->
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{route('payment.to.store')}}" method="post" class="form">
+                        <form action="{{ isset($data) ? route('payment_to.update') : route('payment_to.store')}}" method="post" class="form">
                             @csrf
                             <div class="row">
                                 <div class="col-4">
@@ -124,7 +124,7 @@
                 {"data": "actions", orderable: false, searchable: false}
             ],
         ajax: {
-            url: '{{ route('payment.to.list') }}',
+            url: '{{ route('payment_to.list') }}',
             type: 'GET',
             data: function (d) {
                 d.tender_id = $('#tender').val(); // Pass the selected tender ID as parameter

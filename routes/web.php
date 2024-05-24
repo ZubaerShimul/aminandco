@@ -103,12 +103,12 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     /**
      * payment to
      */
-    Route::get('payment-to-list', [PaymentToController::class, 'index'])->name('payment.to.list');
-    Route::get('payment-to-create', [PaymentToController::class, 'create'])->name('payment.to.create');
-    Route::post('payment-to-store', [PaymentToController::class, 'store'])->name('payment.to.store');
-    Route::get('payment-to-edit/{id?}', [PaymentToController::class, 'edit'])->name('payment.to.edit');
-    Route::post('payment-to-update', [PaymentToController::class, 'update'])->name('payment.to.update');
-    Route::get('payment-to-delete/{id?}', [PaymentToController::class, 'delete'])->name('payment.to.delete');
+    Route::get('payment-to-list', [PaymentToController::class, 'index'])->name('payment_to.list');
+    Route::get('payment-to-create', [PaymentToController::class, 'create'])->name('payment_to.create');
+    Route::post('payment-to-store', [PaymentToController::class, 'store'])->name('payment_to.store');
+    Route::get('payment-to-edit/{id?}', [PaymentToController::class, 'edit'])->name('payment_to.edit');
+    Route::post('payment-to-update', [PaymentToController::class, 'update'])->name('payment_to.update');
+    Route::get('payment-to-delete/{id?}', [PaymentToController::class, 'delete'])->name('payment_to.delete');
 
 
     /**
@@ -128,6 +128,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('category/bank-store-update', [BankAccountController::class, 'storeUpdate'])->name('bank_account.store_update');
     Route::get('category/bank-edit/{id?}', [BankAccountController::class, 'edit'])->name('bank_account.edit');
     Route::get('category/bank-delete/{id?}', [BankAccountController::class, 'delete'])->name('bank_account.delete');
+    Route::get('bank-account/{id?}', [BankAccountController::class, 'details']);
 
      /**
      * paymnet method
