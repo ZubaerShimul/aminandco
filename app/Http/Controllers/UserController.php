@@ -11,22 +11,22 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $report_employee = User::query();
-            return datatables($report_employee)
-                ->editColumn('checkin', function ($employee) {
-                    return '<input type="checkbox" class="item-checkbox" data-id="'.$employee->id.'">';
+            $report_user = User::where('is_admin', DISABLE);
+            return datatables($report_user)
+                ->editColumn('checkin', function ($user) {
+                    return '<input type="checkbox" class="item-checkbox" data-id="' . $user->id . '">';
                 })
-                ->addColumn('actions', function ($employee) {
+                ->addColumn('actions', function ($user) {
                     $action = '<button type="button"
-                    data-name="'.$employee->name.'"
-                    data-type="'.$employee->type.'"
-                    data-mobile_number="'.$employee->mobile_number.'"
+                    data-name="' . $user->name . '"
+                    data-type="' . $user->type . '"
+                    data-mobile_number="' . $user->mobile_number . '"
                      class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
-                    // $action .= status_change_modal($employee). '</div>';
+                    // $action .= status_change_modal($user). '</div>';
                     return $action;
                 })
                 ->rawColumns(['checkin', 'actions'])
@@ -48,55 +48,56 @@ class UserController extends Controller
             "phone"             => $request->mobile_number,
             "designation"       => $request->designation,
             "address"           => $request->address,
-            "enable_edit"       => $request->enable_edit == ENABLE ? ENABLE : DISABLE,
-            "enable_delete"     => $request->enable_delete == ENABLE ? ENABLE : DISABLE,
+            "enable_edit"       => $request->has("edit") && $request->edit == "on" ? ENABLE : DISABLE,
+            "enable_delete"     => $request->has("delete") && $request->delete == "on" ? ENABLE : DISABLE,
             'password'          => Hash::make($request->password)
             // 'status'        => $request->status
         ];
-        
-        if(!empty($request->image)) {
+        if (!empty($request->image)) {
             $data['image'] = fileUpload($request->image, DOCUMENT_PATH);
         }
-
         try {
             User::create($data);
             return redirect()->route('user.list')->with('success', __("Added successfully"));
-
-    }catch(Exception $exception){
-        return redirect()->back()->with('dismiss', $exception->getMessage());
-    }
+        } catch (Exception $exception) {
+            return redirect()->back()->with('dismiss', $exception->getMessage());
+        }
     }
 
     // edit
 
     public  function edit($id = null)
     {
-        $employee = Employee::where('id', $id)->first();
-        if($employee) {
-            return view('user.edit',['data' => $employee]);
+        $user = User::where('id', $id)->first();
+        if ($user) {
+            return view('user.edit', ['data' => $user]);
         }
         return redirect()->route('user.list')->with('dismiss', "Not found");
     }
 
-    public function update(EmployeeRequest $request)
+    public function update(UserRequest $request)
     {
-        $employee = Employee::where('id', $request->id)->first();
-        if($employee) {
+        $user = User::where('id', $request->id)->first();
+        if ($user) {
             $data = [
-                "name"          => $request->name,
-                "designation"   => $request->designation,
-                "NID"           => $request->NID,
-                "address"       => $request->address,
-                "blood_group"   => $request->blood_group,
-                "contact_no"    => $request->contact_no,
-                "joining_date"  => $request->joining_date,
-                "resigning_date" => $request->resigning_date,
-                "basic_salary"  => $request->basic_salary
+                "name"              => $request->name,
+                "email"             => $request->email,
+                "phone"             => $request->mobile_number,
+                "designation"       => $request->designation,
+                "address"           => $request->address,
+                "enable_edit"       => $request->has("edit") && $request->edit == "on" ? ENABLE : DISABLE,
+                "enable_delete"     => $request->has("delete") && $request->delete == "on" ? ENABLE : DISABLE,
+                'password'          => Hash::make($request->password)
+                // 'status'        => $request->status
             ];
-            if(!empty($request->image)) {
-                $data['image'] = fileUpload($request->image, DOCUMENT_PATH, $employee->image);
+            if (!empty($request->image)) {
+                $data['image'] = fileUpload($request->image, DOCUMENT_PATH, $user->image);
             }
-            $employee->update($data);
+
+            if (!empty($request->password)) {
+                $data['password'] = Hash::make($request->password);
+            }
+            $user->update($data);
             return redirect()->route('user.list')->with('success', __("Updted successfully"));
         }
         return redirect()->route('user.list')->with('dismiss', "Not found");
@@ -106,26 +107,11 @@ class UserController extends Controller
     // delete
     public  function delete($id = null)
     {
-        $employee = Employee::where('id', $id)->first();
-        if($employee) {
-            $employee->delete();
-            return redirect()->route('user.list')->with('success', __("deleted successfully"));
+        $user = User::where('id', $id)->first();
+        if ($user) {
+            $user->delete();
+            return redirect()->route('user.list')->with('success', __("Deleted successfully"));
         }
         return redirect()->route('user.list')->with('dismiss', "Not found");
     }
-    //details
-    public function details($id)
-    {
-        $employee = Employee::find($id);
-
-        if ($employee) {
-            return response()->json([
-                'designation' => $employee->designation,
-                'salary' => $employee->basic_salary
-            ]);
-        }
-
-        return response()->json(['error' => 'Employee not found'], 404);
-    }
-
 }

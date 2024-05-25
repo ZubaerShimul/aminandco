@@ -38,6 +38,7 @@ Route::get('/', [AuthController::class, 'home'])->name('home');
 Route::get('/login', [AuthController::class, 'login'])->name('admin.login');
 Route::post('/login-process', [AuthController::class, 'loginProcess'])->name('admin.login.process');
 
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 

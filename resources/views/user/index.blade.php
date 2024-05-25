@@ -10,7 +10,7 @@
 @endpush
 @section('content')
     <div class="content-wrapper">
-        @include('widgets.breadcrumb', ['title' => __('Employee Management'), 'subtitle'=> __('Employee'), 'button' => '<a type="button" class="btn btn-primary" href="'.route('employee.create').'">'. __('Add New') .'</a>'])
+        @include('widgets.breadcrumb', ['title' => __('User Management'), 'subtitle'=> __('User'), 'button' => '<a type="button" class="btn btn-primary" href="'.route('user.create').'">'. __('Add New') .'</a>'])
         <div class="content-body">
             <section class="app-user-list">
                 <!-- list and filter start -->
@@ -21,7 +21,7 @@
                     <div class="card-body border-bottom">
                         <div class="row">
                             <div class="col-md-9">
-                                <h4 class="card-title">@lang('Employee List')</h4>
+                                <h4 class="card-title">@lang('User List')</h4>
                             </div>
                             <div class="col-md-3 ">
                             <div class="d-flex justify-content-end">
@@ -37,14 +37,10 @@
                             <tr>
                                 <th></th>
                                 <th>@lang('Name')</th>
+                                <th>@lang('Email')</th>
+                                <th>@lang('Phone')</th>
                                 <th>@lang('Designation')</th>
-                                <th>@lang('Address')</th>
-                                <th>@lang('NID No')</th>
-                                <th>@lang('Contact No')</th>
-                                <th>@lang('Blood Group')</th>
-                                <th>@lang('Joining Date')</th>
-                                <th>@lang('Resign Date')</th>
-                                <th>@lang('Basic Salary')</th>
+                                <th>@lang('Address')</th></th>
                                 <th width="30px">@lang('Actions')</th>
                             </tr>
                             </thead>
@@ -90,24 +86,19 @@
         autoWidth: false,
         columnDefs: [
             {"targets": 0, "className": "text-center"},
-            {"targets": 1, "className": "text-center"},
-            {"targets": 2, "className": "text-left"},
+            {"targets": 1, "className": "text-left"},
         ],
         columns: [
                 {"data": "checkin", orderable: false, searchable: false},
                 {"data": "name"},
+                {"data": "email"},
+                {"data": "phone"},
                 {"data": "designation"},
                 {"data": "address"},
-                {"data": "NID"},
-                {"data": "contact_no"},
-                {"data": "blood_group"},
-                {"data": "joining_date"},
-                {"data": "resigning_date"},
-                {"data": "basic_salary"},
                 {"data": "actions", orderable: false, searchable: false}
             ],
         ajax: {
-            url: '{{ route('employee.list') }}',
+            url: '{{ route('user.list') }}',
             type: 'GET',
             data: function (d) {
                 d.tender_id = $('#tender').val(); // Pass the selected tender ID as parameter
@@ -129,8 +120,8 @@
                     const itemId = this.dataset.id;
 
                     // Update the route parameter with the checked item ID
-                    editButton.href = this.checked ? "/employee-edit/" + itemId : "#";
-                    deleteButton.href = this.checked ? "/employee-delete/" + itemId : "#";
+                    editButton.href = this.checked ? "/user-edit/" + itemId : "#";
+                    deleteButton.href = this.checked ? "/user-delete/" + itemId : "#";
 
                     // Show/hide edit and delete buttons based on checkbox state
                     editButton.style.display = this.checked ? 'inline-block' : 'none';

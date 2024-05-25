@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
-            $table->string('designation')->nullable();
             $table->string('phone')->nullable();
+            $table->string('designation')->nullable();
             $table->string('address')->nullable();
             $table->string('image')->nullable();
             $table->boolean('is_admin')->default(DISABLE);
