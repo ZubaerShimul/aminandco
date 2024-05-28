@@ -40,6 +40,5 @@ const DOCUMENT_PATH = "uploads/documents/";
 const USER_ACTIVE = 2;
 const USER_DEACTIVE = 1;
 
-
-
-
+const EXPENSE_TYPE_OFFICIAL = "Official Expense";
+const EXPENSE_TYPE_OTHERS    = "Others Expense";

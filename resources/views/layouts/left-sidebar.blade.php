@@ -53,6 +53,15 @@
                 </li>
             </ul>
         </li>
+        {{--   expense  --}}
+        <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Expense")</span></a>
+            <ul class="menu-content">
+                <li class="@if(request()->routeIs('expense.create') || request()->routeIs('expense.edit')) active @endif"><a class="d-flex align-items-center" href="{{ route('expense.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang( request()->routeIs('expense.edit') ? "Update Expense" : "Create Expense")</span></a>
+                </li>
+                <li class="@if(request()->routeIs('expense.list')) active @endif"><a class="d-flex align-items-center" href="{{ route('expense.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Expense List")</span></a>
+                </li>
+            </ul>
+        </li>
 
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Category")</span></a>
                 <ul class="menu-content">
@@ -87,7 +96,7 @@
             </ul>
         </li>
 
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Report")</span></a>
+            {{--  <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Report")</span></a>
                 <ul class="menu-content">
                     <li class="@if(request()->routeIs('report.official.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.official.expense') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Official Expense")</span></a>
                     </li>
@@ -95,7 +104,7 @@
                     </li>
 
                 </ul>
-            </li>
+            </li>  --}}
         </ul>
     </div>
 </div>
