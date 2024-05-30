@@ -25,8 +25,12 @@
                             </div>
                             <div class="col-md-3 ">
                             <div class="d-flex justify-content-end">
+                                @if(Auth::user()!=null && Auth::user()->enable_edit == 1 )
                                 <a type="button" class="btn btn-info" id="btn-edit" style="display: none;" href="#">Edit</a>
-                                <a type="button" class="btn btn-danger mx-1" id="btn-delete" style="display: none;" href="#">Delete</a>
+                                @endif
+                                @if(Auth::user()!=null && Auth::user()->enable_delete == 1 )
+                                <a type="button" onclick="deleteConfirmation(event, this)"  class="btn btn-danger mx-1" id="btn-delete" style="display: none;" href="#">Delete</a>
+                                @endif
                             </div>
                             </div>
                         </div>
@@ -136,13 +140,14 @@
 
                     const itemId = this.dataset.id;
 
-                    // Update the route parameter with the checked item ID
-                    editButton.href = this.checked ? "/expense-edit/" + itemId : "#";
-                    deleteButton.href = this.checked ? "/expense-delete/" + itemId : "#";
-
-                    // Show/hide edit and delete buttons based on checkbox state
-                    editButton.style.display = this.checked ? 'inline-block' : 'none';
-                    deleteButton.style.display = this.checked ? 'inline-block' : 'none';
+                    if(editButton){
+                        editButton.href = this.checked ? "/expense-edit/" + itemId : "#";
+                        editButton.style.display = this.checked ? 'inline-block' : 'none';
+                    }
+                    if(deleteButton){
+                        deleteButton.href = this.checked ? "/expense-delete/" + itemId : "#";
+                        deleteButton.style.display = this.checked ? 'inline-block' : 'none';
+                    }
                 });
             });
         }
@@ -184,9 +189,14 @@
                 });
             }
         });
-        $(document).on('click', '.delete', function () {
-            return confirm("Are You Sure To Delete This!");
-        });
+
+        function deleteConfirmation(event, element) {
+            event.preventDefault();
+            var userConfirmed = confirm("Are You Sure To Delete This!");
+            if (userConfirmed) {
+                window.location.href = element.href;
+            }
+    }
 
 
     </script>

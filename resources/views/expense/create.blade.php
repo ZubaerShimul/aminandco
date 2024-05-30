@@ -37,7 +37,7 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">{{ __("Expense Type") }} <span class="text-danger">*</span></label>
-                                                    <select class="select2 form-select" id="type" name="type" required>
+                                                    <select class="select2 form-select" id="expense_type" name="type" required>
                                                         <option value="{{ null }}">@lang('Select')</option>
                                                         <option value="{{ EXPENSE_TYPE_OFFICIAL }}" >{{EXPENSE_TYPE_OFFICIAL}} </option>
                                                         <option value="{{ EXPENSE_TYPE_OTHERS }}" >{{EXPENSE_TYPE_OTHERS}} </option>
@@ -47,7 +47,7 @@
                                         </div>
                                         
                                         
-                                        <div class="col-4">
+                                        <div class="col-4 expense-other-group" hidden>
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">{{ __("Site/Partner Name") }} <span class="text-danger">*</span></label>
                                                     <select class="select2 form-select" id="site" name="site" required>
@@ -61,14 +61,14 @@
                                                 <span class="text-danger">{{$errors->first('site')}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4 expense-other-group" hidden>
                                             <div class="mb-2">
                                                 <label class="form-label" for="district">@lang('Division/District') <span class="text-danger">*</span></label>
                                                 <input type="text" id="district" class="form-control" name="district" value="{{old('district')}}" readonly/>
                                                 <span class="text-danger">{{$errors->first('district')}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4 expense-other-group" hidden>
                                             <div class="mb-2">
                                                 <label class="form-label" for="area">@lang('Area') <span class="text-danger">*</span></label>
                                                 <input type="text" id="area" class="form-control" name="area" value="{{old('area')}}" readonly/>
@@ -190,6 +190,23 @@
             var total = amount + others_amount;
             $('#total').val(total.toFixed(2));
         }
+
+        var expenseTypeSelect = document.getElementById('expense_type');
+        var expenseOtherGroups = document.querySelectorAll('.expense-other-group');
+        function toggleExpenseOtherGroups(){
+            var selectedType = expenseTypeSelect.value;
+            if (selectedType == '{{ EXPENSE_TYPE_OTHERS }}') {
+                expenseOtherGroups.forEach(function(group) {
+                    group.hidden = false;
+                });
+            } else {
+                expenseOtherGroups.forEach(function(group) {
+                    group.hidden = true;
+                });
+            }
+        }
+        expenseTypeSelect.addEventListener('change', toggleExpenseOtherGroups);
+        toggleExpenseOtherGroups();
      
     });
 </script>
