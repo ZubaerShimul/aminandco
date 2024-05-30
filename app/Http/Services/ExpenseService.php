@@ -4,8 +4,10 @@ namespace App\Http\Services;
 
 use App\Models\BankAccount;
 use App\Models\Category;
+use App\Models\Expense;
 use App\Models\ExpenseIncome;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,82 +15,144 @@ use Illuminate\Support\Facades\DB;
 class ExpenseService
 {
 
-    public function store($bankAccount, $expenseData)
+    private $transactionService;
+
+    public function __construct(TransactionService $transactionService)
     {
+        $this->transactionService = $transactionService;
+    }
+
+
+    public function store($request)
+    {
+        $account    = explode('-', $request->account);
+        $site       = explode('-', $request->site);
+
+        $data = [
+            'created_by'        => Auth::id(),
+            'date'              => !empty($request->date) ? Carbon::parse($request->date)->toDateString() : Carbon::now()->toDateString(),
+            'name'              => $request->name,
+            'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
+            'bank_name'         => isset($account[1]) && $account[1] != "" ? $account[1] : null,
+            'site_id'           => isset($site[0]) && $site[0] != "" ? $site[0] : null,
+            'site_name'         => isset($site[1]) && $site[1] != "" ? $site[1] : null,
+            'division'          => isset($site[2]) && $site[2] != "" ? $site[2] : null,
+            'area'              => isset($site[3]) && $site[3] != "" ? $site[3] : null,
+            'payment_method'    => $request->payment_method,
+            'amount'            => $request->amount ?? 0,
+            'type'              => $request->type,
+            'note'              => $request->note,
+        ];
+
+        if (!empty($request->document)) {
+            $data['document'] = fileUpload($request->document, DOCUMENT_PATH);
+        }
+
         try {
             DB::beginTransaction();
 
-            $bankAccount->update([
-                'balance'   => $bankAccount->balance - $expenseData['total_amount']
-            ]);
+            // bank account update start
+            $bankAccount = BankAccount::where(['id' =>  $data['account_id']])->first();
+            if (!empty($bankAccount)) {
+                $bankAccount->update([
+                    'balance'   => $bankAccount->balance - $data['amount']
+                ]);
+                // return redirect()->back()->with('dismiss', __("Account not found"));
+            }
+            // if($bankAccount->balance < $request->total_amount) {
+            //     return errorResponse("No available balance");
+            // }
+            // $bankAccount->update([
+            //     'balance'   => $bankAccount->balance - $expenseData['total_amount']
+            // ]);
 
             // expense and details
-            $expense = ExpenseIncome::create($expenseData);
-
-            // transaction
-            $latestTransaction = Transaction::where(['account_id' => $bankAccount->id])->orderBy('id', 'desc')->first();
-            Transaction::create([
-                'tender_id'     => $expense->tender_id,
-                'user_id'       => $expense->user_id,
-                'trnxable_id'   => $expense->id,
-                'trnxable_type' => "App\Models\ExpenseIncome",
-                'type'          => CASH_OUT,
-                'category_id'   => $expense->category_id,
-                'payment_method'=> $expense->payment_method,
-                'cash_out'      => $expense->grand_total,
-                'date'          => $expense->date,
-                'account_id'    => $expense->account_id,
-                'balance'  => !empty($latestTransaction) ? $latestTransaction->balance - $expense->grand_total : (-$expense->grand_total),
-            ]);
+            $expense = Expense::create($data);
+            $transaction = $this->transactionService->expenseTransaction($expense, "App\Models\Expense", $expense->amount, $expense->type);
+            if ($transaction['success'] == false) {
+                DB::rollBack();
+                return errorResponse($transaction['message']);
+            }
             DB::commit();
             return successResponse("Expenses succussfully added");
         } catch (Exception $e) {
             DB::rollBack();
+            dd($e->getMessage());
             return errorResponse($e->getMessage());
         }
     }
 
     # ~~~~~~~~~~~~~~~~~~~~~~~ update ~~~~~~~~~~~~~~~~~~~
-
-    public function update($expense, $bankAccount, $expenseData)
+    /**
+     * update
+     */
+    public function update($request)
     {
+        $account    = explode('-', $request->account);
+        $site       = explode('-', $request->site);
+
+
+        // $bankAccount = BankAccount::where(['id' => $request->account])->first();
+        // if (empty($bankAccount)) {
+        //     return errorResponse("Account not found");
+        // }
+        // if($request->amount > $bankAccount->balance) {
+        //     return errorResponse("Insufficient account balance");
+        // }
+
+
+
+
+        $expense =   Expense::where(['id' => $request->id])->first();
+        if (empty($expense)) {
+            return errorResponse(__("Expense not found"));
+        }
+
+        // if($request->amount > ($account->balance + $expense->amount)) {
+        //     return errorResponse("Insufficient account balance");
+        // }
+
+        $total = $request->amount;
+        $expenseData = [
+            'date'              => !empty($request->date) ? Carbon::parse($request->date)->toDateString() : Carbon::now()->toDateString(),
+            'name'              => $request->name,
+            // 'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
+            // 'bank_name'         => isset($account[1]) && $account[1] != "" ? $account[1] : null,
+            'site_id'           => isset($site[0]) && $site[0] != "" ? $site[0] : null,
+            'site_name'         => isset($site[1]) && $site[1] != "" ? $site[1] : null,
+            'division'          => isset($site[2]) && $site[2] != "" ? $site[2] : null,
+            'area'              => isset($site[3]) && $site[3] != "" ? $site[3] : null,
+            'payment_method'    => $request->payment_method,
+            'amount'            => $request->amount ?? 0,
+            'type'              => $request->type,
+            'note'              => $request->note
+        ];
+
+        if (!empty($request->document)) {
+            $expenseData['document'] = fileUpload($request->document, DOCUMENT_PATH, $expense->document);
+        }
+
         try {
 
             DB::beginTransaction();
 
-            $bankAccount->update([
-                'balance'   => ($bankAccount->balance + $expense->grand_total)  - $expenseData['total_amount']
-            ]);
-            // bank account update end
-
-            $expense->update($expenseData);
-
-            // transaction
-            $transaction = Transaction::where(['trnxable_id' => $expense->id, 'trnxable_type' => "App\Models\ExpenseIncome", 'type' => CASH_OUT])->first();
-            $diff = $expense->grand_total - $transaction->cash_out;
-
-            $transaction->update([
-                'user_id' => $transaction->user_id,
-                'date' => $expense->date ?? $transaction->date,
-                'cash_out' => $expense->grand_total,
-                'payment_method' => $expense->payment_method,
-                'category_id'   => $expense->category_id ?? $transaction->category_id,
-            ]);
-
-            $accounts = Transaction::where(['account_id' => $bankAccount->id])->where('id', '>=',  $transaction->id)->get();
-
-            foreach ($accounts as $acc) {
-                $acc->update(['balance'  => $acc->balance - $diff]);
+            // transaction start
+            if ($total != $expense->amount) {
+                $transaction = $this->transactionService->expenseTransactionUpdate($expense, "App\Models\Expense", $total);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
             }
             // transaction end
-            $changes =  $expense->getChanges();
 
+            $expense->update($expenseData);
             DB::commit();
 
-            return successResponse("Expenses succussfully updated");
+            return successResponse("Expense successfuly updated");
         } catch (Exception $e) {
             DB::rollBack();
-            return errorResponse($e->getMessage() . ' ' . $e->getLine());
+            return errorResponse();
         }
     }
 
@@ -97,29 +161,15 @@ class ExpenseService
     public function delete($id = null)
     {
         try {
-            $expense = ExpenseIncome::where(['id' => $id])->first();
+            $expense = Expense::where(['id' => $id])->first();
             if (!empty($expense)) {
+
                 DB::beginTransaction();
 
-                //bank accunt
-                $bankAccount = BankAccount::where('id', $expense->account_id)->first();
-                if (empty($bankAccount)) {
-                    return errorResponse(__("Account doesn't exists"));
-                }
-                $bankAccount->update([
-                    'balance'   => ($bankAccount->balance + $expense->grand_total)
-                ]);
-
-                // transaction
-                $transaction = Transaction::where(['trnxable_id' => $expense->id, 'trnxable_type' => "App\Models\ExpenseIncome"])->first();
-                if (!empty($transaction)) {
-                    $accounts = Transaction::where(['account_id' => $bankAccount->id])->where('id', '>',  $transaction->id)->get();
-                    if (isset($accounts[0])) {
-                        foreach ($accounts as $acc) {
-                            $acc->update(['balance'  => $acc->balance + $transaction->cash_out]);
-                        }
-                    }
-                    $transaction->delete();
+                $transaction = $this->transactionService->expenseTransactionDelete($expense, "App\Models\Expense");
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
                 }
                 // transaction end
 

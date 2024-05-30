@@ -19,18 +19,18 @@
                                     @csrf
                                     <div class="row">
                                         
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="date">@lang('Date') <span class="text-danger">*</span> </label>
                                             <input type="date" id="date" class="form-control" name="date" value="{{$salary->date}}" required/>
                                                 <span class="text-danger">{{$errors->first('date')}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">{{ __("Select Employee") }} <span class="text-danger">*</span></label>
                                                     <select class="select2 form-select" id="employee" name="employee" required>
-                                                        <option value="{{ $salary->employee_id.'-'.$salary->name.'-'.$salary->designation}}">{{ $salary->name.' ('.$salary->designation.')' }}</option>
+                                                        <option value="{{ $salary->employee_id.'-'.$salary->name.'-'.$salary->designation}}">{{ $salary->name }}</option>
                                                         @if(isset($data['employees'][0]))
                                                         @foreach ($data['employees'] as $employee )
                                                             @if($employee->id != $salary->employee_id)
@@ -40,6 +40,14 @@
                                                         @endif
                                                     </select>
                                                 <span class="text-danger">{{$errors->first('employee')}}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-4">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="designation">@lang('Designation') <span class="text-danger">*</span> </label>
+                                                <input type="text" id="designation" class="form-control" name="designation" value="{{ $salary->designation }}" readonly/>
+                                                <span class="text-danger">{{$errors->first('designation')}}</span>
                                             </div>
                                         </div>
                                         {{--  <div class="col-6">
@@ -137,22 +145,50 @@
 
 @endsection
 
-
 @push('script')
-
-
-
 <script type="text/javascript">
 
     $(document).ready(function() {
 
-        function totalSalary()
-        {
-            var salary = $('#salary').val;
-            alert(salary);
+        $(document).ready(function() {
+            $('#employee').on('change', function() {
+                var employeeId = $(this).val();
 
+                if (employeeId) {
+                    $.ajax({
+                        url: '/employee/' + employeeId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.error) {
+                                $('#designation').val('');
+                                $('#salary').val('');
+                                console.log(data.error);
+                            } else {
+                                $('#designation').val(data.designation);
+                                $('#salary').val(data.salary);
+                            }
+                        }
+                    });
+                } else {
+                    $('#designation').val('');
+                    $('#salary').val('');
+                }
+            });
+        });
+        
+        $('#salary, #mobile_bill, #ta_da').on('input', function() {
+                calculateTotalSalary();
+        });
+
+        function calculateTotalSalary() {
+            var salary = parseFloat($('#salary').val()) || 0;
+            var mobileBill = parseFloat($('#mobile_bill').val()) || 0;
+            var taDa = parseFloat($('#ta_da').val()) || 0;
+            var totalSalary = salary + mobileBill + taDa;
+            $('#total_salary').val(totalSalary.toFixed(2));
         }
      
-      })
+    });
 </script>
 @endpush

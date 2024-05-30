@@ -8,18 +8,18 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LaborController;
 use App\Http\Controllers\LabourSalaryController;
-use App\Http\Controllers\OfficialExpenseController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentToController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiveController;
-use App\Http\Controllers\Report\ExpenseController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TenderExpenseController;
 use App\Http\Controllers\TenderPaymentController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +37,7 @@ Route::get('/', [AuthController::class, 'home'])->name('home');
 Route::get('/login', [AuthController::class, 'login'])->name('admin.login');
 Route::post('/login-process', [AuthController::class, 'loginProcess'])->name('admin.login.process');
 
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
@@ -56,27 +57,27 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('password', [ProfileController::class, 'password'])->name('password');
     Route::post('password-update', [ProfileController::class, 'passwordUpdate'])->name('password.update');
 
-    /**
-     * Official Expense
-     */
-    Route::get('official-expense-list', [OfficialExpenseController::class, 'index'])->name('expense.official.list');
-    Route::get('official-expense-create', [OfficialExpenseController::class, 'create'])->name('expense.official.create');
-    Route::post('official-expense-store', [OfficialExpenseController::class, 'store'])->name('expense.official.store');
-    Route::get('official-expense-edit/{id?}', [OfficialExpenseController::class, 'edit'])->name('expense.official.edit');
-    Route::post('official-expense-update', [OfficialExpenseController::class, 'update'])->name('expense.official.update');
-    Route::get('official-expense-delete/{id?}', [OfficialExpenseController::class, 'delete'])->name('expense.official.delete');
+    // Route::group(['prefix' => 'report'], function () {
+    //     // official expense
+    //     Route::get('expepense', [ExpenseController::class, 'officialExpense'])->name('report.expense');
+    //     Route::post('expepense', [ExpenseController::class, 'officialExpense'])->name('report.expense.report');
 
-    Route::group(['prefix' => 'report'], function () {
-        // official expense
-        Route::get('official-expepense', [ExpenseController::class, 'officialExpense'])->name('report.official.expense');
-        Route::post('official-expepense', [ExpenseController::class, 'officialExpense'])->name('report.official.expense.report');
-
-        // tender expense
-        Route::get('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense');
-        Route::post('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense.report');
-    });
+    //     // tender expense
+    //     Route::get('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense');
+    //     Route::post('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense.report');
+    // });
 
     // ************************** new ************************************\\
+    
+    /**
+     * user
+     */
+    Route::get('user-list', [UserController::class, 'index'])->name('user.list');
+    Route::get('user-create', [UserController::class, 'create'])->name('user.create');
+    Route::post('user-store', [UserController::class, 'store'])->name('user.store');
+    Route::get('user-edit/{id?}', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('user-update', [UserController::class, 'update'])->name('user.update');
+    Route::get('user-delete/{id?}', [UserController::class, 'delete'])->name('user.delete');
 
     /**
      * receive
@@ -88,7 +89,6 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('receive-update', [ReceiveController::class, 'update'])->name('receive.update');
     Route::get('receive-delete/{id?}', [ReceiveController::class, 'delete'])->name('receive.delete');
 
-
     /**
      * payment
      */
@@ -99,16 +99,26 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('payment-update', [PaymentController::class, 'update'])->name('payment.update');
     Route::get('payment-delete/{id?}', [PaymentController::class, 'delete'])->name('payment.delete');
 
+    /**
+     * Official Expense
+     */
+    Route::get('expense-list', [ExpenseController::class, 'index'])->name('expense.list');
+    Route::get('expense-create', [ExpenseController::class, 'create'])->name('expense.create');
+    Route::post('expense-store', [ExpenseController::class, 'store'])->name('expense.store');
+    Route::get('expense-edit/{id?}', [ExpenseController::class, 'edit'])->name('expense.edit');
+    Route::post('expense-update', [ExpenseController::class, 'update'])->name('expense.update');
+    Route::get('expense-delete/{id?}', [ExpenseController::class, 'delete'])->name('expense.delete');
+
 
     /**
      * payment to
      */
-    Route::get('payment-to-list', [PaymentToController::class, 'index'])->name('payment.to.list');
-    Route::get('payment-to-create', [PaymentToController::class, 'create'])->name('payment.to.create');
-    Route::post('payment-to-store', [PaymentToController::class, 'store'])->name('payment.to.store');
-    Route::get('payment-to-edit/{id?}', [PaymentToController::class, 'edit'])->name('payment.to.edit');
-    Route::post('payment-to-update', [PaymentToController::class, 'update'])->name('payment.to.update');
-    Route::get('payment-to-delete/{id?}', [PaymentToController::class, 'delete'])->name('payment.to.delete');
+    Route::get('payment-to-list', [PaymentToController::class, 'index'])->name('payment_to.list');
+    Route::get('payment-to-create', [PaymentToController::class, 'create'])->name('payment_to.create');
+    Route::post('payment-to-store', [PaymentToController::class, 'store'])->name('payment_to.store');
+    Route::get('payment-to-edit/{id?}', [PaymentToController::class, 'edit'])->name('payment_to.edit');
+    Route::post('payment-to-update', [PaymentToController::class, 'update'])->name('payment_to.update');
+    Route::get('payment-to-delete/{id?}', [PaymentToController::class, 'delete'])->name('payment_to.delete');
 
 
     /**
@@ -128,6 +138,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('category/bank-store-update', [BankAccountController::class, 'storeUpdate'])->name('bank_account.store_update');
     Route::get('category/bank-edit/{id?}', [BankAccountController::class, 'edit'])->name('bank_account.edit');
     Route::get('category/bank-delete/{id?}', [BankAccountController::class, 'delete'])->name('bank_account.delete');
+    Route::get('bank-account/{id?}', [BankAccountController::class, 'details']);
 
      /**
      * paymnet method

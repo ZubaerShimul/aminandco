@@ -70,7 +70,7 @@ function parse_contact($contact_no)
         $new = $contact_no;
     }
 
-    return $new;
+    return '+88'.$new;
 }
 
 /**

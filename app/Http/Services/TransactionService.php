@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Account;
+use App\Models\AccountHistory;
 use App\Models\BankAccount;
 use App\Models\ExpenseIncome;
 use App\Models\Transaction;
@@ -44,13 +45,25 @@ class TransactionService
                 'balance'       => !empty($latestTransaction) ? $latestTransaction->balance - $amount : (-$amount),
             ]);
 
+            // history
+            $accHistory     = AccountHistory::whereDate('date', $transaction->date)->first();
+            $lastDayHistory = AccountHistory::whereDate('date', '<', $transaction->date)->orderBy('date','desc')->first();
+            if(!empty($accHistory)) {
+                $accHistory->update([
+                    'closing'   => $accHistory->closing - $amount
+                ]);
+            } else {
+                AccountHistory::create([
+                    'date'      => $transaction->date,
+                    'opening'   => ($lastDayHistory->closing),
+                    'closing'   => ($lastDayHistory->closing) - $amount
+                ]);
+            }
             DB::commit();
             return successResponse();
         } catch (Exception $e) {
 
             DB::rollBack();
-
-
             return dd($e->getMessage());
         }
     }

@@ -43,15 +43,19 @@ class PaymentToController extends Controller
 
     public function store(Request $request)
     {
+        $mobile_number = exists(new PaymentTo(), [ 'mobile_number' => parse_contact($request->mobile_number)]);
+        if($mobile_number) {
+            return redirect()->back()->with('dismiss', "Mobile Number already added");
+        }
         try {
 
             PaymentTo::create([
                 'created_by'   => Auth::user()->id,
                 'name' => $request->name,
                 'type' => $request->type,
-                'mobile_number' => $request->mobile_number,
+                'mobile_number' => parse_contact($request->mobile_number),
             ]);
-            return redirect()->route('payment.to.list')->with('success', __("Added successfully"));
+            return redirect()->route('payment_to.list')->with('success', __("Added successfully"));
 
     }catch(Exception $exception){
         return redirect()->back()->with('dismiss', $exception->getMessage());
@@ -66,21 +70,26 @@ class PaymentToController extends Controller
         if($paymentTo) {
             return view('category.payment_to.index',['data' => $paymentTo]);
         }
-        return redirect()->route('payment.to.list')->with('dismiss', "Not found");
+        return redirect()->route('payment_to.list')->with('dismiss', "Not found");
     }
 
     public function update(Request $request)
     {
+        $mobile_number = exists(new PaymentTo(), [ 'mobile_number' => parse_contact($request->mobile_number)], $request->id);
+        if($mobile_number) {
+            return redirect()->back()->with('dismiss', "Mobile Number already added");
+        }
+
         $paymentTo = PaymentTo::where('id', $request->id)->first();
         if($paymentTo) {
             $paymentTo->update([
                 'name' => $request->name,
                 'type' => $request->type,
-                'mobile_number' => $request->mobile_number,
+                'mobile_number' => parse_contact($request->mobile_number),
             ]);
-            return redirect()->route('payment.to.list')->with('success', __("Updted successfully"));
+            return redirect()->route('payment_to.list')->with('success', __("Updted successfully"));
         }
-        return redirect()->route('payment.to.list')->with('dismiss', "Not found");
+        return redirect()->route('payment_to.list')->with('dismiss', "Not found");
     }
 
 
@@ -90,9 +99,9 @@ class PaymentToController extends Controller
         $paymentTo = PaymentTo::where('id', $id)->first();
         if($paymentTo) {
             $paymentTo->delete();
-            return redirect()->route('payment.to.list')->with('success', __("deleted successfully"));
+            return redirect()->route('payment_to.list')->with('success', __("deleted successfully"));
         }
-        return redirect()->route('payment.to.list')->with('dismiss', "Not found");
+        return redirect()->route('payment_to.list')->with('dismiss', "Not found");
     }
 
 }

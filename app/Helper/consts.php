@@ -35,6 +35,10 @@ const TYPE_PARTNER = "Partner";
 
 const DOCUMENT_PATH = "uploads/documents/";
 
+// user status
 
+const USER_ACTIVE = 2;
+const USER_DEACTIVE = 1;
 
-
+const EXPENSE_TYPE_OFFICIAL = "Official Expense";
+const EXPENSE_TYPE_OTHERS    = "Others Expense";

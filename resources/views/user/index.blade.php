@@ -10,47 +10,18 @@
 @endpush
 @section('content')
     <div class="content-wrapper">
-        @include('widgets.breadcrumb', ['title' => __('Payment To Management'), 'subtitle'=> __('Payment To'), 'button' => ''])
+        @include('widgets.breadcrumb', ['title' => __('User Management'), 'subtitle'=> __('User'), 'button' => '<a type="button" class="btn btn-primary" href="'.route('user.create').'">'. __('Add New') .'</a>'])
         <div class="content-body">
             <section class="app-user-list">
                 <!-- list and filter start -->
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ isset($data) ? route('payment_to.update') : route('payment_to.store')}}" method="post" class="form">
-                            @csrf
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="mb-2">
-                                        <label class="form-label" for="name">@lang('Name') <span class="text-danger">*</span></label>
-                                        <input type="text" id="name" class="form-control" name="name" value="{{ isset($data) ? $data->name :  old('name')}}" required/>
-                                        <span class="text-danger">{{$errors->first('name')}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mb-2">
-                                        <label class="form-label" for="type">@lang('Type') <span class="text-danger">*</span></label>
-                                        <input type="text" id="type" class="form-control" name="type" value="{{ isset($data) ? $data->type : old('type')}}" required/>
-                                        <span class="text-danger">{{$errors->first('type')}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mb-2">
-                                        <label class="form-label" for="name">@lang('Mob No') <span class="text-danger">*</span></label>
-                                        <input type="text" id="mobile_number" class="form-control" name="mobile_number" value="{{isset($data) ? $data->mobile_number : old('mobile_number')}}" required/>
-                                        <span class="text-danger">{{$errors->first('mobile_number')}}</span>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="id" value="{{ isset($data) ? $data->id : null }}">
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary me-1">{{ isset($data) ? __("Update") : __("Add") }}</button>
-                                </div>
-                            </div>
-                        </form>
+
                     </div>
                     <div class="card-body border-bottom">
                         <div class="row">
                             <div class="col-md-9">
-                                <h4 class="card-title">@lang('Payment To List')</h4>
+                                <h4 class="card-title">@lang('User List')</h4>
                             </div>
                             <div class="col-md-3 ">
                             <div class="d-flex justify-content-end">
@@ -66,8 +37,10 @@
                             <tr>
                                 <th></th>
                                 <th>@lang('Name')</th>
-                                <th>@lang('Type')</th>
-                                <th>@lang('Mob No')</th>
+                                <th>@lang('Email')</th>
+                                <th>@lang('Phone')</th>
+                                <th>@lang('Designation')</th>
+                                <th>@lang('Address')</th></th>
                                 <th width="30px">@lang('Actions')</th>
                             </tr>
                             </thead>
@@ -113,18 +86,19 @@
         autoWidth: false,
         columnDefs: [
             {"targets": 0, "className": "text-center"},
-            {"targets": 1, "className": "text-center"},
-            {"targets": 2, "className": "text-left"},
+            {"targets": 1, "className": "text-left"},
         ],
         columns: [
                 {"data": "checkin", orderable: false, searchable: false},
                 {"data": "name"},
-                {"data": "type"},
-                {"data": "mobile_number"},
+                {"data": "email"},
+                {"data": "phone"},
+                {"data": "designation"},
+                {"data": "address"},
                 {"data": "actions", orderable: false, searchable: false}
             ],
         ajax: {
-            url: '{{ route('payment_to.list') }}',
+            url: '{{ route('user.list') }}',
             type: 'GET',
             data: function (d) {
                 d.tender_id = $('#tender').val(); // Pass the selected tender ID as parameter
@@ -146,8 +120,8 @@
                     const itemId = this.dataset.id;
 
                     // Update the route parameter with the checked item ID
-                    editButton.href = this.checked ? "/payment-to-edit/" + itemId : "#";
-                    deleteButton.href = this.checked ? "/payment-to-delete/" + itemId : "#";
+                    editButton.href = this.checked ? "/user-edit/" + itemId : "#";
+                    deleteButton.href = this.checked ? "/user-delete/" + itemId : "#";
 
                     // Show/hide edit and delete buttons based on checkbox state
                     editButton.style.display = this.checked ? 'inline-block' : 'none';

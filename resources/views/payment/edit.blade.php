@@ -46,7 +46,7 @@
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">{{ __("Site/Partner Name") }} <span class="text-danger">*</span></label>
                                                     <select class="select2 form-select" id="site" name="site" required>
-                                                        <option value="{{ $payment->site_id.'-'.$payment->site_name.'-'.$payment->division.'-'.$payment->area}}" >{{ $payment->name}} </option>
+                                                        <option value="{{ $payment->site_id.'-'.$payment->site_name.'-'.$payment->division.'-'.$payment->area}}" >{{ $payment->site_name}} </option>
                                                         @if(isset($data['sites'][0]))
                                                         @foreach ($data['sites'] as $site )
                                                             <option value="{{ $site->id.'-'.$site->name.'-'.$site->division.'-'.$site->area}}" >{{ $site->name}} </option>
@@ -178,9 +178,6 @@
 
 
 @push('script')
-
-
-
 <script type="text/javascript">
 
     $(document).ready(function() {

@@ -45,7 +45,7 @@ class BankAccountController extends Controller
             }
         }
         $data = [
-            'created_by'       => !empty($bank) ? $bank->user_id : Auth::user()->id,
+            'created_by'       => !empty($bank) ? $bank->created_by : Auth::user()->id,
             'name'             => $request->name,
             'account_number'   => $request->account_number,
             'branch'            => $request->branch,
@@ -88,6 +88,17 @@ class BankAccountController extends Controller
             return redirect()->route('bank_account.list')->with('success', __("deleted successfully"));
         }
         return redirect()->route('bank_account.list')->with('dismiss', "Not found");
+    }
+    
+    //details
+    public function details($id)
+    {
+
+        $account = explode('-', $id);
+        return response()->json([
+            'name' => isset($account) ? $account[1] : '',
+            'account_no' => isset($account) ? $account[2] : ''
+        ]);
     }
 
 }

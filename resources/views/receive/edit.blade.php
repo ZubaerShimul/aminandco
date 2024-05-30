@@ -91,14 +91,21 @@
                                             </div>
                                         </div>                                                                            
                                         
-                                        {{--  <div class="col-4">
+                                        <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="total">@lang('Total Amount')</label>
                                                 <input type="number" id="total" class="form-control" name="total" value="{{$receive->total}}"/>
                                                 <span class="text-danger">{{$errors->first('total')}}</span>
                                             </div>
-                                        </div>  --}}
+                                        </div>
 
+                                        <div class="col-8">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="short_note">@lang('Short Note') </label>
+                                                <input type="text" id="short_note" class="form-control" name="short_note" value="{{$receive->short_note}}"/>
+                                                <span class="text-danger">{{$errors->first('short_note')}}</span>
+                                            </div>
+                                        </div>
                                         
                                         <div class="col-4">
                                             <div class="mb-2">
@@ -107,23 +114,15 @@
                                                 <span class="text-danger">{{$errors->first('date')}}</span>
                                             </div>
                                         </div>
-                                        
-                                        <div class="col-6">
-                                            <div class="mb-2">
-                                                <label class="form-label" for="short_note">@lang('Short Note') </label>
-                                                <input type="text" id="short_note" class="form-control" name="short_note" value="{{$receive->short_note}}"/>
-                                                <span class="text-danger">{{$errors->first('short_note')}}</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-3">
+
+                                        <div class="col-8">
                                             <div class="mb-2">
                                                 <label class="form-label" for="document">@lang('Upload File')</label>
                                                 <input type="file" id="document" class="form-control" name="document" value="{{$receive->document}}"/>
                                                 <span class="text-danger">{{$errors->first('document')}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-4">
                                             <div class="mb-2">
                                                 <img src="{{ $receive->document }}" height="90" width="90" alt="">
                                             </div>
@@ -149,20 +148,72 @@
 
 
 @push('script')
-
-
-
 <script type="text/javascript">
 
     $(document).ready(function() {
 
-        function totalPayment()
-        {
-            var Payment = $('#Payment').val;
-            alert(Payment);
+        $(document).ready(function() {
+            $('#site').on('change', function() {
+                var siteID = $(this).val();
 
+                if (siteID) {
+                    $.ajax({
+                        url: '/site/' + siteID,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.error) {
+                                $('#district').val('');
+                                $('#area').val('');
+                                console.log(data.error);
+                            } else {
+                                $('#district').val(data.district);
+                                $('#area').val(data.area);
+                            }
+                        }
+                    });
+                } else {
+                    $('#district').val('');
+                    $('#area').val('');
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $('#account').on('change', function() {
+                var accountID = $(this).val();
+
+                if (accountID) {
+                    $.ajax({
+                        url: '/bank-account/' + accountID,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.error) {
+                                $('#account_no').val('');
+                                console.log(data.error);
+                            } else {
+                                $('#account_no').val(data.account_no);
+                            }
+                        }
+                    });
+                } else {
+                    $('#account_no').val('');
+                }
+            });
+        });
+        
+        $('#net_payment_amount, #others_amount').on('input', function() {
+                calculateTotalSalary();
+        });
+
+        function calculateTotalSalary() {
+            var net_payment_amount = parseFloat($('#net_payment_amount').val()) || 0;
+            var others_amount = parseFloat($('#others_amount').val()) || 0;
+            var total = net_payment_amount + others_amount;
+            $('#total').val(total.toFixed(2));
         }
      
-      })
+    });
 </script>
 @endpush

@@ -93,11 +93,12 @@
         serverSide: true,
         pageLength: 10,
         responsive: true,
-        order: [0, 'desc'],
+        order: [1, 'asc'],
         autoWidth: false,
         columnDefs: [
             {"targets": 0, "className": "text-center"},
-            {"targets": 1, "className": "text-left"},
+            {"targets": 1, "className": "text-center"},
+            {"targets": 2, "className": "text-left"},
         ],
         columns: [
                 {"data": "checkin", orderable: false, searchable: false},
