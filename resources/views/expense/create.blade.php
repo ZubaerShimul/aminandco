@@ -50,7 +50,7 @@
                                         <div class="col-4 expense-other-group" hidden>
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">{{ __("Site/Partner Name") }} <span class="text-danger">*</span></label>
-                                                    <select class="select2 form-select" id="site" name="site" required>
+                                                    <select class="select2 form-select" id="site" name="site">
                                                         <option value="{{ null }}">@lang('Select')</option>
                                                         @if(isset($data['sites'][0]))
                                                         @foreach ($data['sites'] as $site )

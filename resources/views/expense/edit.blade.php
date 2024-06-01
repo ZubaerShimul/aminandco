@@ -12,7 +12,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">{{__('Expense create')}}</h4>
+                                <h4 class="card-title">{{__('Expense Update')}}</h4>
                             </div>
                             <div class="card-body">
                                 <form action="{{route('expense.update')}}" method="post" class="form" enctype="multipart/form-data">
@@ -33,23 +33,28 @@
                                                 <span class="text-danger">{{$errors->first('name')}}</span>
                                             </div>
                                         </div>
+                                      
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">{{ __("Expense Type") }} <span class="text-danger">*</span></label>
-                                                    <select class="select2 form-select" id="type" name="type" required>
-                                                        <option value="{{ null }}">@lang('Select')</option>
-                                                        <option value="{{ EXPENSE_TYPE_OFFICIAL }}" {{ EXPENSE_TYPE_OFFICIAL == $expense->type ? "selected" : ""}}>{{EXPENSE_TYPE_OFFICIAL}} </option>
-                                                        <option value="{{ EXPENSE_TYPE_OTHERS }}" {{ EXPENSE_TYPE_OTHERS == $expense->type ? "selected" : ""}} >{{EXPENSE_TYPE_OTHERS}} </option>
+                                                    <select class="select2 form-select" id="expense_type" name="type" required>
+                                                        <option value="{{ EXPENSE_TYPE_OFFICIAL }}" {{ EXPENSE_TYPE_OFFICIAL  == $expense->type ? "selected" : ""}} >{{EXPENSE_TYPE_OFFICIAL}} </option>
+                                                        <option value="{{ EXPENSE_TYPE_OTHERS }}" {{ EXPENSE_TYPE_OTHERS  == $expense->type ? "selected" : ""}} >{{EXPENSE_TYPE_OTHERS}} </option>
                                                     </select>
                                                 <span class="text-danger">{{$errors->first('type')}}</span>
                                             </div>
                                         </div>
-                                      
-                                        <div class="col-4">
+                                        
+                                        
+                                        <div class="col-4 expense-other-group" hidden>
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">{{ __("Site/Partner Name") }} <span class="text-danger">*</span></label>
-                                                    <select class="select2 form-select" id="site" name="site" required>
+                                                    <select class="select2 form-select" id="site" name="site">
+                                                        @if($expense->site_name) 
                                                         <option value="{{ $expense->site_id.'-'.$expense->site_name.'-'.$expense->division.'-'.$expense->area}}" >{{ $expense->site_name}} </option>
+                                                        @else
+                                                        <option value="{{ null }}" >@lang("Select")</option>
+                                                        @endif
                                                         @if(isset($data['sites'][0]))
                                                         @foreach ($data['sites'] as $site )
                                                             <option value="{{ $site->id.'-'.$site->name.'-'.$site->division.'-'.$site->area}}" >{{ $site->name}} </option>
@@ -59,56 +64,35 @@
                                                 <span class="text-danger">{{$errors->first('site')}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4 expense-other-group" hidden>
                                             <div class="mb-2">
                                                 <label class="form-label" for="district">@lang('Division/District') <span class="text-danger">*</span></label>
                                                 <input type="text" id="district" class="form-control" name="district" value="{{$expense->division}}" readonly/>
                                                 <span class="text-danger">{{$errors->first('district')}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4 expense-other-group" hidden>
                                             <div class="mb-2">
                                                 <label class="form-label" for="area">@lang('Area') <span class="text-danger">*</span></label>
                                                 <input type="text" id="area" class="form-control" name="area" value="{{$expense->area}}" readonly/>
                                                 <span class="text-danger">{{$errors->first('area')}}</span>
                                             </div>
                                         </div>
-                                        
                                         <div class="col-4">
                                             <div class="mb-2">
-                                                <label class="form-label" for="account">@lang('Bank Account') <span class="text-danger">*</span></label>
-                                                <input type="text" id="account" class="form-control" name="account" value="{{$expense->bank_name}}" readonly/>
+                                                <label class="form-label" for="area">@lang('Bank Acount') <span class="text-danger">*</span></label>
+                                                <input type="text" id="area" class="form-control" name="account" value="{{$expense->account->name}}" readonly/>
                                                 <span class="text-danger">{{$errors->first('account')}}</span>
                                             </div>
                                         </div>
-                                        {{--  <div class="col-6">
-                                            <div class="mb-2">
-                                                <label class="form-label" for="select2-basic">{{ __("Select account") }} </label>
-                                                    <select class="select2 form-select" id="select2-basic" name="account">
-                                                        <option value="{{ $salary->account_id.'-'.$salary->bank_name}}">{{ $salary->bank_name }}</option>
 
-                                                        @if(isset($data['accounts'][0]))
-                                                        @foreach ($data['accounts'] as $account )
-                                                            @if($account->id != $salary->account_id)
-                                                                <option value="{{ $account->id.'-'.$account->name}}">{{ $account->name }}</option>
-                                                            @endif
-                                                        @endforeach
-                                                        @endif
-                                                    </select>
-                                                <span class="text-danger">{{$errors->first('account')}}</span>
-                                            </div>
-                                        </div>
-                                        --}}
-                                        
-                                        
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">{{ __("Expense Method") }}  <span class="text-danger">*</span></label>   
                                                     <select class="select2 form-select" id="select2-basic" name="payment_method" required>
-                                                        <option value="{{ $expense->payment_method}}">{{ $expense->payment_method }}</option>
                                                         @if(isset($data['payment_methods'][0]))
-                                                        @foreach ($data['payment_methods'] as $expense_method )
-                                                            <option value="{{ $expense_method->name}}">{{ $expense_method->name }}</option>
+                                                        @foreach ($data['payment_methods'] as $payment_method )
+                                                            <option value="{{ $payment_method->name}}" {{ $expense->payment_method == $payment_method->name ? "selected" : ""}}>{{ $payment_method->name }}</option>
                                                         @endforeach
                                                         @endif
                                                     </select>
@@ -131,21 +115,22 @@
                                             </div>
                                         </div>
                                         
-                                        <div class="col-4">
+                                        
+                                        <div class="col-3">
                                             <div class="mb-2">
                                                 <label class="form-label" for="document">@lang('Upload File')</label>
-                                                <input type="file" id="document" class="form-control" name="document"/>
+                                                <input type="file" id="document" class="form-control" name="document" value="{{$expense->document}}"/>
                                                 <span class="text-danger">{{$errors->first('document')}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-2">
+                                        <div class="col-3">
                                             <div class="mb-2">
                                                 <img src="{{ $expense->document }}" height="90" width="90" alt="">
                                             </div>
                                         </div>
                                         <input type="hidden" name="id" value="{{ $expense->id }}">
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary me-1">@lang('Update')</button>
+                                            <button type="submit" class="btn btn-primary me-1">@lang('Submit')</button>
                                         </div>
                                     </div>
                                 </form>
@@ -207,6 +192,23 @@
             var total = amount + others_amount;
             $('#total').val(total.toFixed(2));
         }
+
+        var expenseTypeSelect = document.getElementById('expense_type');
+        var expenseOtherGroups = document.querySelectorAll('.expense-other-group');
+        function toggleExpenseOtherGroups(){
+            var selectedType = expenseTypeSelect.value;
+            if (selectedType == '{{ EXPENSE_TYPE_OTHERS }}') {
+                expenseOtherGroups.forEach(function(group) {
+                    group.hidden = false;
+                });
+            } else {
+                expenseOtherGroups.forEach(function(group) {
+                    group.hidden = true;
+                });
+            }
+        }
+        expenseTypeSelect.addEventListener('change', toggleExpenseOtherGroups);
+        toggleExpenseOtherGroups();
      
     });
 </script>
