@@ -44,21 +44,6 @@ class TransactionService
                 'date'          => $transaction->date ?? Carbon::now()->toDateString(),
                 'balance'       => !empty($latestTransaction) ? $latestTransaction->balance - $amount : (-$amount),
             ]);
-
-            // history
-            $accHistory     = AccountHistory::whereDate('date', $transaction->date)->first();
-            $lastDayHistory = AccountHistory::whereDate('date', '<', $transaction->date)->orderBy('date','desc')->first();
-            if(!empty($accHistory)) {
-                $accHistory->update([
-                    'closing'   => $accHistory->closing - $amount
-                ]);
-            } else {
-                AccountHistory::create([
-                    'date'      => $transaction->date,
-                    'opening'   => ($lastDayHistory->closing),
-                    'closing'   => ($lastDayHistory->closing) - $amount
-                ]);
-            }
             DB::commit();
             return successResponse();
         } catch (Exception $e) {
