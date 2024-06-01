@@ -24,14 +24,14 @@
                                 <h4 class="card-title">@lang('Expense List')</h4>
                             </div>
                             <div class="col-md-3 ">
-                            <div class="d-flex justify-content-end">
-                                @if(Auth::user()!=null && Auth::user()->enable_edit == 1 )
-                                <a type="button" class="btn btn-info" id="btn-edit" style="display: none;" href="#">Edit</a>
-                                @endif
-                                @if(Auth::user()!=null && Auth::user()->enable_delete == 1 )
-                                <a type="button" onclick="deleteConfirmation(event, this)"  class="btn btn-danger mx-1" id="btn-delete" style="display: none;" href="#">Delete</a>
-                                @endif
-                            </div>
+                                <div class="d-flex justify-content-end">
+                                    @if(Auth::user()!=null && Auth::user()->enable_edit == 1 )
+                                    <a type="button" class="btn btn-info" id="btn-edit" style="display: none;" href="#">Edit</a>
+                                    @endif
+                                    @if(Auth::user()!=null && Auth::user()->enable_delete == 1 )
+                                    <a type="button" onclick="deleteConfirmation(event, this)"  class="btn btn-danger mx-1" id="btn-delete" style="display: none;" href="#">Delete</a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
