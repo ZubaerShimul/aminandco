@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserTableSeeder::class,
-            AccountHisotoryTableSeeder::class,
+            // AccountHisotoryTableSeeder::class,
         ]);
     }
 }

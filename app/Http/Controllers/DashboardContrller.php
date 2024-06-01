@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ExpenseIncome;
+use App\Models\Expense;
 use App\Models\Payment;
-use App\Models\Tender;
+use App\Models\Receive;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
 class DashboardContrller extends Controller
@@ -16,11 +16,52 @@ class DashboardContrller extends Controller
     public function index()
     {
         $data['user'] = Auth::user();
-        $data['total_received'] = Payment::sum('total');
-        $data['total_budget'] = 0;
-        $data['toal_due_amount'] = 0;
-        $data['recent_tenders'] = [];
-        $data['official_expenses'] = ExpenseIncome::whereDate('date', Carbon::now()->toDateString())->orderBy('id','desc')->get();
+        // opening balance
+        $yesterday_transaction = Transaction::whereDate('date','<', Carbon::now()->toDateString())->orderBy('id','desc')->first();
+        $before_yesterday_transaction = Transaction::whereDate('date','<', Carbon::now()->subDay()->toDateString())->orderBy('id','desc')->first();
+        $opening_balance = $yesterday_transaction ? $yesterday_transaction->balance : 0;
+        $previous_balance = $before_yesterday_transaction ? $before_yesterday_transaction->balance : 0;
+
+        $data['opening_balance']['today']       = $opening_balance;
+        $data['opening_balance']['previous']    = $previous_balance;
+        $data['opening_balance']['change']      = $opening_balance - $previous_balance;
+        
+        // receive
+        $today_receive = Receive::whereDate('date', Carbon::now()->toDateString())->sum('total');
+        $previous_receive = 0;
+        $last_receive = Receive::whereDate('date','<', Carbon::now()->toDateString())->orderBy('id','desc')->first();
+        if(!empty($last_receive)) {
+            $previous_receive =   Receive::whereDate('date', $last_receive->date)->sum('total');
+        }
+
+        $data['receive']['today']       = $today_receive;
+        $data['receive']['previous']    = $previous_receive;
+        $data['receive']['change']      = $today_receive - $previous_receive;
+
+        // payment
+        $today_payment = Payment::whereDate('date', Carbon::now()->toDateString())->sum('total');
+        $previous_payment = 0;
+        $last_payment = Payment::whereDate('date','<', Carbon::now()->toDateString())->orderBy('id','desc')->first();
+        if(!empty($last_payment)) {
+            $previous_payment =   Payment::whereDate('date', $last_payment->date)->sum('total');
+        }
+
+        $data['payment']['today']       = $today_payment;
+        $data['payment']['previous']    = $previous_payment;
+        $data['payment']['change']      = $today_payment - $previous_payment;
+
+        
+        // payment
+        $today_expense = Expense::whereDate('date', Carbon::now()->toDateString())->sum('amount');
+        $previous_expense = 0;
+        $last_expense = Expense::whereDate('date','<', Carbon::now()->toDateString())->orderBy('id','desc')->first();
+        if(!empty($last_expense)) {
+            $previous_expense =   Expense::whereDate('date', $last_expense->date)->sum('amount');
+        }
+
+        $data['expense']['today']       = $today_expense;
+        $data['expense']['previous']    = $previous_expense;
+        $data['expense']['change']      = $today_expense - $previous_expense;
 
 
         return view('dashboard', $data);

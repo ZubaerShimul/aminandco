@@ -1,160 +1,220 @@
 @extends('layouts.master')
-
+@push('style')
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/vendors.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/charts/apexcharts.css') }}">
+<!-- END: Vendor CSS-->
+    
+@endpush
 @section('content')
     <div class="content-wrapper">
         @include('widgets.breadcrumb',['title' => __('Dashboard'), 'subtitle'=> __(''), 'button' => ''])
         <div class="content-body">
-            <section id="dashboard-ecommerce">
-                {{--  <div class="row match-height">
-                    <!-- Medal Card -->
-                    <div class="col-xl-4 col-md-6 col-12">
-                        <div class="card card-congratulation-medal">
-                            <div class="card-body">
-                                <h5>@lang('Congratulations') 🎉 {{$user->name}}</h5>
-                                <p class="card-text font-small-3">@lang('Tender reports are increasing day by day')</p>
-                                <h3 class="mb-75 mt-2 pt-50">
-                                    <a href="#">{{$total_tender}}</a>
-                                </h3>
-                                <a href="{{ route('tender.list') }}" class="btn btn-primary">@lang('View Tender')</a>
-                                <img src="{{asset('assets/admin/images/illustration/badge.svg')}}" class="congratulation-medal" alt="Medal Pic"/>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/ Medal Card -->
+            <!-- Card Advance -->
 
-                    <!-- Statistics Card -->
-                    <!--/ Statistics Card -->
-                </div>  --}}
 
-                <div class="row match-height">
-                    {{--  <div class="col-lg-4 col-12">
-                        <div class="row match-height">
-                            <!-- Bar Chart - Orders -->
-                            <div class="col-lg-6 col-md-3 col-6">
-                                <div class="card">
-                                    <div class="card-body pb-50">
-                                        <h6>@lang('Total Received Amount')</h6>
-                                        <h3 class="mb-75 mt-2 pt-50">
-                                            <a href="#">{{$total_received}}</a>
-                                        </h3>
+            <div class="row match-height">
+                <!-- Employee Task Card -->
+
+
+
+                <!-- Profile Card -->
+                <div class="col-lg-3 col-md-3 col-12">
+                    <div class="card card-profile">
+                        <img src="{{asset('app-assets/images/banner/1.jpg')}}" class="img-fluid card-img-top"
+                            alt="Profile Cover Photo" />
+                        <div class="card-body">
+                            <div class="profile-image-wrapper">
+                                <div class="profile-image">
+                                    <div class="avatar">
+                                        <img src="{{asset('app-assets/images/portrait/small/1.jpg')}}"
+                                            alt="Profile Picture" />
                                     </div>
                                 </div>
                             </div>
-                            <!--/ Bar Chart - Orders -->
-
-                            <!-- Line Chart - Profit -->
-                            <div class="col-lg-6 col-md-3 col-6">
-                                <div class="card card-tiny-line-stats">
-                                    <div class="card-body pb-50">
-                                        <h6>@lang('Total Due Amount')</h6>
-                                        <h3 class="mb-75 mt-2 pt-50">
-                                            <a href="#">{{$toal_due_amount}}</a>
-                                        </h3>
-                                    </div>
+                            <h3>Tk: <strong>{{ $opening_balance['today'] }}</strong></h3>
+                           
+                           
+                            <hr class="mb-2" />
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted fw-bolder">Previous</h6>
+                                    <h5 class="mb-0">Tk: <strong>{{ $opening_balance['previous'] }}</strong></h5>
                                 </div>
-                            </div>
-                            <!--/ Line Chart - Profit -->
-
-                            <!-- Earnings Card -->
-                            <div class="col-lg-12 col-md-6 col-12">
-                                <div class="card earnings-card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <h4 class="card-title mb-1">@lang('Total Tender Amount')</h4>
-                                                <div class="font-small-2">@lang('This Month')</div>
-                                                <h3 class="mb-75 mt-1 pt-50">
-                                                    <a href="#">{{$total_budget}}</a>
-                                                </h3>
-                                            </div>
-                                            <div class="col-6">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/ Earnings Card -->
-                        </div>
-                    </div>  --}}
-
-                    <!-- Todays official Expense Report Card -->
-                    <div class="col-lg-12 col-12">
-                        <div class="card card-revenue-budget">
-                            <div class="row mx-0">
-                                <div class="col-12 mt-2">
-                                    <h4 class="card-title">@lang("Today's official Expense")</h4>
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>SL</th>
-                                            <th>@lang('Bank Account')</th>
-                                            <th>@lang('Description')</th>
-                                            <th>@lang('Total')</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @if(isset($official_expenses[0]))
-                                        @foreach ($official_expenses as $expense )
-                                            <tr>
-                                                <td>{{  $loop->iteration }}</td>
-                                                <td>{{ $expense->account ? $expense->account->name : '' }}</td>
-                                                <td>{{ $expense->description }}</td>
-                                                <td>{{ $expense->grand_total }}</td> 
-                                            </tr>
-                                        @endforeach
-                                        @endif
-                                        </tbody>
-                                    </table>
+                                
+                                <div>
+                                    <h6 class="text-muted fw-bolder">Change</h6>
+                                    <h5 class="mb-0">Tk: <strong>{{ $opening_balance['change'] }}</strong></h5>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--/ Expenses Report Card -->
-                    <!-- Recent Tenders Report Card -->
-                    <div class="col-lg-12 col-12">
-                        <div class="card card-revenue-budget">
-                            <div class="row mx-0">
-                                <div class="col-12 mt-2">
-                                    <h4 class="card-title">@lang('Recent Tenders')</h4>
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>@lang('Tender No')</th>
-                                            <th>@lang('Name')</th>
-                                            <th>@lang('Bank Account')</th>
-                                            <th>@lang('Working Time')</th>
-                                            <th>@lang('Budget')</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @if(isset($recent_tenders[0]))
-                                        @foreach ($recent_tenders as $tender )
-                                            <tr>
-                                                <td>{{ $tender->tender_no }}</td>
-                                                <td>{{ $tender->name }}</td>
-                                                <td>{{ $tender->account ? $tender->account->name : '' }}</td>
-                                                <td>{{ $tender->working_time }}</td>
-                                                <td>{{ $tender->budget }}</td> 
-                                            </tr>
-                                        @endforeach
-                                        @endif
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/ Recent Tenders Report Card -->
-
-                   
                 </div>
-            </section>
+
+
+             
+                <div class="col-lg-3 col-md-3 col-12">
+                    <div class="card card-profile">
+                        <img src="{{asset('app-assets/images/banner/2.jpg')}}" class="img-fluid card-img-top"
+                            alt="Profile Cover Photo" />
+                        <div class="card-body">
+                            <div class="profile-image-wrapper">
+                                <div class="profile-image">
+                                    <div class="avatar">
+                                        <img src="{{asset('app-assets/images/portrait/small/2.jpg')}}"
+                                            alt="Profile Picture" />
+                                    </div>
+                                </div>
+                            </div>
+                            <h3>Tk: <strong>{{ $receive['today'] }}</strong></h3>
+                           
+                           
+                            <hr class="mb-2" />
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted fw-bolder">Previous</h6>
+                                    <h5 class="mb-0">Tk: <strong>{{ $receive['previous'] }}</strong></h5>
+                                </div>
+                                
+                                <div>
+                                    <h6 class="text-muted fw-bolder">Change</h6>
+                                    <h5 class="mb-0">Tk: <strong>{{ $receive['change'] }}</strong></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+      
+
+                <div class="col-lg-3 col-md-3 col-12">
+                    <div class="card card-profile">
+                        <img src="{{asset('app-assets/images/banner/3.jpg')}}" class="img-fluid card-img-top"
+                            alt="Profile Cover Photo" />
+                        <div class="card-body">
+                            <div class="profile-image-wrapper">
+                                <div class="profile-image">
+                                    <div class="avatar">
+                                        <img src="{{asset('app-assets/images/portrait/small/3.jpg')}}"
+                                            alt="Profile Picture" />
+                                    </div>
+                                </div>
+                            </div>
+                            <h3>Tk: <strong>{{ $payment['today'] }}</strong></h3>
+                           
+                           
+                            <hr class="mb-2" />
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted fw-bolder">Previous</h6>
+                                    <h5 class="mb-0">Tk: <strong>{{ $payment['previous'] }}</strong></h5>
+                                </div>
+                                
+                                <div>
+                                    <h6 class="text-muted fw-bolder">Change</h6>
+                                    <h5 class="mb-0">Tk: <strong>{{ $payment['change'] }}</strong></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-12">
+                    <div class="card card-profile">
+                        <img src="{{asset('app-assets/images/banner/4.jpg')}}" class="img-fluid card-img-top"
+                            alt="Profile Cover Photo" />
+                        <div class="card-body">
+                            <div class="profile-image-wrapper">
+                                <div class="profile-image">
+                                    <div class="avatar">
+                                        <img src="{{asset('app-assets/images/portrait/small/4.jpg')}}"
+                                            alt="Profile Picture" />
+                                    </div>
+                                </div>
+                            </div>
+                            <h3>Tk: <strong>{{ $expense['today'] }}</strong></h3>
+                           
+                           
+                            <hr class="mb-2" />
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted fw-bolder">Previous</h6>
+                                    <h5 class="mb-0">Tk: <strong>{{ $expense['previous'] }}</strong></h5>
+                                </div>
+                                
+                                <div>
+                                    <h6 class="text-muted fw-bolder">Change</h6>
+                                    <h5 class="mb-0">Tk: <strong>{{ $expense['change'] }}</strong></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+         
+            </div>
+        </div>
+        <!-- END: Content-->
+        <div class="content-body">
+            <!-- Column Chart Starts -->
+
+            <div class="card">
+                <div class="
+            card-header
+            d-flex
+            flex-md-row flex-column
+            justify-content-md-between justify-content-start
+            align-items-md-center align-items-start
+          ">
+                    {{--  <h4 class="card-title">Data Science</h4>
+                    <div class="d-flex align-items-center mt-md-0 mt-1">
+                        <i class="font-medium-2" data-feather="calendar"></i>
+                        <input type="text" class="form-control flat-picker bg-transparent border-0 shadow-none"
+                            placeholder="YYYY-MM-DD" />
+                    </div>  --}}
+                </div>
+                <div class="card-body">
+                    <div id="column-chart"></div>
+                </div>
+            </div>
+            <!-- Column Chart Ends -->
         </div>
     </div>
 @endsection
 
 @push('script')
-{{--    <script src="{{asset('assets/admin/vendors/js/charts/apexcharts.min.js')}}"></script>--}}
-{{--    <script src="{{asset('assets/admin/js/scripts/pages/dashboard-ecommerce.js')}}"></script>--}}
+<!-- BEGIN: Vendor JS-->
+        <script src="{{asset('app-assets/vendors/js/vendors.min.js')}}"></script>
+        <!-- BEGIN Vendor JS-->
+
+        <!-- BEGIN: Page Vendor JS-->
+        <script src="{{asset('app-assets/vendors/js/charts/apexcharts.min.js')}}"></script>
+        <!-- END: Page Vendor JS-->
+
+        <!-- BEGIN: Theme JS-->
+        <script src="{{asset('app-assets/js/core/app-menu.js')}}"></script>
+        <script src="{{asset('app-assets/js/core/app.js')}}"></script>
+        <!-- END: Theme JS-->
+
+        <!-- BEGIN: Page JS-->
+        <script src="{{asset('app-assets/js/scripts/cards/card-advance.js')}}"></script>
+
+        <!-- BEGIN: Page Vendor JS-->
+
+        <script src="{{asset('app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js')}}"></script>
+        <!-- END: Page Vendor JS-->
+
+
+        <!-- BEGIN: Page JS-->
+        <script src="{{asset('app-assets/js/scripts/charts/chart-apex.js')}}"></script>
+        <!-- END: Page JS-->
+
 @endpush
