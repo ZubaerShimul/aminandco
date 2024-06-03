@@ -26,7 +26,7 @@ class SiteRequest extends FormRequest
             'type' => 'required',
             'division' => 'required|max:255',
             'area' => 'required|max:255',
-            'mobile_number' => 'required|max:255',
+            // 'mobile_number' => 'required|max:255',
         ];
     }
 }

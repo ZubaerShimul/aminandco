@@ -20,7 +20,7 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <div class="mb-2">
-                                                <label class="form-label" for="select2-basic">{{ __("Site/Partner Name") }} <span class="text-danger">*</span></label>
+                                                <label class="form-label" for="select2-basic">{{ __("Receive From") }} <span class="text-danger">*</span></label>
                                                     <select class="select2 form-select" id="site" name="site" required>
                                                         <option value="{{ null }}">@lang('Select')</option>
                                                         @if(isset($data['sites'][0]))
@@ -83,7 +83,7 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
-                                                <label class="form-label" for="net_payment_amount">@lang('Net Payment Amount') <span class="text-danger">*</span></label>
+                                                <label class="form-label" for="net_payment_amount">@lang('Net Receive Amount') <span class="text-danger">*</span></label>
                                                 <input type="number" id="net_payment_amount" class="form-control" name="net_payment_amount" value="{{old('net_payment_amount')}}" required/>
                                                 <span class="text-danger">{{$errors->first('net_payment_amount')}}</span>
                                             </div>

@@ -53,7 +53,7 @@ class SiteController extends Controller
             'type'          => $request->type,
             'division'      => $request->division,
             'area'          => $request->area,
-            'mobile_number' => parse_contact($request->mobile_number),
+            'mobile_number' => $request->mobile_number,
         ];
         try {
 
