@@ -14,6 +14,7 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentToController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiveController;
+use App\Http\Controllers\ReceiveReportController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TenderController;
@@ -57,15 +58,16 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('password', [ProfileController::class, 'password'])->name('password');
     Route::post('password-update', [ProfileController::class, 'passwordUpdate'])->name('password.update');
 
-    // Route::group(['prefix' => 'report'], function () {
-    //     // official expense
-    //     Route::get('expepense', [ExpenseController::class, 'officialExpense'])->name('report.expense');
-    //     Route::post('expepense', [ExpenseController::class, 'officialExpense'])->name('report.expense.report');
+    Route::group(['prefix' => 'report'], function () {
+        // official expense
+        Route::get('expepense', [ExpenseController::class, 'officialExpense'])->name('report.expense');
+        Route::post('expepense', [ExpenseController::class, 'officialExpense'])->name('report.expense.report');
 
-    //     // tender expense
-    //     Route::get('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense');
-    //     Route::post('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense.report');
-    // });
+        // tender expense
+        Route::get('receive', [ReceiveReportController::class, 'index'])->name('report.receive');
+        Route::get('receive-print', [ReceiveReportController::class, 'print'])->name('report.receive.print');
+        Route::post('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense.report');
+    });
 
     // ************************** new ************************************\\
     

@@ -28,8 +28,8 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-2">
-                                        <label class="form-label" for="account_number">@lang('Account No') <span class="text-danger">*</span></label>
-                                        <input type="text" id="account_number" class="form-control" name="account_number" value="{{isset($data) ? $data->account_number : old('account_number')}}" required/>
+                                        <label class="form-label" for="account_number">@lang('Account No')</label>
+                                        <input type="text" id="account_number" class="form-control" name="account_number" value="{{isset($data) ? $data->account_number : old('account_number')}}"/>
                                         <span class="text-danger">{{$errors->first('account_number')}}</span>
                                     </div>
                                 </div>

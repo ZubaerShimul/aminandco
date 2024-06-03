@@ -96,15 +96,12 @@
             </ul>
         </li>
 
-            {{--  <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Report")</span></a>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="eCommerce">@lang("Report")</span></a>
                 <ul class="menu-content">
-                    <li class="@if(request()->routeIs('report.official.*')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.official.expense') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Official Expense")</span></a>
+                    <li class="@if(request()->routeIs('reportreceive')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.receive') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Receive Report")</span></a>
                     </li>
-                    <li class="@if(request()->routeIs('report.tender.expense')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.tender.expense') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Tender Expense")</span></a>
-                    </li>
-
                 </ul>
-            </li>  --}}
+            </li>
         </ul>
     </div>
 </div>

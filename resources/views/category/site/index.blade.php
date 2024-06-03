@@ -33,6 +33,9 @@
                                                 <option value="{{ null }}">@lang('Select')</option>
                                                <option value="{{ TYPE_SITE }}" {{ isset($data) ? ($data->type == TYPE_SITE ? 'selected' : '' ) : '' }}>{{ TYPE_SITE }}</option>
                                                <option value="{{ TYPE_PARTNER }}" {{ isset($data) ? ($data->type == TYPE_PARTNER ? 'selected' : '' ) : '' }}>{{ TYPE_PARTNER }}</option>
+                                               <option value="{{ "Bank" }}" {{ isset($data) ? ($data->type == "Bank" ? 'selected' : '' ) : '' }}>{{ "Bank" }}</option>
+                                               <option value="{{ "Bkash" }}" {{ isset($data) ? ($data->type == "Bkash" ? 'selected' : '' ) : '' }}>{{ "Bkash" }}</option>
+                                               <option value="{{ "Cash" }}" {{ isset($data) ? ($data->type == "Cash" ? 'selected' : '' ) : '' }}>{{ "Cash" }}</option>
                                             </select>
                                         <span class="text-danger">{{$errors->first('type')}}</span>
                                     </div>
@@ -40,8 +43,8 @@
 
                                 <div class="col-4">
                                     <div class="mb-2">
-                                        <label class="form-label" for="name">@lang('Mob No') <span class="text-danger">*</span></label>
-                                        <input type="text" id="mobile_number" class="form-control" name="mobile_number" value="{{isset($data) ? $data->mobile_number : old('mobile_number')}}" required/>
+                                        <label class="form-label" for="name">@lang('Mob No')</label>
+                                        <input type="text" id="mobile_number" class="form-control" name="mobile_number" value="{{isset($data) ? $data->mobile_number : old('mobile_number')}}"/>
                                         <span class="text-danger">{{$errors->first('mobile_number')}}</span>
                                     </div>
                                 </div>
