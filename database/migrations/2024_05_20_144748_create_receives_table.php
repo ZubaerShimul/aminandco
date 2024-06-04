@@ -23,9 +23,9 @@ return new class extends Migration
             $table->string('account_no')->nullable();
 
             $table->string('payment_method')->nullable();
-            $table->decimal('net_payment_amount')->default(0);
-            $table->decimal('others_amount')->default(0);
-            $table->decimal('total')->default(0);
+            $table->decimal('net_payment_amount',19,2)->default(0);
+            $table->decimal('others_amount',19,2)->default(0);
+            $table->decimal('total',19,2)->default(0);
             
             $table->date('date')->nullable();
             $table->string('short_note')->nullable();
