@@ -58,7 +58,8 @@ class DashboardContrller extends Controller
         $yesterday_transaction = Transaction::whereDate('date', '<', Carbon::now()->toDateString())->orderBy('id', 'desc')->first();
         $previous_balance = $yesterday_transaction ? $yesterday_transaction->balance : 0;
 
-        $data['opening_balance']['today']       = $today_receive - $today_payment;
+        // $data['opening_balance']['today']       = $today_receive - $today_payment;
+        $data['opening_balance']['today']       = $previous_balance + ($today_receive - $today_payment);
         $data['opening_balance']['previous']    = $previous_balance;
         $data['opening_balance']['change']      = $data['opening_balance']['today'] - $previous_balance;
 
