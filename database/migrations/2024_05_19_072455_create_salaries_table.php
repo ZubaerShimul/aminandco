@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('bank_name')->nullable();
             $table->string('payment_method')->nullable();
 
-            $table->decimal('salary')->default(0);
-            $table->decimal('ta_da')->default(0);
-            $table->decimal('mobile_bill')->default(0);
-            $table->decimal('total')->default(0);
+            $table->decimal('salary',19,2)->default(0);
+            $table->decimal('ta_da',19,2)->default(0);
+            $table->decimal('mobile_bill',19,2)->default(0);
+            $table->decimal('total',19,2)->default(0);
             $table->date('date')->nullable();
 
             $table->boolean('is_draft')->default(ENABLE);

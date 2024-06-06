@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('area')->nullable();
             
             $table->text('note')->nullable();
-            $table->decimal('amount')->default(0);
+            $table->decimal('amount',19,2)->default(0);
             $table->string('document')->nullable();
             $table->integer('created_by');
             $table->softDeletes();
