@@ -65,6 +65,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
 
         // tender expense
         Route::get('receive', [ReceiveReportController::class, 'index'])->name('report.receive');
+        // Route::get('receive', [ReceiveReportController::class, 'index'])->name('report.receive.search');
         Route::get('receive-print', [ReceiveReportController::class, 'print'])->name('report.receive.print');
         Route::post('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense.report');
     });
