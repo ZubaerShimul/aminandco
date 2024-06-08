@@ -10,4 +10,9 @@ class Site extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function receive()
+    {
+        return $this->hasMany(Receive::class);
+    }
 }

@@ -83,7 +83,13 @@
                             <p class="mb-25">1 No. Custom Ghat Road, Punak market, Khulna</p>
                         </div>
                         <div class="mt-md-0 mt-2">
-                            <h4 class="fw-bold text-end mb-1">@if(!empty($tender)) {{ $tender->name.' Expense Report' }} @else @lang("Tender Expense Report")@endif</h4>
+                            <h4 class="fw-bold text-end mb-1">@if(!empty($data['site'])) {{ "Receive from " .$data['site']->name.' Report' }} @else @lang("Receive Report")@endif</h4>
+                            @if(!empty($data['account']))
+                            <div class="invoice-date-wrapper mb-50">
+                                <span class="invoice-date-title">Bank Account:</span>
+                                <span class="fw-bold"> {{ $data['account']->name }}</span>
+                            </div>
+                            @endif
                             @if(!empty($from_date))
                             <div class="invoice-date-wrapper mb-50">
                                 <span class="invoice-date-title">From:</span>

@@ -15,6 +15,77 @@
     <div class="content-wrapper">
         @include('widgets.breadcrumb', ['title' => __('Receive Report'), 'subtitle'=> __('Receive'), 'button' => __('')])
         <!-- Basic Tables start -->
+        <div class="content-body">
+            <!-- Basic Horizontal form layout section start -->
+            <section id="basic-horizontal-layouts">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">{{__('Receive Report')}}</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{route('report.receive')}}" method="get" class="form">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="select2-basic">@lang("Select Receive From")</label>
+                                                <select class="select2 form-select" id="select2-basic" name="site_id">
+                                                    <option value="{{ null }}">@lang("Select Receive From")</option>
+                                                @if(isset($data['sites'][0]))
+                                                    @foreach ($data['sites'] as $site )
+                                                        <option value="{{ $site->id }}" {{ $data['site_id'] == $site->id ? "selected" : "" }}>{{ $site->name.' - ('.$site->type.')' }}</option>
+                                                    @endforeach
+                                                    @endif
+                                                </select>
+                                             </div>
+                                        </div>
+                                        
+                                        <div class="col-6">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="select2-basic">@lang("Select Bank Account")</label>
+                                                <select class="select2 form-select" id="select2-basic" name="account_id">
+                                                    <option value="{{ null }}">@lang("Select Bank Account")</option>
+                                                    @if(isset($data['accounts'][0]))
+                                                    @foreach ($data['accounts'] as $account )
+                                                        <option value="{{ $account->id }}" {{   $data['account_id'] == $account->id ? "selected" : ""  }}>{{ $account->name }}</option>
+                                                    @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="from_date">@lang('From Date')</label>
+                                                <input type="date" id="from_date" class="form-control" name="from_date" value="{{ isset($data['from_date']) ? $data['from_date'] :  old('from_date')}}"/>
+                                                <span class="text-danger">{{$errors->first('from_date')}}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-6">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="to_date">@lang('To Date')</label>
+                                                <input type="date" id="to_date" class="form-control" name="to_date" value="{{$data['to_date'] ? $data['to_date']:  Carbon\Carbon::now()->toDateString()}}"/>
+                                                <span class="text-danger">{{$errors->first('to_date')}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary me-1" style="float: right">@lang('Search')</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Basic Horizontal form layout section end -->
+
+        </div>
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
@@ -46,7 +117,7 @@
                                        @foreach ($receives as $receive )
                                        <tr>
                                             <td>{{ $loop->iteration }} </td>
-                                            <td>{{ $receive->date }} </td>
+                                            <td>{{ Carbon\Carbon::parse($receive->date)->format('d M, Y') }} </td>
                                             <td>{{ $receive->name }} </td>
                                             <td>{{ $receive->district }} </td>
                                             <td>{{ $receive->area }} </td>
@@ -85,7 +156,7 @@
                 </div>
                 <!-- Basic Tables end -->
                 <div class="col-12">
-                    <a type="button" class="btn btn-primary me-1" href="{{ url('report/receive-print?to_date='.$to_date.'&from_date='.$from_date) }}" style="float: right">@lang('Print')</a>
+                    <a type="button" class="btn btn-primary me-1" href="{{ url('report/receive-print?to_date='.$data['to_date'].'&from_date='.$data['from_date'].'&site_id='.$data['site_id'].'&account_id='.$data['account_id']) }}" style="float: right">@lang('Print')</a>
                 </div>
     </div>
 
