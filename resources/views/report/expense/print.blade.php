@@ -1,7 +1,5 @@
 <?php
-    $net_amount = 0;
-    $other_amount = 0;
-    $total_amount = 0;
+    $amount = 0;
 ?>
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
@@ -83,11 +81,11 @@
                             <p class="mb-25">1 No. Custom Ghat Road, Punak market, Khulna</p>
                         </div>
                         <div class="mt-md-0 mt-2">
-                            <h4 class="fw-bold text-end mb-1">@if(!empty($data['site'])) {{ "Receive from " .$data['site']->name.' Report' }} @else @lang("Receive Report")@endif</h4>
-                            @if(!empty($data['account']))
+                            <h4 class="fw-bold text-end mb-1">{{ !empty($data['type']) ? $data['type'] : "Expense" }}  Report</h4>
+                            @if(!empty($data['site']))
                             <div class="invoice-date-wrapper mb-50">
-                                <span class="invoice-date-title">Bank Account:</span>
-                                <span class="fw-bold"> {{ $data['account']->name }}</span>
+                                <span class="invoice-date-title">Site Name:</span>
+                                <span class="fw-bold"> {{ $data['site']->name }}</span>
                             </div>
                             @endif
                             @if(!empty($from_date))
@@ -103,70 +101,70 @@
                         </div>
                     </div>
                     <hr class="invoice-spacing" />
-                    <!-- expenses received -->
+                    <!-- expenses Expensed -->
                                             
                     <div class="table-responsive mt-2">
                         <div class="row" id="basic-table">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">@lang("Receive Report")</h4>
+                                        <h4 class="card-title">@lang("Expense Report")</h4>
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Sl</th>
-                                                    <th>Date</th>
-                                                    <th>Name</th>
-                                                    <th>District/Dicvision</th>
-                                                    <th>Area</th>
-                                                    <th>Bank Name</th>
-                                                    <th>Acc Number</th>
-                                                    <th>Pay. Method</th>
-                                                    <th>Net R Amount</th>
-                                                    <th>Others Amount</th>
-                                                    <th>Total Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                               @if(isset($receives[0]))
-                                               @foreach ($receives as $receive )
-                                               <tr>
-                                                    <td>{{ $loop->iteration }} </td>
-                                                    <td>{{ $receive->date }} </td>
-                                                    <td>{{ $receive->name }} </td>
-                                                    <td>{{ $receive->district }} </td>
-                                                    <td>{{ $receive->area }} </td>
-                                                    <td>{{ $receive->bank_name }} </td>
-                                                    <td>{{ $receive->account_no }} </td>
-                                                    <td>{{ $receive->payment_method }} </td>
-                                                    <td>{{ $receive->net_payment_amount }} </td>
-                                                    <td>{{ $receive->others_amount }} </td>
-                                                    <td>{{ $receive->total }} </td>
-                                                </tr>
-                                                @php
-                                                    $net_amount     += $receive->net_payment_amount;
-                                                    $other_amount   += $receive->others_amount;
-                                                    $total_amount   += $receive->total;
-                                                @endphp
-                                               @endforeach
-                                               @endif
-                                               <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td style="font-weight:bold">Total</td>
-                                                <td style="font-weight:bold">Tk. {{ $net_amount }}</td>
-                                                <td style="font-weight:bold">Tk. {{ $other_amount }}</td>
-                                                <td style="font-weight:bold">Tk. {{ $total_amount }}</td>
-                                               </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sl</th>
+                                                        <th>Date</th>
+                                                        <th>Name</th>
+                                                        <th>Ex. Type</th>
+                                                        @if($data['type'] != EXPENSE_TYPE_OFFICIAL)
+                                                        <th>Site Name</th>
+                                                        <th>Dicvision</th>
+                                                        <th>Area</th>
+                                                        @endif
+                                                        <th>Note</th>
+                                                        <th>Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                   @if(isset($expenses[0]))
+                                                   @foreach ($expenses as $expense )
+                                                   <tr>
+                                                        <td>{{ $loop->iteration }} </td>
+                                                        <td>{{ Carbon\Carbon::parse($expense->date)->format('d M, Y') }} </td>
+                                                        <td>{{ $expense->name }} </td>
+                                                        <td>{{ $expense->type }} </td>
+                                                        @if($data['type'] != EXPENSE_TYPE_OFFICIAL)
+                                                            <td>{{ $expense->site_name }} </td>
+                                                            <td>{{ $expense->division }} </td>
+                                                            <td>{{ $expense->area }} </td>
+                                                        @endif
+                                                        <td>{{ $expense->note }} </td>
+                                                        <td>{{ $expense->amount }} </td>
+                                                    </tr>
+                                                    @php
+                                                        $amount     += $expense->amount;
+                                                    @endphp
+                                                   @endforeach
+                                                   @endif
+                                                   <tr>
+                                                    <td </td>
+                                                    @if($data['type'] != EXPENSE_TYPE_OFFICIAL)
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    @endif
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td style="font-weight:bold">Total</td>
+                                                    <td </td>
+                                                    <td style="font-weight:bold">Tk. {{ $amount }}</td>
+                                                   </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

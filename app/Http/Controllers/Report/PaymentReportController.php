@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Report;
 
+use App\Http\Controllers\Controller;
 use App\Models\BankAccount;
-use App\Models\Receive;
+use App\Models\Payment;
+use App\Models\PaymentTo;
 use App\Models\Site;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class ReceiveReportController extends Controller
+class PaymentReportController extends Controller
 {
+    
     public function index(Request $request)
     {
         $to_date = !empty($request->to_date) ? $request->to_date : Carbon::now()->toDateString();
@@ -18,14 +21,16 @@ class ReceiveReportController extends Controller
         $data['from_date'] = $from_date;
         $data['to_date'] = $to_date;
         $data['site_id'] = $request->site_id;
+        $data['payment_to_id'] = $request->payment_to_id;
         $data['account_id'] = $request->account_id;
-        $data['sites'] = Site::whereHas('receive')->orderBy('id', 'desc')->get();
-        $data['accounts'] = BankAccount::whereHas('receive')->orderBy('name', 'asc')->get();
+        $data['sites'] = Site::whereHas('payment')->orderBy('id', 'desc')->get();
+        $data['payment_tos'] = PaymentTo::whereHas('payment')->orderBy('name', 'asc')->get();
+        $data['accounts'] = BankAccount::whereHas('payment')->orderBy('name', 'asc')->get();
 
         if (!empty($from_date)) {
-            $query = Receive::whereDate('date', '>=', $request->from_date)->whereDate('date', '<=', $to_date);
+            $query = Payment::whereDate('date', '>=', $request->from_date)->whereDate('date', '<=', $to_date);
         } else {
-            $query = Receive::whereDate('date', '<=', $to_date);
+            $query = Payment::whereDate('date', '<=', $to_date);
         }
         if ($request->has('site_id') && !empty($request->site_id)) {
             $query->where(['site_id' => $request->site_id]);
@@ -34,9 +39,13 @@ class ReceiveReportController extends Controller
         if ($request->has('account_id') && !empty($request->account_id)) {
             $query->where(['account_id' => $request->account_id]);
         }
-        $receives = $query->get();
 
-        return view('report.receive.report', ['data' => $data, 'receives' => $receives]);
+        if ($request->has('payment_to_id') && !empty($request->payment_to_id)) {
+            $query->where(['payment_to_id' => $request->payment_to_id]);
+        }
+        $payments = $query->get();
+
+        return view('report.payment.report', ['data' => $data, 'payments' => $payments]);
     }
 
     public function print(Request $request)
@@ -47,14 +56,14 @@ class ReceiveReportController extends Controller
         $data['from_date'] = $from_date;
         $data['to_date'] = $to_date;
         $data['site_id'] = $request->site_id;
-        $data['account_id'] = $request->account_id;
+        $data['payment_to'] = PaymentTo::where('id', $request->payment_to_id)->first();
         $data['site'] = Site::where(['id' => $request->site_id])->first();
-        $data['account'] = BankAccount::where(['id' => $request->account_id])->first();
+
 
         if (!empty($from_date)) {
-            $query = Receive::whereDate('date', '>=', $request->from_date)->whereDate('date', '<=', $to_date);
+            $query = Payment::whereDate('date', '>=', $request->from_date)->whereDate('date', '<=', $to_date);
         } else {
-            $query = Receive::whereDate('date', '<=', $to_date);
+            $query = Payment::whereDate('date', '<=', $to_date);
         }
         if ($request->has('site_id') && !empty($request->site_id)) {
             $query->where(['site_id' => $request->site_id]);
@@ -63,9 +72,12 @@ class ReceiveReportController extends Controller
         if ($request->has('account_id') && !empty($request->account_id)) {
             $query->where(['account_id' => $request->account_id]);
         }
-        $receives = $query->get();
 
-
-        return view('report.receive.print', ['receives' => $receives, 'to_date' => $to_date, 'from_date' => $from_date, 'data' => $data]);
+        if ($request->has('payment_to_id') && !empty($request->payment_to_id)) {
+            $query->where(['payment_to_id' => $request->payment_to_id]);
+        }
+        $payments = $query->get();
+        
+        return view('report.payment.print', ['payments' => $payments, 'to_date' => $to_date, 'from_date' => $from_date, 'data' => $data]);
     }
 }
