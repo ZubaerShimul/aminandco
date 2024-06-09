@@ -15,4 +15,8 @@ class BankAccount extends Model
     {
         return $this->hasMany(Receive::class, 'account_id');
     }
+    public function payment()
+    {
+        return $this->hasMany(Payment::class, 'account_id');
+    }
 }

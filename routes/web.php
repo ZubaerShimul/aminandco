@@ -15,6 +15,7 @@ use App\Http\Controllers\PaymentToController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiveController;
 use App\Http\Controllers\ReceiveReportController;
+use App\Http\Controllers\Report\PaymentReportController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TenderController;
@@ -63,11 +64,12 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
         Route::get('expepense', [ExpenseController::class, 'officialExpense'])->name('report.expense');
         Route::post('expepense', [ExpenseController::class, 'officialExpense'])->name('report.expense.report');
 
-        // tender expense
+        // receive
         Route::get('receive', [ReceiveReportController::class, 'index'])->name('report.receive');
-        // Route::get('receive', [ReceiveReportController::class, 'index'])->name('report.receive.search');
         Route::get('receive-print', [ReceiveReportController::class, 'print'])->name('report.receive.print');
-        Route::post('tender-expepense', [ExpenseController::class, 'tenderExpense'])->name('report.tender.expense.report');
+        // payment
+        Route::get('payment', [PaymentReportController::class, 'index'])->name('report.payment');
+        Route::get('payment-print', [PaymentReportController::class, 'print'])->name('report.payment.print');
     });
 
     // ************************** new ************************************\\

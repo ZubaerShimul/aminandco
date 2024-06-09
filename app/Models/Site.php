@@ -15,4 +15,9 @@ class Site extends Model
     {
         return $this->hasMany(Receive::class);
     }
+    
+    public function payment()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }
