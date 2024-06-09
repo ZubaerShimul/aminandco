@@ -2,12 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankAccountController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardContrller;
-use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\LaborController;
-use App\Http\Controllers\LabourSalaryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentMethodController;
@@ -15,12 +11,10 @@ use App\Http\Controllers\PaymentToController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiveController;
 use App\Http\Controllers\ReceiveReportController;
+use App\Http\Controllers\Report\ExpenseReportController;
 use App\Http\Controllers\Report\PaymentReportController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SiteController;
-use App\Http\Controllers\TenderController;
-use App\Http\Controllers\TenderExpenseController;
-use App\Http\Controllers\TenderPaymentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,9 +54,9 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::post('password-update', [ProfileController::class, 'passwordUpdate'])->name('password.update');
 
     Route::group(['prefix' => 'report'], function () {
-        // official expense
-        Route::get('expepense', [ExpenseController::class, 'officialExpense'])->name('report.expense');
-        Route::post('expepense', [ExpenseController::class, 'officialExpense'])->name('report.expense.report');
+        //expense
+        Route::get('expense', [ExpenseReportController::class, 'index'])->name('report.expense');
+        Route::get('expense-print', [ExpenseReportController::class, 'print'])->name('report.expense.print');
 
         // receive
         Route::get('receive', [ReceiveReportController::class, 'index'])->name('report.receive');

@@ -20,4 +20,8 @@ class Site extends Model
     {
         return $this->hasMany(Payment::class);
     }
+    public function expense()
+    {
+        return $this->hasMany(Expense::class);
+    }
 }
