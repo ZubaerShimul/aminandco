@@ -126,29 +126,22 @@
             }
         },
         initComplete: function() {
-            const checkboxes = document.querySelectorAll('.item-checkbox');
-            const editButton = document.getElementById('btn-edit');
-            const deleteButton = document.getElementById('btn-delete');
+            const editButton = $('#btn-edit');
+            const deleteButton = $('#btn-delete');
             let lastCheckedCheckbox = null;
 
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    if (lastCheckedCheckbox && lastCheckedCheckbox !== this) {
-                        lastCheckedCheckbox.checked = false;
-                    }
-                    lastCheckedCheckbox = this;
+            $('.table tbody').on('change', '.item-checkbox', function() {
+                if (lastCheckedCheckbox && lastCheckedCheckbox !== this) {
+                    lastCheckedCheckbox.checked = false;
+                }
+                lastCheckedCheckbox = this;
 
-                    const itemId = this.dataset.id;
+                const itemId = $(this).data('id');
+                editButton.attr('href', this.checked ? "/expense-edit/" + itemId : "#");
+                deleteButton.attr('href', this.checked ? "/expense-delete/" + itemId : "#");
 
-                    if(editButton){
-                        editButton.href = this.checked ? "/expense-edit/" + itemId : "#";
-                        editButton.style.display = this.checked ? 'inline-block' : 'none';
-                    }
-                    if(deleteButton){
-                        deleteButton.href = this.checked ? "/expense-delete/" + itemId : "#";
-                        deleteButton.style.display = this.checked ? 'inline-block' : 'none';
-                    }
-                });
+                editButton.css('display', this.checked ? 'inline-block' : 'none');
+                deleteButton.css('display', this.checked ? 'inline-block' : 'none');
             });
         }
     });
@@ -189,14 +182,9 @@
                 });
             }
         });
-
-        function deleteConfirmation(event, element) {
-            event.preventDefault();
-            var userConfirmed = confirm("Are You Sure To Delete This!");
-            if (userConfirmed) {
-                window.location.href = element.href;
-            }
-    }
+        $(document).on('click', '#btn-delete', function () {
+            return confirm("Are You Sure To Delete This!");
+        });
 
 
     </script>

@@ -81,7 +81,7 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="area">@lang('Bank Acount') <span class="text-danger">*</span></label>
-                                                <input type="text" id="area" class="form-control" name="account" value="{{$expense->account->name}}" readonly/>
+                                                <input type="text" id="area" class="form-control" name="account" value="{{$expense->account ? $expense->account->name : ''}}" readonly/>
                                                 <span class="text-danger">{{$errors->first('account')}}</span>
                                             </div>
                                         </div>
