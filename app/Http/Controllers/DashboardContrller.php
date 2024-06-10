@@ -55,11 +55,12 @@ class DashboardContrller extends Controller
 
         #TODO
         // opening balance
+        $last_transaction = Transaction::orderBy('date', 'desc')->orderBy('id', 'desc')->first();
         $yesterday_transaction = Transaction::whereDate('date', '<', Carbon::now()->toDateString())->orderBy('id', 'desc')->first();
         $previous_balance = $yesterday_transaction ? $yesterday_transaction->balance : 0;
 
-        // $data['opening_balance']['today']       = $today_receive - $today_payment;
-        $data['opening_balance']['today']       = $previous_balance + ($today_receive - $today_payment);
+        $data['opening_balance']['today']       = $last_transaction->balance;
+        // $data['opening_balance']['today']       = $previous_balance + ($today_receive - $today_payment);
         $data['opening_balance']['previous']    = $previous_balance;
         $data['opening_balance']['change']      = $data['opening_balance']['today'] - $previous_balance;
 
