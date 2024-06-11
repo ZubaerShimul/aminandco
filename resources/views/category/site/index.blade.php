@@ -159,28 +159,22 @@
             }
         },
         initComplete: function() {
-            const checkboxes = document.querySelectorAll('.item-checkbox');
-            const editButton = document.getElementById('btn-edit');
-            const deleteButton = document.getElementById('btn-delete');
+            const editButton = $('#btn-edit');
+            const deleteButton = $('#btn-delete');
             let lastCheckedCheckbox = null;
 
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    if (lastCheckedCheckbox && lastCheckedCheckbox !== this) {
-                        lastCheckedCheckbox.checked = false;
-                    }
-                    lastCheckedCheckbox = this;
+            $('.table tbody').on('change', '.item-checkbox', function() {
+                if (lastCheckedCheckbox && lastCheckedCheckbox !== this) {
+                    lastCheckedCheckbox.checked = false;
+                }
+                lastCheckedCheckbox = this;
 
-                    const itemId = this.dataset.id;
+                const itemId = $(this).data('id');
+                editButton.attr('href', this.checked ? "/site/partner-edit/" + itemId : "#");
+                deleteButton.attr('href', this.checked ? "/site/partner-delete/" + itemId : "#");
 
-                    // Update the route parameter with the checked item ID
-                    editButton.href = this.checked ? "/site/partner-edit/" + itemId : "#";
-                    deleteButton.href = this.checked ? "/site/partner-delete/" + itemId : "#";
-
-                    // Show/hide edit and delete buttons based on checkbox state
-                    editButton.style.display = this.checked ? 'inline-block' : 'none';
-                    deleteButton.style.display = this.checked ? 'inline-block' : 'none';
-                });
+                editButton.css('display', this.checked ? 'inline-block' : 'none');
+                deleteButton.css('display', this.checked ? 'inline-block' : 'none');
             });
         }
     });
@@ -216,10 +210,8 @@
                 });
             }
         });
-        $(document).on('click', '.delete', function () {
+        $(document).on('click', '#btn-delete', function () {
             return confirm("Are You Sure To Delete This!");
         });
-
-
     </script>
 @endpush

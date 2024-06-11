@@ -179,7 +179,5 @@
         $(document).on('click', '#btn-delete', function () {
             return confirm("Are You Sure To Delete This!");
         });
-
-
     </script>
 @endpush
