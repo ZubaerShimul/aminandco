@@ -104,18 +104,18 @@
             {"targets": 7, "className": "text-left"},
         ],
         columns: [
-                {"data": "checkin", orderable: false, searchable: false},
-                {"data": "date"}, 
-                {"data": "name"}, 
-                {"data": "district"},
-                {"data": "area"},
-                {"data": "bank_name"},
-                {"data": "account_no"},
-                {"data": "payment_method"},
-                {"data": "net_payment_amount"},
-                {"data": "others_amount"},
-                {"data": "total"},
-                {"data": "actions", orderable: false, searchable: false}
+            {"data": "checkin", orderable: false, searchable: false},
+            {"data": "date"}, 
+            {"data": "name"}, 
+            {"data": "district"},
+            {"data": "area"},
+            {"data": "bank_name"},
+            {"data": "account_no"},
+            {"data": "payment_method"},
+            {"data": "net_payment_amount"},
+            {"data": "others_amount"},
+            {"data": "total"},
+            {"data": "actions", orderable: false, searchable: false}
             ],
         ajax: {
             url: '{{ route('receive.list') }}',
@@ -125,29 +125,22 @@
             }
         },
         initComplete: function() {
-            const checkboxes = document.querySelectorAll('.item-checkbox');
-            const editButton = document.getElementById('btn-edit');
-            const deleteButton = document.getElementById('btn-delete');
+            const editButton = $('#btn-edit');
+            const deleteButton = $('#btn-delete');
             let lastCheckedCheckbox = null;
 
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    if (lastCheckedCheckbox && lastCheckedCheckbox !== this) {
-                        lastCheckedCheckbox.checked = false;
-                    }
-                    lastCheckedCheckbox = this;
+            $('.table tbody').on('change', '.item-checkbox', function() {
+                if (lastCheckedCheckbox && lastCheckedCheckbox !== this) {
+                    lastCheckedCheckbox.checked = false;
+                }
+                lastCheckedCheckbox = this;
 
-                    const itemId = this.dataset.id;
+                const itemId = $(this).data('id');
+                editButton.attr('href', this.checked ? "/receive-edit/" + itemId : "#");
+                deleteButton.attr('href', this.checked ? "/receive-delete/" + itemId : "#");
 
-                    if(editButton){
-                        editButton.href = this.checked ? "/receive-edit/" + itemId : "#";
-                        editButton.style.display = this.checked ? 'inline-block' : 'none';
-                    }
-                    if(deleteButton){
-                        deleteButton.href = this.checked ? "/receive-delete/" + itemId : "#";
-                        deleteButton.style.display = this.checked ? 'inline-block' : 'none';
-                    }
-                });
+                editButton.css('display', this.checked ? 'inline-block' : 'none');
+                deleteButton.css('display', this.checked ? 'inline-block' : 'none');
             });
         }
     });
@@ -188,7 +181,7 @@
                 });
             }
         });
-        $(document).on('click', '.delete', function () {
+        $(document).on('click', '#btn-delete', function () {
             return confirm("Are You Sure To Delete This!");
         });
 
