@@ -35,8 +35,8 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-2">
-                                        <label class="form-label" for="branch">@lang('Branch') <span class="text-danger">*</span></label>
-                                        <input type="text" id="branch" class="form-control" name="branch" value="{{ isset($data) ? $data->branch : old('branch')}}" required/>
+                                        <label class="form-label" for="branch">@lang('Branch')</label>
+                                        <input type="text" id="branch" class="form-control" name="branch" value="{{ isset($data) ? $data->branch : old('branch')}}"/>
                                         <span class="text-danger">{{$errors->first('branch')}}</span>
                                     </div>
                                 </div>

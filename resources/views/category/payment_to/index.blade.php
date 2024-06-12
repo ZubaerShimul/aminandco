@@ -28,15 +28,15 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-2">
-                                        <label class="form-label" for="type">@lang('Type') <span class="text-danger">*</span></label>
-                                        <input type="text" id="type" class="form-control" name="type" value="{{ isset($data) ? $data->type : old('type')}}" required/>
+                                        <label class="form-label" for="type">@lang('Type') </label>
+                                        <input type="text" id="type" class="form-control" name="type" value="{{ isset($data) ? $data->type : old('type')}}"/>
                                         <span class="text-danger">{{$errors->first('type')}}</span>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-2">
-                                        <label class="form-label" for="name">@lang('Mob No') <span class="text-danger">*</span></label>
-                                        <input type="text" id="mobile_number" class="form-control" name="mobile_number" value="{{isset($data) ? $data->mobile_number : old('mobile_number')}}" required/>
+                                        <label class="form-label" for="name">@lang('Mob No') </label>
+                                        <input type="text" id="mobile_number" class="form-control" name="mobile_number" value="{{isset($data) ? $data->mobile_number : old('mobile_number')}}"/>
                                         <span class="text-danger">{{$errors->first('mobile_number')}}</span>
                                     </div>
                                 </div>

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('payment_tos', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type');
-            $table->string('mobile_number');
+            $table->string('type')->nullable();
+            $table->string('mobile_number')->nullable();
             $table->integer('created_by');
             $table->boolean('is_draft')->default(ENABLE);
             $table->softDeletes();
