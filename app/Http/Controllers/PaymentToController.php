@@ -16,21 +16,21 @@ class PaymentToController extends Controller
             $report_paymentTo = PaymentTo::query();
             return datatables($report_paymentTo)
                 ->editColumn('checkin', function ($paymentTo) {
-                    return '<input type="checkbox" class="item-checkbox" data-id="'.$paymentTo->id.'">';
+                    return '<input type="checkbox" class="item-checkbox" data-id="' . $paymentTo->id . '">';
                 })
                 ->editColumn('created_at', function ($paymentTo) {
                     return date('d M Y', strtotime($paymentTo->created_at));
                 })
                 ->addColumn('actions', function ($paymentTo) {
                     $action = '<button type="button"
-                    data-name="'.$paymentTo->name.'"
-                    data-type="'.$paymentTo->type.'"
-                    data-mobile_number="'.$paymentTo->mobile_number.'"
+                    data-name="' . $paymentTo->name . '"
+                    data-type="' . $paymentTo->type . '"
+                    data-mobile_number="' . $paymentTo->mobile_number . '"
                      class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
                     // $action .= status_change_modal($paymentTo). '</div>';
                     return $action;
                 })
-                ->rawColumns(['checkin','paid','expense','account_id', 'created_at', 'status', 'payment_status', 'actions'])
+                ->rawColumns(['checkin', 'paid', 'expense', 'account_id', 'created_at', 'status', 'payment_status', 'actions'])
                 ->make(TRUE);
         }
         return view('category.payment_to.index');
@@ -43,23 +43,25 @@ class PaymentToController extends Controller
 
     public function store(Request $request)
     {
-        $mobile_number = exists(new PaymentTo(), [ 'mobile_number' => parse_contact($request->mobile_number)]);
-        if($mobile_number) {
-            return redirect()->back()->with('dismiss', "Mobile Number already added");
+        if (!empty($request->mobile_number)) {
+            $mobile_number = exists(new PaymentTo(), ['mobile_number' => parse_contact($request->mobile_number)]);
+            if ($mobile_number) {
+                return redirect()->back()->with('dismiss', "Mobile Number already added");
+            }
         }
+
         try {
 
             PaymentTo::create([
                 'created_by'   => Auth::user()->id,
                 'name' => $request->name,
                 'type' => $request->type,
-                'mobile_number' => parse_contact($request->mobile_number),
+                'mobile_number' => !empty($request->mobile_number) ? parse_contact($request->mobile_number) : null,
             ]);
             return redirect()->route('payment_to.list')->with('success', __("Added successfully"));
-
-    }catch(Exception $exception){
-        return redirect()->back()->with('dismiss', $exception->getMessage());
-    }
+        } catch (Exception $exception) {
+            return redirect()->back()->with('dismiss', $exception->getMessage());
+        }
     }
 
     // edit
@@ -67,25 +69,27 @@ class PaymentToController extends Controller
     public  function edit($id = null)
     {
         $paymentTo = PaymentTo::where('id', $id)->first();
-        if($paymentTo) {
-            return view('category.payment_to.index',['data' => $paymentTo]);
+        if ($paymentTo) {
+            return view('category.payment_to.index', ['data' => $paymentTo]);
         }
         return redirect()->route('payment_to.list')->with('dismiss', "Not found");
     }
 
     public function update(Request $request)
     {
-        $mobile_number = exists(new PaymentTo(), [ 'mobile_number' => parse_contact($request->mobile_number)], $request->id);
-        if($mobile_number) {
-            return redirect()->back()->with('dismiss', "Mobile Number already added");
+        if (!empty($request->mobile_number)) {
+            $mobile_number = exists(new PaymentTo(), ['mobile_number' => parse_contact($request->mobile_number)], $request->id);
+            if ($mobile_number) {
+                return redirect()->back()->with('dismiss', "Mobile Number already added");
+            }
         }
 
         $paymentTo = PaymentTo::where('id', $request->id)->first();
-        if($paymentTo) {
+        if ($paymentTo) {
             $paymentTo->update([
                 'name' => $request->name,
                 'type' => $request->type,
-                'mobile_number' => parse_contact($request->mobile_number),
+                'mobile_number' => !empty($request->mobile_number) ? parse_contact($request->mobile_number) : null,
             ]);
             return redirect()->route('payment_to.list')->with('success', __("Updted successfully"));
         }
@@ -97,11 +101,10 @@ class PaymentToController extends Controller
     public  function delete($id = null)
     {
         $paymentTo = PaymentTo::where('id', $id)->first();
-        if($paymentTo) {
+        if ($paymentTo) {
             $paymentTo->delete();
             return redirect()->route('payment_to.list')->with('success', __("deleted successfully"));
         }
         return redirect()->route('payment_to.list')->with('dismiss', "Not found");
     }
-
 }

@@ -24,7 +24,6 @@ class BankAccountRequest extends FormRequest
         return [
             'name' => 'required|max:191',
             // 'account_number' => 'required|max:191',
-            'branch' => 'required|max:191',
         ];
     }
 }
