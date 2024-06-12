@@ -30,20 +30,6 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="mb-2">
-                                                <label class="form-label" for="select2-basic">@lang("Select Site/Partner")</label>
-                                                <select class="select2 form-select" id="select2-basic" name="site_id">
-                                                    <option value="{{ null }}">@lang("Select Site/Partner")</option>
-                                                @if(isset($data['sites'][0]))
-                                                    @foreach ($data['sites'] as $site )
-                                                        <option value="{{ $site->id }}" {{ $data['site_id'] == $site->id ? "selected" : "" }}>{{ $site->name.' - ('.$site->type.')' }}</option>
-                                                    @endforeach
-                                                    @endif
-                                                </select>
-                                             </div>
-                                        </div>
-                                        
-                                        <div class="col-6">
-                                            <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">@lang("Select Payment To")</label>
                                                 <select class="select2 form-select" id="select2-basic" name="payment_to_id">
                                                     <option value="{{ null }}">@lang("Select Payment To")</option>
@@ -56,9 +42,8 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-2">
                                             <div class="mb-2">
                                                 <label class="form-label" for="from_date">@lang('From Date')</label>
                                                 <input type="date" id="from_date" class="form-control" name="from_date" value="{{ isset($data['from_date']) ? $data['from_date'] :  old('from_date')}}"/>
@@ -66,15 +51,66 @@
                                             </div>
                                         </div>
                                         
-                                        <div class="col-6">
+                                        <div class="col-2">
                                             <div class="mb-2">
                                                 <label class="form-label" for="to_date">@lang('To Date')</label>
                                                 <input type="date" id="to_date" class="form-control" name="to_date" value="{{$data['to_date'] ? $data['to_date']:  Carbon\Carbon::now()->toDateString()}}"/>
                                                 <span class="text-danger">{{$errors->first('to_date')}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <button type="submit" class="btn btn-primary me-1" style="float: right">@lang('Search')</button>
+                                        <div class="col-2">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="select2-basic">@lang("Select Site/Partner")</label>
+                                                <select class="select2 form-select" id="select2-basic" name="site_id">
+                                                    <option value="{{ null }}">@lang("Select Site/Partner")</option>
+                                                @if(isset($data['sites'][0]))
+                                                    @foreach ($data['sites'] as $site )
+                                                        <option value="{{ $site->id }}" {{ $data['site_id'] == $site->id ? "selected" : "" }}>{{ $site->name.' - ('.$site->type.')' }}</option>
+                                                    @endforeach
+                                                    @endif
+                                                </select>
+                                             </div>
+                                        </div>
+                                        <div class="col-1">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="district">@lang('Division/District') </label>
+                                                <input type="text" id="district" class="form-control" name="district" value="{{old('district')}}"/>
+                                                <span class="text-danger">{{$errors->first('district')}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-1">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="area">@lang('Area')</label>
+                                                <input type="text" id="area" class="form-control" name="area" value="{{old('area')}}"/>
+                                                <span class="text-danger">{{$errors->first('area')}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="site_bank_name">@lang('Bank Name')</label>
+                                                <input type="text" id="site_bank_name" class="form-control" name="site_bank_name" value="{{old('site_bank_name')}}"/>
+                                                <span class="text-danger">{{$errors->first('site_bank_name')}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="select2-basic">{{ __("Payment Method") }}  </label>   
+                                                    <select class="select2 form-select" id="select2-basic" name="payment_method" required>
+                                                        <option value="{{ null }}">@lang('Select')</option>
+                                                        @if(isset($data['payment_methods'][0]))
+                                                        @foreach ($data['payment_methods'] as $payment_method )
+                                                            <option value="{{ $payment_method->name}}">{{ $payment_method->name }}</option>
+                                                        @endforeach
+                                                        @endif
+                                                    </select>
+                                                <span class="text-danger">{{$errors->first('payment_method')}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-1 mx-auto">
+                                            <button type="submit" class="btn btn-lg btn-primary me-1" style="float: right">@lang('Search')</button>
                                         </div>
                                     </div>
                                 </form>
@@ -89,8 +125,14 @@
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Report Receive</h4>
+                            <div class="row pt-1">
+                                <div class="col-12 text-center">
+                                        <h2 class="brand-text">{{allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO'}}</h2>
+                                        <h4>Payment Report</h4>
+                                </div>
+                            </div>
+                            <div class="card-header text-center">
+                                <h4 class="card-title">Date: </h4>
                             </div>
                             <div class="card-body">
                                 <p class="card-text"></p>
@@ -130,11 +172,6 @@
                                             <td>{{ $payment->others_amount }} </td>
                                             <td>{{ $payment->total }} </td>
                                         </tr>
-                                        @php
-                                            $net_amount     += $payment->net_payment_amount;
-                                            $other_amount   += $payment->others_amount;
-                                            $total_amount   += $payment->total;
-                                        @endphp
                                        @endforeach
                                        <tr>
                                         <td></td>
@@ -146,9 +183,9 @@
                                         <td></td>
                                         <td></td>
                                         <td style="font-weight:bold">Total</td>
-                                        <td style="font-weight:bold">Tk. {{ $net_amount }}</td>
-                                        <td style="font-weight:bold">Tk. {{ $other_amount }}</td>
-                                        <td style="font-weight:bold">Tk. {{ $total_amount }}</td>
+                                        <td style="font-weight:bold">Tk. {{ $payments->sum('net_payment_amount') }}</td>
+                                        <td style="font-weight:bold">Tk. {{ $payments->sum('others_amount') }}</td>
+                                        <td style="font-weight:bold">Tk. {{ $payments->sum('total') }}</td>
                                        </tr>
                                        @endif
                                     </tbody>
