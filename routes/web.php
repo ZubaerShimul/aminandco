@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiveController;
 use App\Http\Controllers\ReceiveReportController;
 use App\Http\Controllers\Report\ExpenseReportController;
+use App\Http\Controllers\Report\IncomeReportController;
 use App\Http\Controllers\Report\PaymentReportController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SiteController;
@@ -58,6 +59,10 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
         Route::get('expense', [ExpenseReportController::class, 'index'])->name('report.expense');
         Route::get('expense-print', [ExpenseReportController::class, 'print'])->name('report.expense.print');
 
+        //expense
+        Route::get('income', [IncomeReportController::class, 'index'])->name('report.income');
+        Route::get('income-print', [IncomeReportController::class, 'print'])->name('report.income.print');
+
         // receive
         Route::get('receive', [ReceiveReportController::class, 'index'])->name('report.receive');
         Route::get('receive-print', [ReceiveReportController::class, 'print'])->name('report.receive.print');
@@ -67,7 +72,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     });
 
     // ************************** new ************************************\\
-    
+
     /**
      * user
      */
@@ -139,7 +144,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('category/bank-delete/{id?}', [BankAccountController::class, 'delete'])->name('bank_account.delete');
     Route::get('bank-account/{id?}', [BankAccountController::class, 'details']);
 
-     /**
+    /**
      * paymnet method
      */
     Route::get('category/payment-method-list', [PaymentMethodController::class, 'index'])->name('payment_method.list');
@@ -159,7 +164,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('employee-delete/{id?}', [EmployeeController::class, 'delete'])->name('employee.delete');
     Route::get('employee/{id?}', [EmployeeController::class, 'details'])->name('employee.details');
 
-      /**
+    /**
      * Employee
      */
     Route::get('salary-list', [SalaryController::class, 'index'])->name('salary.list');
@@ -168,6 +173,4 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('salary-edit/{id?}', [SalaryController::class, 'edit'])->name('salary.edit');
     Route::post('salary-update', [SalaryController::class, 'update'])->name('salary.update');
     Route::get('salary-delete/{id?}', [SalaryController::class, 'delete'])->name('salary.delete');
-
-
 });

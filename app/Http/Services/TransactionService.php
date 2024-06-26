@@ -33,6 +33,7 @@ class TransactionService
             $latestTransaction = Transaction::orderBy('id', 'desc')->first();
             Transaction::create([
                 'ref'           => $transaction->ref,
+                'site_id'           => $transaction->site_id,
                 'created_by'   => $transaction->created_by,
                 'trnxable_id'   => $transaction->id,
                 'trnxable_type' => $transactionable_type,
@@ -67,6 +68,7 @@ class TransactionService
 
                 $trnxDiff =  $amount - $existTransaction->cash_out;
                 $existTransaction->update([
+                    'site_id'    => $transaction->site_id,
                     'date' => $transaction->date ?? $existTransaction->date,
                     'cash_out' => $amount,
                     'balance' => $existTransaction->balance - $trnxDiff
@@ -155,6 +157,7 @@ class TransactionService
             $latestTransaction = Transaction::orderBy('id', 'desc')->first();
             Transaction::create([
                 'created_by'    => $transaction->created_by,
+                'site_id'       => $transaction->site_id,
                 'trnxable_id'   => $transaction->id,
                 'trnxable_type' => $transactionable_type,
                 'account_id'    => $account ? $account->id : null,
@@ -192,6 +195,7 @@ class TransactionService
 
                 $trnxDiff =  $amount - $existTransaction->cash_in;
                 $existTransaction->update([
+                    'site_id'           => $transaction->site_id,
                     'date' => $transaction->date ?? $existTransaction->date,
                     'cash_in' => $amount,
                 ]);

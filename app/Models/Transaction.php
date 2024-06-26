@@ -10,4 +10,9 @@ class Transaction extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = [];
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class);
+    }
 }
