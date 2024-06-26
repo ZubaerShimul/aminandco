@@ -121,12 +121,10 @@ class ReceivService
             DB::beginTransaction();
 
             // transaction start
-            if ($total != $receive->total) {
-                $transaction = $this->transactionService->incomeTransactionUpdate($receive, "App\Models\Receive", $total);
-                if ($transaction['success'] == false) {
-                    DB::rollBack();
-                    return errorResponse($transaction['message']);
-                }
+            $transaction = $this->transactionService->incomeTransactionUpdate($receive, "App\Models\Receive", $total);
+            if ($transaction['success'] == false) {
+                DB::rollBack();
+                return errorResponse($transaction['message']);
             }
             // transaction end
 

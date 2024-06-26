@@ -101,6 +101,7 @@
                     <li class="@if(request()->routeIs('report.receive')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.receive') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Receive Report")</span></a> </li>
                     <li class="@if(request()->routeIs('report.payment')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.payment') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Payment Report")</span></a> </li>
                     <li class="@if(request()->routeIs('report.expense')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.expense') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Expense Report")</span></a> </li>
+                    <li class="@if(request()->routeIs('report.income')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.income') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Income Expenditure")</span></a> </li>
                 </ul>
             </li>
         </ul>

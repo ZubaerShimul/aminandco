@@ -137,12 +137,10 @@ class ExpenseService
             DB::beginTransaction();
 
             // transaction start
-            if ($total != $expense->amount) {
-                $transaction = $this->transactionService->expenseTransactionUpdate($expense, "App\Models\Expense", $total);
-                if ($transaction['success'] == false) {
-                    DB::rollBack();
-                    return errorResponse($transaction['message']);
-                }
+            $transaction = $this->transactionService->expenseTransactionUpdate($expense, "App\Models\Expense", $total);
+            if ($transaction['success'] == false) {
+                DB::rollBack();
+                return errorResponse($transaction['message']);
             }
             // transaction end
 

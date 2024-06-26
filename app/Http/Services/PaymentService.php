@@ -88,7 +88,7 @@ class PaymentService
     public function update($request)
     {
         $payment = Payment::where(['id' => $request->id])->first();
-        if(empty($payment)) {
+        if (empty($payment)) {
             return errorResponse("Payment Not Found");
         }
         $payment_to =  explode('-', $request->payment_to);
@@ -136,12 +136,10 @@ class PaymentService
             DB::beginTransaction();
 
             // transaction start
-            if ($total != $payment->total) {
-                $transaction = $this->transactionService->expenseTransactionUpdate($payment, "App\Models\Payment", $total);
-                if ($transaction['success'] == false) {
-                    DB::rollBack();
-                    return errorResponse($transaction['message']);
-                }
+            $transaction = $this->transactionService->expenseTransactionUpdate($payment, "App\Models\Payment", $total);
+            if ($transaction['success'] == false) {
+                DB::rollBack();
+                return errorResponse($transaction['message']);
             }
             // transaction end
 
