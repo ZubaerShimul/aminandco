@@ -44,7 +44,7 @@ class SalaryService
             'name'              => $employee[1],
             'designation'       => $employee[2],
             'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
-            'bank_name'         => isset($account[1]) && $account[1] != ""? $account[1] : null,
+            'bank_name'         => isset($account[1]) && $account[1] != "" ? $account[1] : null,
             'payment_method'    => $request->payment_method,
             'salary'            => $request->salary,
             'ta_da'             => $request->ta_da,
@@ -121,12 +121,10 @@ class SalaryService
             DB::beginTransaction();
 
             // transaction start
-            if ($total != $salary->total) {
-                $transaction = $this->transactionService->expenseTransactionUpdate($salary, "App\Models\Salary", $total);
-                if ($transaction['success'] == false) {
-                    DB::rollBack();
-                    return errorResponse($transaction['message']);
-                }
+            $transaction = $this->transactionService->expenseTransactionUpdate($salary, "App\Models\Salary", $total);
+            if ($transaction['success'] == false) {
+                DB::rollBack();
+                return errorResponse($transaction['message']);
             }
             // transaction end
 
