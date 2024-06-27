@@ -27,7 +27,7 @@ class DashboardContrller extends Controller
 
         $data['receive']['today']       = $today_receive;
         $data['receive']['previous']    = $previous_receive;
-        $data['receive']['change']      = $today_receive - $previous_receive;
+        $data['receive']['change']      = $today_receive > 0 ? $today_receive - $previous_receive : 0;
 
         // payment
         $today_payment = Payment::whereDate('date', Carbon::now()->toDateString())->sum('total');
@@ -39,7 +39,7 @@ class DashboardContrller extends Controller
 
         $data['payment']['today']       = $today_payment;
         $data['payment']['previous']    = $previous_payment;
-        $data['payment']['change']      = $today_payment - $previous_payment;
+        $data['payment']['change']      = $today_payment > 0 ?$today_payment - $previous_payment : 0;
 
         // payment
         $today_expense = Expense::whereDate('date', Carbon::now()->toDateString())->sum('amount');
@@ -51,7 +51,7 @@ class DashboardContrller extends Controller
 
         $data['expense']['today']       = $today_expense;
         $data['expense']['previous']    = $previous_expense;
-        $data['expense']['change']      = $today_expense - $previous_expense;
+        $data['expense']['change']      = $today_expense > 0 ? $today_expense - $previous_expense : 0;
 
         #TODO
         // opening balance
