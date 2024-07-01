@@ -29,6 +29,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->decimal('amount',19,2)->default(0);
             $table->string('document')->nullable();
+            $table->boolean('is_draft')->default(ENABLE);
             $table->integer('created_by');
             $table->softDeletes();
             $table->timestamps();

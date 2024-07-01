@@ -8,6 +8,7 @@ use App\Models\Expense;
 use App\Models\PaymentMethod;
 use App\Models\Site;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
@@ -20,30 +21,38 @@ class ExpenseController extends Controller
     {
         if ($request->ajax()) {
             $report_expenses = Expense::query();
+            $approved = '<span class="badge bg-success">' . __('Approved') . '</span>';
+            $draft = '<span class="badge bg-danger">' . __('Draft') . '</span>';
 
             return datatables($report_expenses)
-                ->editColumn('date', function ($expense) {
-                    return date('d M Y', strtotime($expense->date));
-                })
                 ->editColumn('checkin', function ($payment) {
-                    return '<input type="checkbox" class="item-checkbox" data-id="' . $payment->id . '">';
+                    return '<input type="checkbox" class="item-checkbox" data-id="' . $payment->id . '" data-isDraft="' . $payment->is_draft . '">';
+                })
+                ->editColumn('is_draft', function ($status) use ($approved, $draft) {
+                    return $status->is_draft == 1 ? $draft : $approved;
+                })
+                ->editColumn('date', function ($date)  {
+                    return date('d M, Y', strtotime($date->date));
                 })
                 ->addColumn('actions', function ($payment) {
                     $action = '<button type="button"
                     data-date="' . $payment->date . '"
                     data-name="' . $payment->name . '"
-                    data-designation="' . $payment->designation . '"
-                    data-bank_name="' . $payment->bank_name  . '"
-                    data-payment_method="' . $payment->payment_method  . '"
-                    data-salary="' . $payment->salary  . '"
-                    data-ta_da="' . $payment->ta_da  . '"
-                    data-mobile_bill="' . $payment->mobile_bill  . '"
-                    data-total="' . $payment->total  . '"
-                     class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
-                    // $action .= status_change_modal($payment). '</div>';
+                    data-site_name="' . $payment->site_name . '"
+                    data-district="' . $payment->district . '"
+                    data-area="' . $payment->area . '"
+                    data-bank_name="' . $payment->site_bank_name . '"
+                    data-account_no="' . $payment->site_account_no . '"
+                    data-payment_method="' . $payment->payment_method . '"
+                    data-net_payment_amount="' . $payment->net_payment_amount . '"
+                    data-others_amount="' . $payment->others_amount . '"
+                    data-total="' . $payment->total . '"
+                    data-short_note="' . $payment->short_note . '"
+                    class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
+                        // $action .= status_change_modal($payment). '</div>';
                     return $action;
                 })
-                ->rawColumns(['checkin', 'actions'])
+                ->rawColumns(['checkin', 'actions', 'is_draft','date'])
                 ->make(TRUE);
         }
         return view('expense.index');
@@ -71,6 +80,9 @@ class ExpenseController extends Controller
     {
         $expense = Expense::where(['id' => $id])->with('account')->first();
         if (!empty($expense)) {
+            if (!Auth::user()->is_admin && !$expense->is_draft) {
+                return redirect()->route('expense.list')->with('dismiss', __("Expense already approved"));
+            }
             $data['accounts'] = BankAccount::orderBy('name', 'asc')->get();
             $data['payment_methods'] = PaymentMethod::orderBy('name', 'asc')->get();
             $data['sites'] = Site::orderBy('id', 'desc')->get();
@@ -96,5 +108,15 @@ class ExpenseController extends Controller
             return redirect()->route('expense.list')->with('success', $expense['message']);
         }
         return redirect()->route('expense.list')->with('dismiss', $expense['message']);
+    }
+
+    
+    public function approved($id = null)
+    {
+        $receive = $this->expenseService->approved($id);
+        if ($receive['success'] == true) {
+            return redirect()->route('expense.list')->with('success', $receive['message']);
+        }
+        return redirect()->route('expense.list')->with('dismiss', $receive['message']);
     }
 }

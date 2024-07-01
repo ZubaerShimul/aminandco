@@ -87,7 +87,6 @@ class UserController extends Controller
                 "address"           => $request->address,
                 "enable_edit"       => $request->has("edit") && $request->edit == "on" ? ENABLE : DISABLE,
                 "enable_delete"     => $request->has("delete") && $request->delete == "on" ? ENABLE : DISABLE,
-                'password'          => Hash::make($request->password)
                 // 'status'        => $request->status
             ];
             if (!empty($request->image)) {

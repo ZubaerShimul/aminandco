@@ -53,11 +53,8 @@ class ExpenseService
 
             // bank account update start
             $bankAccount = BankAccount::where(['id' =>  $data['account_id']])->first();
-            if (!empty($bankAccount)) {
-                $bankAccount->update([
-                    'balance'   => $bankAccount->balance - $data['amount']
-                ]);
-                // return redirect()->back()->with('dismiss', __("Account not found"));
+            if (empty($bankAccount)) {
+                return redirect()->back()->with('dismiss', __("Account not found"));
             }
             // if($bankAccount->balance < $request->total_amount) {
             //     return errorResponse("No available balance");
@@ -68,11 +65,20 @@ class ExpenseService
 
             // expense and details
             $expense = Expense::create($data);
-            $transaction = $this->transactionService->expenseTransaction($expense, "App\Models\Expense", $expense->amount, $expense->type);
-            if ($transaction['success'] == false) {
-                DB::rollBack();
-                return errorResponse($transaction['message']);
+
+            // auto approved if Admin create
+            if (Auth::user()->is_admin) {
+                $transaction = $this->transactionService->expenseTransaction($expense, "App\Models\Expense", $expense->amount, $expense->type);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
             }
+
+            $expense->update([
+                'is_draft' => Auth::user()->is_admin ? DISABLE : ENABLE
+            ]);
+
             DB::commit();
             return successResponse("Expenses succussfully added");
         } catch (Exception $e) {
@@ -108,6 +114,11 @@ class ExpenseService
             return errorResponse(__("Expense not found"));
         }
 
+
+        if (!Auth::user()->is_admin && !$expense->is_draft) {
+            return errorResponse("Expense already approved");
+        }
+
         // if($request->amount > ($account->balance + $expense->amount)) {
         //     return errorResponse("Insufficient account balance");
         // }
@@ -136,13 +147,17 @@ class ExpenseService
 
             DB::beginTransaction();
 
-            // transaction start
-            $transaction = $this->transactionService->expenseTransactionUpdate($expense, "App\Models\Expense", $total);
-            if ($transaction['success'] == false) {
-                DB::rollBack();
-                return errorResponse($transaction['message']);
+            if (Auth::user()->is_admin && !$expense->is_draft) {
+                // transaction start
+                $transaction = $this->transactionService->expenseTransactionUpdate($expense, "App\Models\Expense", $total);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
+                // transaction end
             }
-            // transaction end
+
+
 
             $expense->update($expenseData);
             DB::commit();
@@ -162,14 +177,21 @@ class ExpenseService
             $expense = Expense::where(['id' => $id])->first();
             if (!empty($expense)) {
 
+                if (!Auth::user()->is_admin && !$expense->is_draft) {
+                    return errorResponse("Payment already approved");
+                }
                 DB::beginTransaction();
 
-                $transaction = $this->transactionService->expenseTransactionDelete($expense, "App\Models\Expense");
-                if ($transaction['success'] == false) {
-                    DB::rollBack();
-                    return errorResponse($transaction['message']);
+                if (Auth::user()->is_admin && !$expense->is_draft) {
+                    $transaction = $this->transactionService->expenseTransactionDelete($expense, "App\Models\Expense");
+                    if ($transaction['success'] == false) {
+                        DB::rollBack();
+                        return errorResponse($transaction['message']);
+                    }
+                    // transaction end
                 }
-                // transaction end
+
+
 
                 $expense->delete();
                 DB::commit();
@@ -179,6 +201,43 @@ class ExpenseService
         } catch (Exception $e) {
             DB::rollBack();
             return errorResponse($e->getMessage());
+        }
+    }
+
+
+    /**
+     * approved
+     * 
+     */
+    public function approved($id = null)
+    {
+        $expense = Expense::where(['id' => $id])->first();
+        if (empty($expense)) {
+            return errorResponse("Expense doesn't exist");
+        }
+        if (!$expense->is_draft) {
+            return errorResponse("Expense already approved");
+        }
+
+        try {
+            if (Auth::user()->is_admin) {
+                DB::beginTransaction();
+
+                $transaction = $this->transactionService->expenseTransaction($expense, "App\Models\Expense", $expense->amount, $expense->type);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
+
+                $expense->update(['is_draft' => DISABLE]);
+
+                DB::commit();
+                return successResponse("Expense successfuly approved");
+            }
+            return errorResponse("Access denied");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return errorResponse();
         }
     }
 }

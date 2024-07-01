@@ -6,6 +6,26 @@
         .card-datatable.table-responsive{
             padding: 20px;
         }
+        .user-list-table td {
+            font-size: 10px;
+          }
+        .report_cases th {
+        font-size: 10px !important;
+        }
+      .info-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .info-item {
+            display: flex;
+        }
+        .info-label {
+            width: 120px; /* Adjust the width as needed */
+            font-weight: bold;
+        }
+        .info-value {
+            flex: 1;
+        }
     </style>
 @endpush
 @section('content')
@@ -20,16 +40,20 @@
                     </div>
                     <div class="card-body border-bottom">
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <h4 class="card-title">@lang('Expense List')</h4>
                             </div>
-                            <div class="col-md-3 ">
+                           
+                            <div class="col-md-6">
                                 <div class="d-flex justify-content-end">
+                                    @if(Auth::user()!=null && Auth::user()->is_admin)
+                                    <a type="button" class="btn btn-success" id="btn-approve" style="display: none;" href="#">Approve</a>
+                                    @endif
                                     @if(Auth::user()!=null && Auth::user()->enable_edit == 1 )
-                                    <a type="button" class="btn btn-info" id="btn-edit" style="display: none;" href="#">Edit</a>
+                                    <a type="button" class="btn btn-info  mx-1" id="btn-edit" style="display: none;" href="#">Edit</a>
                                     @endif
                                     @if(Auth::user()!=null && Auth::user()->enable_delete == 1 )
-                                    <a type="button" onclick="deleteConfirmation(event, this)"  class="btn btn-danger mx-1" id="btn-delete" style="display: none;" href="#">Delete</a>
+                                    <a type="button" onclick="deleteConfirmation(event, this)"  class="btn btn-danger" id="btn-delete" style="display: none;" href="#">Delete</a>
                                     @endif
                                 </div>
                             </div>
@@ -49,7 +73,7 @@
                                 <th>@lang('Pay Method')</th>
                                 <th>@lang('Expense Type')</th>
                                 <th>@lang('Amoun')</th>
-                                <th width="30px">@lang('Actions')</th>
+                                <th width="30px">@lang('Status')</th>
                             </tr>
                             </thead>
                         </table>
@@ -116,7 +140,8 @@
                 {"data": "payment_method"},
                 {"data": "type"},
                 {"data": "amount"},
-                {"data": "actions", orderable: false, searchable: false}
+                {"data": "is_draft"}
+               // {"data": "actions", orderable: false, searchable: false}
             ],
         ajax: {
             url: '{{ route('expense.list') }}',
@@ -128,6 +153,7 @@
         initComplete: function() {
             const editButton = $('#btn-edit');
             const deleteButton = $('#btn-delete');
+            const approveButton = $('#btn-approve');
             let lastCheckedCheckbox = null;
 
             $('.table tbody').on('change', '.item-checkbox', function() {
@@ -137,11 +163,15 @@
                 lastCheckedCheckbox = this;
 
                 const itemId = $(this).data('id');
+                const isDraft = $(this).data('isdraft');
                 editButton.attr('href', this.checked ? "/expense-edit/" + itemId : "#");
                 deleteButton.attr('href', this.checked ? "/expense-delete/" + itemId : "#");
+                approveButton.attr('href', this.checked ? "/expense-approved/" + itemId : "#");
 
                 editButton.css('display', this.checked ? 'inline-block' : 'none');
                 deleteButton.css('display', this.checked ? 'inline-block' : 'none');
+                approveButton.css('display', (this.checked && isDraft==1) ? 'inline-block' : 'none');
+                
             });
         }
     });
@@ -157,16 +187,127 @@
         var details = {
             date: this.dataset.date,
             name: this.dataset.name,
-            designation: this.dataset.designation,
+            district: this.dataset.district,
+            area: this.dataset.area,
             bank_name: this.dataset.bank_name,
+            account_no: this.dataset.account_no,
             payment_method: this.dataset.payment_method,
-            salary: this.dataset.salary,
-            ta_da: this.dataset.ta_da,
-            mobile_bill: this.dataset.mobile_bill,
+            net_payment_amount: this.dataset.net_payment_amount,
+            others_amount: this.dataset.others_amount,
             total: this.dataset.total,
+            short_note: this.dataset.short_note
         };
         $('#detailsPlaceholder').html(
-            '<p>Date: ' + details.date + '</p><p>Name: ' + details.name + '</p><p>Designation: ' + details.designation + '</p><p>Bank Name: ' + details.bank_name + '</p><p>Payment Method: ' + details.payment_method + '</p><p>Gross Salary: ' + details.salary + '</p><p>TA/DA: ' + details.ta_da + '</p><p>Total Salary: ' + details.total + '</p>');
+
+            `<div class="container">
+<div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="invoice-title">
+                        <div class="mb-4">
+                           <h2 class="mb-1">{{allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO'}}</h2>
+                            <p class="mb-1">1st Class Government contractor & Suppliers</p>
+                        </div>
+                    </div>
+
+                    <hr class="mt-2">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4 text-center mx-auto">
+                                <h4 class="font-size-16 border px-1 py-1">Expense Report</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                             <div class="info-container">
+                                <div class="info-item">
+                                    <span class="info-label">Name:</span>
+                                    <span class="info-value">`+ details.name +`</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Division:</span>
+                                    <span class="info-value">`+ details.district +`</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Area:</span>
+                                    <span class="info-value">`+ details.area +`</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Bank Name:</span>
+                                    <span class="info-value">`+ details.bank_name +`</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Acc. Number:</span>
+                                    <span class="info-value">`+ details.account_no +`</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Print Date:</span>
+                                    <span class="info-value">`+ details.date +`</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-nowrap table-centered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>SN.</th>
+                                        <th>P/R Date</th>
+                                        <th>Payment Method</th>
+                                        <th>Net P/R</th>
+                                        <th>Others P/R</th>
+                                        <th class="text-end" style="width: 120px;">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">01</th>
+                                        <td>
+                                          `+ details.date +`
+                                        </td>
+                                        <td>
+                                             `+ details.payment_method +`
+                                        </td>
+                                        <td>
+                                             `+ details.net_payment_amount +`
+                                        </td>
+                                        <td>
+                                             `+ details.others_amount +`
+                                        </td>
+                                        <td class="text-end">
+                                             `+ details.total +`
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" colspan="5" class="text-end">Grand Total= </th>
+                                        <td class="text-end">
+                                            `+ details.total +`
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="py-4">
+                                            <h5 class="font-size-15 mb-1">Note: `+ details.short_note +`</h5>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-print-none">
+                            <div class="text-center">
+                                    <h5 class="font-size-16">18, Gogan Babu Road (2nd Lane), Khulna</h5>
+                                    <p class="">Call: 01711-331360 & 01971-331360 E-mail:mdruhulamin1968@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>`);
+            // '<p>Date: ' + details.date + '</p><p>Name: ' + details.name + '</p><p>Designation: ' + details.designation + '</p><p>Bank Name: ' + details.bank_name + '</p><p>Payment Method: ' + details.payment_method + '</p><p>Gross Salary: ' + details.salary + '</p><p>TA/DA: ' + details.ta_da + '</p><p>Total Salary: ' + details.total + '</p>');
         $('#detailsModal').modal('show');
     });
 });
