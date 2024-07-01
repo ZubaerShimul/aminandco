@@ -6,8 +6,11 @@
         .card-datatable.table-responsive{
             padding: 20px;
         }
+        .user-list-table td {
+            font-size: 10px;
+          }
         .report_cases th {
-        font-size: .8rem !important;
+        font-size: 10px !important;
     }
     </style>
 @endpush
@@ -23,12 +26,12 @@
                     </div>
                     <div class="card-body border-bottom">
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <h4 class="card-title">@lang('Receive List')</h4>
                             </div>
-                            <div class="col-md-3 ">
+                            <div class="col-md-6">
                                 <div class="d-flex justify-content-end">
-                                    @if(Auth::user()!=null && Auth::user()->enable_edit == 1 && Auth::user()->is_admin)
+                                    @if(Auth::user()!=null && Auth::user()->is_admin)
                                     <a type="button" class="btn btn-success" id="btn-approve" style="display: none;" href="#">Approve</a>
                                     @endif
                                     @if(Auth::user()!=null && Auth::user()->enable_edit == 1 )
@@ -46,9 +49,9 @@
                             <thead class="table-light">
                             <tr>
                                 <th></th>
-                                <th>@lang('Date')</th>
+                                <th style="width: 100%;">@lang('Date')</th>
                                 <th>@lang('Name')</th>
-                                <th>@lang('Division/District')</th>
+                                <th>Division/ <br>District</th>
                                 <th>@lang('Area')</th>
                                 <th>@lang('Bank Name')</th>
                                 <th>@lang('Acc Number')</th>
@@ -56,6 +59,7 @@
                                 <th>@lang('Net R/P Amount')</th>
                                 <th>@lang('Others Amount')</th>
                                 <th>@lang('Grand Total')</th>
+                                <th style="width: 80%;">@lang('Status')</th>
                                 <th width="30px">@lang('Actions')</th>
                             </tr>
                             </thead>
@@ -121,6 +125,7 @@
             {"data": "net_payment_amount"},
             {"data": "others_amount"},
             {"data": "total"},
+            {"data": "is_draft"},
             {"data": "actions", orderable: false, searchable: false}
             ],
         ajax: {
@@ -146,7 +151,7 @@
                 const isDraft = $(this).data('isdraft');
                 editButton.attr('href', this.checked ? "/receive-edit/" + itemId : "#");
                 deleteButton.attr('href', this.checked ? "/receive-delete/" + itemId : "#");
-                approveButton.attr('href', this.checked ? "/receive-approve/" + itemId : "#");
+                approveButton.attr('href', this.checked ? "/receive-approved/" + itemId : "#");
 
                 editButton.css('display', this.checked ? 'inline-block' : 'none');
                 deleteButton.css('display', this.checked ? 'inline-block' : 'none');
@@ -168,13 +173,15 @@
         var details = {
             date: this.dataset.date,
             name: this.dataset.name,
-            designation: this.dataset.designation,
+            district: this.dataset.district,
+            area: this.dataset.area,
             bank_name: this.dataset.bank_name,
+            account_no: this.dataset.account_no,
             payment_method: this.dataset.payment_method,
-            salary: this.dataset.salary,
-            ta_da: this.dataset.ta_da,
-            mobile_bill: this.dataset.mobile_bill,
+            net_payment_amount: this.dataset.net_payment_amount,
+            others_amount: this.dataset.others_amount,
             total: this.dataset.total,
+            short_note: this.dataset.short_note
         };
         $('#detailsPlaceholder').html(
 
@@ -200,12 +207,12 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                                <h5 class="font-size-12">Name:</h5>
-                                <h5 class="font-size-12">Division:</h5>
-                                <h5 class="font-size-15">Area:</h5>
-                                <h5 class="font-size-15">Bank Name:</h5>
-                                <h5 class="font-size-15">Acc. Number:</h5>
-                                <h5 class="font-size-15">Print Date:</h5>
+                                <h5 class="font-size-12">Name   :   `+ details.name +`</h5>
+                                <h5 class="font-size-12">Division:`+ details.district +`</h5>
+                                <h5 class="font-size-15">Area:`+ details.area +`</h5>
+                                <h5 class="font-size-15">Bank Name:`+ details.bank_name +`</h5>
+                                <h5 class="font-size-15">Acc. Number:`+ details.account_no +`</h5>
+                                <h5 class="font-size-15">Print Date:`+ details.date +`</h5>
                         </div>
                     </div>                    
                     <div class="">
@@ -225,30 +232,30 @@
                                     <tr>
                                         <th scope="row">01</th>
                                         <td>
-                                           2024-06-03
+                                          `+ details.date +`
                                         </td>
-                                        <td>RTGS</td>
-                                        <td>200000.00</td>
-                                        <td>0.00</td>
-                                        <td class="text-end">200000.00</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">01</th>
                                         <td>
-                                           2024-06-03
+                                             `+ details.payment_method +`
                                         </td>
-                                        <td>RTGS</td>
-                                        <td>200000.00</td>
-                                        <td>0.00</td>
-                                        <td class="text-end">200000.00</td>
+                                        <td>
+                                             `+ details.net_payment_amount +`
+                                        </td>
+                                        <td>
+                                             `+ details.others_amount +`
+                                        </td>
+                                        <td class="text-end">
+                                             `+ details.total +`
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th scope="row" colspan="5" class="text-end">Grand Total= </th>
-                                        <td class="text-end">200000.00</td>
+                                        <td class="text-end">
+                                            `+ details.total +`
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" class="py-4">
-                                            <h5 class="font-size-15 mb-1">Note: Short Note Here</h5>
+                                            <h5 class="font-size-15 mb-1">Note: `+ details.short_note +`</h5>
                                         </td>
                                     </tr>
                                 </tbody>
