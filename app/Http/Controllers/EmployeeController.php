@@ -18,16 +18,17 @@ class EmployeeController extends Controller
                 ->editColumn('checkin', function ($employee) {
                     return '<input type="checkbox" class="item-checkbox" data-id="'.$employee->id.'">';
                 })
+                ->addColumn('image', function ($employee) {
+                    return  $employee->image ? '<a href="'.$employee->image.'" target="_blank"><img src="' .  $employee->image . '" width="50" height="50"></a>' : '';
+                })
                 ->addColumn('actions', function ($employee) {
                     $action = '<button type="button"
-                    data-name="'.$employee->name.'"
-                    data-type="'.$employee->type.'"
-                    data-mobile_number="'.$employee->mobile_number.'"
+                    data-image="'.$employee->image.'"
                      class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
                     // $action .= status_change_modal($employee). '</div>';
                     return $action;
                 })
-                ->rawColumns(['checkin', 'actions'])
+                ->rawColumns(['checkin', 'actions','image'])
                 ->make(TRUE);
         }
         return view('employee.index');

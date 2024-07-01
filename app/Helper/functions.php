@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\Transaction;
+use Carbon\Carbon;
+
+
 function allSetting($array = NULL)
 {
     return false;
@@ -65,34 +69,49 @@ function parse_contact($contact_no)
         for ($i = $reqLength; $i < $length; $i++) {
             $new[$i - $reqLength] = $contact_no[$i];
         }
-
     } else {
         $new = $contact_no;
     }
 
-    return '+88'.$new;
+    return '+88' . $new;
 }
 
 /**
  * File upload
  */
 
- function fileUpload($file, $path, $old_file = null)
- {
-     try {
-         if (!file_exists(public_path($path))) {
-             mkdir(public_path($path), 0777, true);
-         }
-         $file_name = time() . $file->getClientOriginalName();
-         $destinationPath = public_path($path);
-         # resize image
-         $file->move($destinationPath, $file_name);
+function fileUpload($file, $path, $old_file = null)
+{
+    try {
+        if (!file_exists(public_path($path))) {
+            mkdir(public_path($path), 0777, true);
+        }
+        $file_name = time() . $file->getClientOriginalName();
+        $destinationPath = public_path($path);
+        # resize image
+        $file->move($destinationPath, $file_name);
 
-         return $path . $file_name;
-     } catch (Exception $e) {
-         // dd($e);
-         return null;
-     }
- }
+        return $path . $file_name;
+    } catch (Exception $e) {
+        // dd($e);
+        return null;
+    }
+}
 
+// income
+function chart()
+{
+    return [100, 200 , 0, 100, 500, 300, 100];
+    // $data = array();
+    // $date = Carbon::now();
 
+    // #TODO: replaced loop by query
+
+    // for ($i = 0; $i < 7; $i++) {
+    //     $income = Transaction::whereDate('date', $date->toDateString())->sum('cash_in');
+    //     // $expense = Transaction::where('description', '!=', TRANSACTION_EMPLOYEE_SALARY)->whereDate('date', $date->toDateString())->sum('cash_in');
+    //     $data[] = [$income];
+    //     $date->subDay();
+    // }
+    // return successResponse("Earning Report", $data);
+}

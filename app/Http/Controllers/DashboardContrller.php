@@ -15,6 +15,17 @@ class DashboardContrller extends Controller
 {
     public function index()
     {
+//         Receive::withTrashed()->update([
+//             'is_draft' => DISABLE
+//         ]);
+//         Payment::withTrashed()->update([
+//             'is_draft' => DISABLE
+//         ]);
+//         Expense::withTrashed()->update([
+//             'is_draft' => DISABLE
+//         ]);
+        
+// dd('ok');
         $data['user'] = Auth::user();
 
         // receive
@@ -64,7 +75,7 @@ class DashboardContrller extends Controller
         $data['opening_balance']['previous']    = $previous_balance;
         $data['opening_balance']['change']      = $data['opening_balance']['today'] - $previous_balance;
 
-
+        $data['chart'] = $this->chart();
         return view('dashboard', $data);
     }
 
@@ -80,5 +91,25 @@ class DashboardContrller extends Controller
         } catch (\Exception $exception) {
             return redirect()->back()->with(['dismiss' => __('Something went wrong!')]);
         }
+    }
+
+    private function chart()
+    {
+        $data = array();
+        $date = Carbon::now();
+
+        #TODO: replaced loop by query
+
+        for ($i = 0; $i < 7; $i++) {
+            $income = Transaction::whereDate('date', $date->toDateString())->sum('cash_in');
+            $expense = Transaction::where('description','!=', TRANSACTION_EMPLOYEE_SALARY)->whereDate('date', $date->toDateString())->sum('cash_in');
+            $data[] = [
+                'date' => $date->toDateString(),
+                'income' => $income,
+                'expense' => $expense,
+            ];
+            $date->subDay();
+        }
+        return successResponse("Earning Report", $data);
     }
 }
