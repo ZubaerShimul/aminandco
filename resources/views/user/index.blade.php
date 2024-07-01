@@ -41,7 +41,7 @@
                                 <th>@lang('Phone')</th>
                                 <th>@lang('Designation')</th>
                                 <th>@lang('Address')</th></th>
-                                <th width="30px">@lang('Actions')</th>
+                                {{--  <th width="30px">@lang('Actions')</th>  --}}
                             </tr>
                             </thead>
                         </table>
@@ -87,6 +87,10 @@
         columnDefs: [
             {"targets": 0, "className": "text-center"},
             {"targets": 1, "className": "text-left"},
+            {"targets": 2, "className": "text-center"},
+            {"targets": 3, "className": "text-center"},
+            {"targets": 4, "className": "text-center"},
+
         ],
         columns: [
                 {"data": "checkin", orderable: false, searchable: false},
@@ -95,7 +99,7 @@
                 {"data": "phone"},
                 {"data": "designation"},
                 {"data": "address"},
-                {"data": "actions", orderable: false, searchable: false}
+                {{--  {"data": "actions", orderable: false, searchable: false}  --}}
             ],
         ajax: {
             url: '{{ route('user.list') }}',

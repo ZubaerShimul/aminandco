@@ -13,6 +13,6 @@ class Employee extends Model
     protected $guarded = [];
 
     public function getImageAttribute($image){
-        return asset($image);
+        return $image ? asset($image) : null;
     }
 }

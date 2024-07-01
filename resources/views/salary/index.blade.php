@@ -48,7 +48,7 @@
                                 <th>@lang('TA/DA')</th>
                                 <th>@lang('Mobile Bill')</th>
                                 <th>@lang('Total')</th>
-                                <th width="30px">@lang('Actions')</th>
+                                {{--  <th width="30px">@lang('Actions')</th>  --}}
                             </tr>
                             </thead>
                         </table>
@@ -110,7 +110,7 @@
                 {"data": "ta_da"},
                 {"data": "mobile_bill"},
                 {"data": "total"},
-                {"data": "actions", orderable: false, searchable: false}
+                {{--  {"data": "actions", orderable: false, searchable: false}  --}}
             ],
         ajax: {
             url: '{{ route('salary.list') }}',

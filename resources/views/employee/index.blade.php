@@ -75,7 +75,6 @@
                         </div>
                     </div>
                 </div>
-
         </div>
     </div>
 @endsection
@@ -108,7 +107,7 @@
                 {"data": "joining_date"},
                 {"data": "resigning_date"},
                 {"data": "basic_salary"},
-                {"data": "actions", orderable: false, searchable: false}
+                {"data": "image", orderable: false, searchable: false}
             ],
         ajax: {
             url: '{{ route('employee.list') }}',
@@ -147,11 +146,9 @@
     $(document).on('click', '.action-btn', function() {
         // Fetch details using AJAX or any other method here
         var details = {
-            name: this.dataset.name,
-            type: this.dataset.type,
-            mobile_number: this.dataset.mobile_number,
+            image: this.dataset.image,
         };
-        $('#detailsPlaceholder').html('<p>Name: ' + details.name + '</p><p>Type: ' + details.type + '</p><p>Mobile No: ' + details.mobile_number + '</p>');
+        $('#detailsPlaceholder').html('<img src='+details.image+'/>');
         $('#detailsModal').modal('show');
     });
 });
