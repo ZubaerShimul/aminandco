@@ -12,6 +12,20 @@
         .report_cases th {
         font-size: 10px !important;
     }
+      .info-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .info-item {
+            display: flex;
+        }
+        .info-label {
+            width: 120px; /* Adjust the width as needed */
+            font-weight: bold;
+        }
+        .info-value {
+            flex: 1;
+        }
     </style>
 @endpush
 @section('content')
@@ -155,9 +169,8 @@
 
                 editButton.css('display', this.checked ? 'inline-block' : 'none');
                 deleteButton.css('display', this.checked ? 'inline-block' : 'none');
-                if(isDraft==1){
-                    approveButton.css('display', this.checked ? 'inline-block' : 'none');
-                }
+                approveButton.css('display', (this.checked && isDraft==1) ? 'inline-block' : 'none');
+                
             });
         }
     });
@@ -207,12 +220,32 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                                <h5 class="font-size-12">Name   :   `+ details.name +`</h5>
-                                <h5 class="font-size-12">Division:`+ details.district +`</h5>
-                                <h5 class="font-size-15">Area:`+ details.area +`</h5>
-                                <h5 class="font-size-15">Bank Name:`+ details.bank_name +`</h5>
-                                <h5 class="font-size-15">Acc. Number:`+ details.account_no +`</h5>
-                                <h5 class="font-size-15">Print Date:`+ details.date +`</h5>
+                             <div class="info-container">
+                                <div class="info-item">
+                                    <span class="info-label">Name:</span>
+                                    <span class="info-value">`+ details.name +`</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Division:</span>
+                                    <span class="info-value">`+ details.district +`</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Area:</span>
+                                    <span class="info-value">`+ details.area +`</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Bank Name:</span>
+                                    <span class="info-value">`+ details.bank_name +`</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Acc. Number:</span>
+                                    <span class="info-value">`+ details.account_no +`</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Print Date:</span>
+                                    <span class="info-value">`+ details.date +`</span>
+                                </div>
+                            </div>
                         </div>
                     </div>                    
                     <div class="">
