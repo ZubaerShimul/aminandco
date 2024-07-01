@@ -74,7 +74,7 @@
                                 <th>@lang('Net R/P Amount')</th>
                                 <th>@lang('Others Amount')</th>
                                 <th>@lang('Grand Total')</th>
-                                <th>@lang('Status')</th>
+                                <th>@lang('Approved')</th>
                                 <th width="30px">@lang('Actions')</th>
                             </tr>
                             </thead>
@@ -129,7 +129,10 @@
             {"targets": 7, "className": "text-center"},
             {"targets": 8, "className": "text-center"},
             {"targets": 9, "className": "text-center"},
-            {"targets": 10, "className": "text-left"},
+            {"targets": 10, "className": "text-center"},
+            {"targets": 11, "className": "text-center"},
+            {"targets": 12, "className": "text-center"},
+            {"targets": 13, "className": "text-center"},
         ],
         columns: [
                 {"data": "checkin", orderable: false, searchable: false},

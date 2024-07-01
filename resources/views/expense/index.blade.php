@@ -73,7 +73,7 @@
                                 <th>@lang('Pay Method')</th>
                                 <th>@lang('Expense Type')</th>
                                 <th>@lang('Amoun')</th>
-                                <th width="30px">@lang('Status')</th>
+                                <th width="30px">@lang('Approved')</th>
                             </tr>
                             </thead>
                         </table>
@@ -127,7 +127,7 @@
             {"targets": 7, "className": "text-center"},
             {"targets": 8, "className": "text-center"},
             {"targets": 9, "className": "text-center"},
-            {"targets": 10, "className": "text-left"},
+            {"targets": 10, "className": "text-center"},
         ],
         columns: [
                 {"data": "checkin", orderable: false, searchable: false},

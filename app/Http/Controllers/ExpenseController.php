@@ -21,8 +21,8 @@ class ExpenseController extends Controller
     {
         if ($request->ajax()) {
             $report_expenses = Expense::query();
-            $approved = '<span class="badge bg-success">' . __('Approved') . '</span>';
-            $draft = '<span class="badge bg-danger">' . __('Draft') . '</span>';
+            $approved = '<span class="badge bg-success">' . __('Yes') . '</span>';
+            $draft = '<span class="badge bg-danger">' . __('No') . '</span>';
 
             return datatables($report_expenses)
                 ->editColumn('checkin', function ($payment) {
@@ -34,24 +34,24 @@ class ExpenseController extends Controller
                 ->editColumn('date', function ($date)  {
                     return date('d M, Y', strtotime($date->date));
                 })
-                ->addColumn('actions', function ($payment) {
-                    $action = '<button type="button"
-                    data-date="' . $payment->date . '"
-                    data-name="' . $payment->name . '"
-                    data-site_name="' . $payment->site_name . '"
-                    data-district="' . $payment->district . '"
-                    data-area="' . $payment->area . '"
-                    data-bank_name="' . $payment->site_bank_name . '"
-                    data-account_no="' . $payment->site_account_no . '"
-                    data-payment_method="' . $payment->payment_method . '"
-                    data-net_payment_amount="' . $payment->net_payment_amount . '"
-                    data-others_amount="' . $payment->others_amount . '"
-                    data-total="' . $payment->total . '"
-                    data-short_note="' . $payment->short_note . '"
-                    class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
-                        // $action .= status_change_modal($payment). '</div>';
-                    return $action;
-                })
+                // ->addColumn('actions', function ($payment) {
+                //     $action = '<button type="button"
+                //     data-date="' . $payment->date . '"
+                //     data-name="' . $payment->name . '"
+                //     data-site_name="' . $payment->site_name . '"
+                //     data-district="' . $payment->district . '"
+                //     data-area="' . $payment->area . '"
+                //     data-bank_name="' . $payment->site_bank_name . '"
+                //     data-account_no="' . $payment->site_account_no . '"
+                //     data-payment_method="' . $payment->payment_method . '"
+                //     data-net_payment_amount="' . $payment->net_payment_amount . '"
+                //     data-others_amount="' . $payment->others_amount . '"
+                //     data-total="' . $payment->total . '"
+                //     data-short_note="' . $payment->short_note . '"
+                //     class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
+                //         // $action .= status_change_modal($payment). '</div>';
+                //     return $action;
+                // })
                 ->rawColumns(['checkin', 'actions', 'is_draft','date'])
                 ->make(TRUE);
         }

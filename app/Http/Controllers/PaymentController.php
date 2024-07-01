@@ -24,8 +24,8 @@ class PaymentController extends Controller
         if ($request->ajax()) {
             $report_payment = Payment::query();
 
-            $approved = '<span class="badge bg-success">' . __('Approved') . '</span>';
-            $draft = '<span class="badge bg-danger">' . __('Draft') . '</span>';
+            $approved = '<span class="badge bg-success">' . __('Yes') . '</span>';
+            $draft = '<span class="badge bg-danger">' . __('No') . '</span>';
 
             return datatables($report_payment)
                 ->editColumn('checkin', function ($payment) {
