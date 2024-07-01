@@ -11,7 +11,7 @@
           }
         .report_cases th {
         font-size: 10px !important;
-    }
+        }
       .info-container {
             display: flex;
             flex-direction: column;
@@ -63,7 +63,7 @@
                             <thead class="table-light">
                             <tr>
                                 <th></th>
-                                <th style="width: 100%;">@lang('Date')</th>
+                                <th>@lang('Date')</th>
                                 <th>@lang('Name')</th>
                                 <th>Division/ <br>District</th>
                                 <th>@lang('Area')</th>
@@ -73,7 +73,7 @@
                                 <th>@lang('Net R/P Amount')</th>
                                 <th>@lang('Others Amount')</th>
                                 <th>@lang('Grand Total')</th>
-                                <th style="width: 80%;">@lang('Status')</th>
+                                <th>@lang('Status')</th>
                                 <th width="30px">@lang('Actions')</th>
                             </tr>
                             </thead>
@@ -119,7 +119,7 @@
         autoWidth: false,
         columnDefs: [
             {"targets": 0, "className": "text-center"},
-            {"targets": 1, "className": "text-center"},
+            {"targets": 1, "className": "text-center",},
             {"targets": 2, "className": "text-center"},
             {"targets": 3, "className": "text-center"},
             {"targets": 4, "className": "text-center"},
@@ -198,114 +198,114 @@
         };
         $('#detailsPlaceholder').html(
 
-            `<div class="container">
-<div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="invoice-title">
-                        <div class="mb-4">
-                           <h2 class="mb-1">{{allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO'}}</h2>
-                            <p class="mb-1">1st Class Government contractor & Suppliers</p>
-                        </div>
-                    </div>
+        `<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="invoice-title">
+                                <div class="mb-4">
+                                    <h2 class="mb-1">{{allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO'}}</h2>
+                                    <p class="mb-1">1st Class Government contractor & Suppliers</p>
+                                </div>
+                            </div>
 
-                    <hr class="mt-2">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="col-sm-4 text-center mx-auto">
-                                <h4 class="font-size-16 border px-1 py-1">Receive Report</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                             <div class="info-container">
-                                <div class="info-item">
-                                    <span class="info-label">Name:</span>
-                                    <span class="info-value">`+ details.name +`</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Division:</span>
-                                    <span class="info-value">`+ details.district +`</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Area:</span>
-                                    <span class="info-value">`+ details.area +`</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Bank Name:</span>
-                                    <span class="info-value">`+ details.bank_name +`</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Acc. Number:</span>
-                                    <span class="info-value">`+ details.account_no +`</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Print Date:</span>
-                                    <span class="info-value">`+ details.date +`</span>
+                            <hr class="mt-2">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4 text-center mx-auto">
+                                        <h4 class="font-size-16 border px-1 py-1">Receive Report</h4>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>                    
-                    <div class="">
-                        <div class="table-responsive">
-                            <table class="table align-middle table-nowrap table-centered mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>SN.</th>
-                                        <th>P/R Date</th>
-                                        <th>Payment Method</th>
-                                        <th>Net P/R</th>
-                                        <th>Others P/R</th>
-                                        <th class="text-end" style="width: 120px;">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">01</th>
-                                        <td>
-                                          `+ details.date +`
-                                        </td>
-                                        <td>
-                                             `+ details.payment_method +`
-                                        </td>
-                                        <td>
-                                             `+ details.net_payment_amount +`
-                                        </td>
-                                        <td>
-                                             `+ details.others_amount +`
-                                        </td>
-                                        <td class="text-end">
-                                             `+ details.total +`
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" colspan="5" class="text-end">Grand Total= </th>
-                                        <td class="text-end">
-                                            `+ details.total +`
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="py-4">
-                                            <h5 class="font-size-15 mb-1">Note: `+ details.short_note +`</h5>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="d-print-none">
-                            <div class="text-center">
-                                    <h5 class="font-size-16">18, Gogan Babu Road (2nd Lane), Khulna</h5>
-                                    <p class="">Call: 01711-331360 & 01971-331360 E-mail:mdruhulamin1968@gmail.com</p>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                        <div class="info-container">
+                                        <div class="info-item">
+                                            <span class="info-label">Name:</span>
+                                            <span class="info-value">`+ details.name +`</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Division:</span>
+                                            <span class="info-value">`+ details.district +`</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Area:</span>
+                                            <span class="info-value">`+ details.area +`</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Bank Name:</span>
+                                            <span class="info-value">`+ details.bank_name +`</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Acc. Number:</span>
+                                            <span class="info-value">`+ details.account_no +`</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Print Date:</span>
+                                            <span class="info-value">`+ details.date +`</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                    
+                            <div class="">
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-nowrap table-centered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>SN.</th>
+                                                <th>P/R Date</th>
+                                                <th>Payment Method</th>
+                                                <th>Net P/R</th>
+                                                <th>Others P/R</th>
+                                                <th class="text-end" style="width: 120px;">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">01</th>
+                                                <td>
+                                                    `+ details.date +`
+                                                </td>
+                                                <td>
+                                                        `+ details.payment_method +`
+                                                </td>
+                                                <td>
+                                                        `+ details.net_payment_amount +`
+                                                </td>
+                                                <td>
+                                                        `+ details.others_amount +`
+                                                </td>
+                                                <td class="text-end">
+                                                        `+ details.total +`
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" colspan="5" class="text-end">Grand Total= </th>
+                                                <td class="text-end">
+                                                    `+ details.total +`
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6" class="py-4">
+                                                    <h5 class="font-size-15 mb-1">Note: `+ details.short_note +`</h5>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-print-none">
+                                    <div class="text-center">
+                                            <h5 class="font-size-16">18, Gogan Babu Road (2nd Lane), Khulna</h5>
+                                            <p class="">Call: 01711-331360 & 01971-331360 E-mail:mdruhulamin1968@gmail.com</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>`);
+        </div>`);
             // '<p>Date: ' + details.date + '</p><p>Name: ' + details.name + '</p><p>Designation: ' + details.designation + '</p><p>Bank Name: ' + details.bank_name + '</p><p>Payment Method: ' + details.payment_method + '</p><p>Gross Salary: ' + details.salary + '</p><p>TA/DA: ' + details.ta_da + '</p><p>Total Salary: ' + details.total + '</p>');
         $('#detailsModal').modal('show');
     });

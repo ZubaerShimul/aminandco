@@ -100,6 +100,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('payment-list', [PaymentController::class, 'index'])->name('payment.list');
     Route::get('payment-create', [PaymentController::class, 'create'])->name('payment.create');
     Route::post('payment-store', [PaymentController::class, 'store'])->name('payment.store');
+    Route::get('payment-approved/{id?}', [PaymentController::class, 'approved'])->name('payment.approved');
     Route::get('payment-edit/{id?}', [PaymentController::class, 'edit'])->name('payment.edit');
     Route::post('payment-update', [PaymentController::class, 'update'])->name('payment.update');
     Route::get('payment-delete/{id?}', [PaymentController::class, 'delete'])->name('payment.delete');
@@ -110,6 +111,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
     Route::get('expense-list', [ExpenseController::class, 'index'])->name('expense.list');
     Route::get('expense-create', [ExpenseController::class, 'create'])->name('expense.create');
     Route::post('expense-store', [ExpenseController::class, 'store'])->name('expense.store');
+    Route::get('expense-approved/{id?}', [ExpenseController::class, 'approved'])->name('expense.approved');
     Route::get('expense-edit/{id?}', [ExpenseController::class, 'edit'])->name('expense.edit');
     Route::post('expense-update', [ExpenseController::class, 'update'])->name('expense.update');
     Route::get('expense-delete/{id?}', [ExpenseController::class, 'delete'])->name('expense.delete');

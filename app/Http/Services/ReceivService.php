@@ -193,10 +193,7 @@ class ReceivService
      * approved
      * 
      */
-
-    /**
-     * delete
-     */
+    
     public function approved($id = null)
     {
         $receive = Receive::where(['id' => $id])->first();

@@ -8,6 +8,7 @@ use App\Models\PaymentMethod;
 use App\Models\Receive;
 use App\Models\Site;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReceiveController extends Controller
 {
@@ -27,6 +28,9 @@ class ReceiveController extends Controller
             return datatables($report_payment)
                 ->editColumn('checkin', function ($receive) {
                     return '<input type="checkbox" class="item-checkbox" data-id="' . $receive->id . '" data-isDraft="' . $receive->is_draft . '">';
+                })
+                ->editColumn('date', function ($date)  {
+                    return date('d M, Y', strtotime($date->date));
                 })
                 ->editColumn('is_draft', function ($status) use ($approved, $draft) {
                     return $status->is_draft == 1 ? $draft : $approved;
@@ -48,7 +52,7 @@ class ReceiveController extends Controller
                     // $action .= status_change_modal($receive). '</div>';
                     return $action;
                 })
-                ->rawColumns(['checkin', 'actions', 'is_draft'])
+                ->rawColumns(['checkin', 'actions', 'is_draft','date'])
                 ->make(TRUE);
         }
         return view('receive.index');
@@ -76,6 +80,9 @@ class ReceiveController extends Controller
     {
         $receive = Receive::where(['id' => $id])->with('account')->first();
         if (!empty($receive)) {
+            if (!Auth::user()->is_admin && !$receive->is_draft) {
+                return redirect()->route('receive.list')->with('dismiss', __("Receive already approved"));
+            }
             $data['accounts']           = BankAccount::orderBy('name', 'asc')->get();
             $data['payment_methods']    = PaymentMethod::orderBy('name', 'asc')->get();
             $data['sites']              = Site::orderBy('id', 'desc')->get();

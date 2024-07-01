@@ -68,11 +68,18 @@ class PaymentService
             DB::beginTransaction();
             $payment = Payment::create($paymentData);
 
-            $transaction = $this->transactionService->expenseTransaction($payment, "App\Models\Payment", $payment->total, TRANSACTION_EMPLOYEE_PAYMENT);
-            if ($transaction['success'] == false) {
-                DB::rollBack();
-                return errorResponse($transaction['message']);
+            // auto approved if Admin create
+            if (Auth::user()->is_admin) {
+                $transaction = $this->transactionService->expenseTransaction($payment, "App\Models\Payment", $payment->total, TRANSACTION_EMPLOYEE_PAYMENT);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
             }
+
+            $payment->update([
+                'is_draft' => Auth::user()->is_admin ? DISABLE : ENABLE
+            ]);
 
             DB::commit();
             return successResponse("Payment Added Successfully");
@@ -91,6 +98,12 @@ class PaymentService
         if (empty($payment)) {
             return errorResponse("Payment Not Found");
         }
+
+        if (!Auth::user()->is_admin && !$payment->is_draft) {
+            return errorResponse("Payment already approved");
+        }
+
+
         $payment_to =  explode('-', $request->payment_to);
         $site       =  explode('-', $request->site);
         // $account    =  explode('-', $request->account);
@@ -135,13 +148,17 @@ class PaymentService
 
             DB::beginTransaction();
 
-            // transaction start
-            $transaction = $this->transactionService->expenseTransactionUpdate($payment, "App\Models\Payment", $total);
-            if ($transaction['success'] == false) {
-                DB::rollBack();
-                return errorResponse($transaction['message']);
+            if (Auth::user()->is_admin && !$payment->is_draft) {
+                // transaction start
+                $transaction = $this->transactionService->expenseTransactionUpdate($payment, "App\Models\Payment", $total);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
+                // transaction end
             }
-            // transaction end
+
+
 
             $payment->update($paymentData);
             DB::commit();
@@ -165,20 +182,64 @@ class PaymentService
             return errorResponse("Payment doesn't exist");
         }
 
+        if (!Auth::user()->is_admin && !$payment->is_draft) {
+            return errorResponse("Payment already approved");
+        }
+
 
         try {
 
             DB::beginTransaction();
-
-            $transaction = $this->transactionService->expenseTransactionDelete($payment, "App\Models\Payment");
-            if ($transaction['success'] == false) {
-                return errorResponse($transaction['message']);
+            if (Auth::user()->is_admin && !$payment->is_draft) {
+                $transaction = $this->transactionService->expenseTransactionDelete($payment, "App\Models\Payment");
+                if ($transaction['success'] == false) {
+                    return errorResponse($transaction['message']);
+                }
             }
+
             $payment->delete();
 
             DB::commit();
 
             return successResponse("Payment successfuly deleted");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return errorResponse();
+        }
+    }
+
+    
+    /**
+     * approved
+     * 
+     */
+    public function approved($id = null)
+    {
+        $payment = Payment::where(['id' => $id])->first();
+        if (empty($payment)) {
+            return errorResponse("Payment doesn't exist");
+        }
+        if (!$payment->is_draft) {
+            return errorResponse("Payment already approved");
+        }
+
+
+        try {
+            if (Auth::user()->is_admin) {
+                DB::beginTransaction();
+
+                $transaction = $this->transactionService->expenseTransaction($payment, "App\Models\Payment", $payment->total, TRANSACTION_EMPLOYEE_PAYMENT);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
+
+                $payment->update(['is_draft' => DISABLE]);
+
+                DB::commit();
+                return successResponse("Payment successfuly approved");
+            }
+            return errorResponse("Access denied");
         } catch (Exception $e) {
             DB::rollBack();
             return errorResponse();
