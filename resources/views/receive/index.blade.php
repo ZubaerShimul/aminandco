@@ -6,6 +6,9 @@
         .card-datatable.table-responsive{
             padding: 20px;
         }
+        .report_cases th {
+        font-size: .8rem !important;
+    }
     </style>
 @endpush
 @section('content')
@@ -25,11 +28,14 @@
                             </div>
                             <div class="col-md-3 ">
                                 <div class="d-flex justify-content-end">
+                                    @if(Auth::user()!=null && Auth::user()->enable_edit == 1 && Auth::user()->is_admin)
+                                    <a type="button" class="btn btn-success" id="btn-approve" style="display: none;" href="#">Approve</a>
+                                    @endif
                                     @if(Auth::user()!=null && Auth::user()->enable_edit == 1 )
-                                    <a type="button" class="btn btn-info" id="btn-edit" style="display: none;" href="#">Edit</a>
+                                    <a type="button" class="btn btn-info  mx-1" id="btn-edit" style="display: none;" href="#">Edit</a>
                                     @endif
                                     @if(Auth::user()!=null && Auth::user()->enable_delete == 1 )
-                                    <a type="button" onclick="deleteConfirmation(event, this)"  class="btn btn-danger mx-1" id="btn-delete" style="display: none;" href="#">Delete</a>
+                                    <a type="button" onclick="deleteConfirmation(event, this)"  class="btn btn-danger" id="btn-delete" style="display: none;" href="#">Delete</a>
                                     @endif
                                 </div>
                             </div>
@@ -60,7 +66,7 @@
             </section>
             <!-- Modal -->
                 <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="detailsModalLabel">Details</h5>
@@ -127,6 +133,7 @@
         initComplete: function() {
             const editButton = $('#btn-edit');
             const deleteButton = $('#btn-delete');
+            const approveButton = $('#btn-approve');
             let lastCheckedCheckbox = null;
 
             $('.table tbody').on('change', '.item-checkbox', function() {
@@ -136,11 +143,16 @@
                 lastCheckedCheckbox = this;
 
                 const itemId = $(this).data('id');
+                const isDraft = $(this).data('isdraft');
                 editButton.attr('href', this.checked ? "/receive-edit/" + itemId : "#");
                 deleteButton.attr('href', this.checked ? "/receive-delete/" + itemId : "#");
+                approveButton.attr('href', this.checked ? "/receive-approve/" + itemId : "#");
 
                 editButton.css('display', this.checked ? 'inline-block' : 'none');
                 deleteButton.css('display', this.checked ? 'inline-block' : 'none');
+                if(isDraft==1){
+                    approveButton.css('display', this.checked ? 'inline-block' : 'none');
+                }
             });
         }
     });
@@ -165,7 +177,96 @@
             total: this.dataset.total,
         };
         $('#detailsPlaceholder').html(
-            '<p>Date: ' + details.date + '</p><p>Name: ' + details.name + '</p><p>Designation: ' + details.designation + '</p><p>Bank Name: ' + details.bank_name + '</p><p>Payment Method: ' + details.payment_method + '</p><p>Gross Salary: ' + details.salary + '</p><p>TA/DA: ' + details.ta_da + '</p><p>Total Salary: ' + details.total + '</p>');
+
+            `<div class="container">
+<div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="invoice-title">
+                        <div class="mb-4">
+                           <h2 class="mb-1">{{allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO'}}</h2>
+                            <p class="mb-1">1st Class Government contractor & Suppliers</p>
+                        </div>
+                    </div>
+
+                    <hr class="mt-2">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4 text-center mx-auto">
+                                <h4 class="font-size-16 border px-1 py-1">Receive Report</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                                <h5 class="font-size-12">Name:</h5>
+                                <h5 class="font-size-12">Division:</h5>
+                                <h5 class="font-size-15">Area:</h5>
+                                <h5 class="font-size-15">Bank Name:</h5>
+                                <h5 class="font-size-15">Acc. Number:</h5>
+                                <h5 class="font-size-15">Print Date:</h5>
+                        </div>
+                    </div>                    
+                    <div class="">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-nowrap table-centered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>SN.</th>
+                                        <th>P/R Date</th>
+                                        <th>Payment Method</th>
+                                        <th>Net P/R</th>
+                                        <th>Others P/R</th>
+                                        <th class="text-end" style="width: 120px;">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">01</th>
+                                        <td>
+                                           2024-06-03
+                                        </td>
+                                        <td>RTGS</td>
+                                        <td>200000.00</td>
+                                        <td>0.00</td>
+                                        <td class="text-end">200000.00</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">01</th>
+                                        <td>
+                                           2024-06-03
+                                        </td>
+                                        <td>RTGS</td>
+                                        <td>200000.00</td>
+                                        <td>0.00</td>
+                                        <td class="text-end">200000.00</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" colspan="5" class="text-end">Grand Total= </th>
+                                        <td class="text-end">200000.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="py-4">
+                                            <h5 class="font-size-15 mb-1">Note: Short Note Here</h5>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-print-none">
+                            <div class="text-center">
+                                    <h5 class="font-size-16">18, Gogan Babu Road (2nd Lane), Khulna</h5>
+                                    <p class="">Call: 01711-331360 & 01971-331360 E-mail:mdruhulamin1968@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>`);
+            // '<p>Date: ' + details.date + '</p><p>Name: ' + details.name + '</p><p>Designation: ' + details.designation + '</p><p>Bank Name: ' + details.bank_name + '</p><p>Payment Method: ' + details.payment_method + '</p><p>Gross Salary: ' + details.salary + '</p><p>TA/DA: ' + details.ta_da + '</p><p>Total Salary: ' + details.total + '</p>');
         $('#detailsModal').modal('show');
     });
 });
