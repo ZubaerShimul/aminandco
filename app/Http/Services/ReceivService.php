@@ -60,17 +60,24 @@ class ReceivService
             DB::beginTransaction();
             $receive = Receive::create($receiveData);
 
-            $transaction = $this->transactionService->incomeTransaction($receive, "App\Models\Receive", $receive->total, TRANSACTION_RECEIVE);
-            if ($transaction['success'] == false) {
-                DB::rollBack();
-                return errorResponse($transaction['message']);
+            // auto approved if Admin create
+            if (Auth::user()->is_admin) {
+                $transaction = $this->transactionService->incomeTransaction($receive, "App\Models\Receive", $receive->total, TRANSACTION_RECEIVE);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
             }
+
+            $receive->update([
+                'is_draft' => Auth::user()->is_admin ? DISABLE : ENABLE
+            ]);
 
             DB::commit();
             return successResponse("Receive Added Successfully");
         } catch (Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
+            // dd($e->getMessage());
             return errorResponse($e->getMessage());
         }
     }
@@ -81,18 +88,21 @@ class ReceivService
     public function update($request)
     {
         $receive = Receive::where(['id' => $request->id])->first();
-        if(empty($receive)) {
+        if (empty($receive)) {
             return errorResponse("Receive Not Found");
+        }
+        if (!Auth::user()->is_admin && !$receive->is_draft) {
+            return errorResponse("Receive already approved");
         }
 
         $bankAccount = BankAccount::where(['id' => $receive->account_id])->first();
         if (empty($bankAccount)) {
             return errorResponse("Bank Account not found");
         }
-      
+
         $site       =  explode('-', $request->site);
         // $account    =  explode('-', $request->account);
-       
+
         $others_amount = $request->others_amount ?? 0;
         $total = $others_amount + $request->net_payment_amount;
 
@@ -120,14 +130,15 @@ class ReceivService
 
             DB::beginTransaction();
 
-            // transaction start
-            $transaction = $this->transactionService->incomeTransactionUpdate($receive, "App\Models\Receive", $total);
-            if ($transaction['success'] == false) {
-                DB::rollBack();
-                return errorResponse($transaction['message']);
+            if (Auth::user()->is_admin && !$receive->is_draft) {
+                $transaction = $this->transactionService->incomeTransactionUpdate($receive, "App\Models\Receive", $total);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
             }
-            // transaction end
 
+            // transaction end
             $receive->update($receiveData);
             DB::commit();
 
@@ -152,18 +163,67 @@ class ReceivService
 
 
         try {
+            if (!Auth::user()->is_admin && !$receive->is_draft) {
+                return errorResponse("Receive already approved");
+            }
 
             DB::beginTransaction();
 
-            $transaction = $this->transactionService->incomeTransactionDelete($receive, "App\Models\Receive");
-            if ($transaction['success'] == false) {
-                return errorResponse($transaction['message']);
+            if (Auth::user()->is_admin && !$receive->is_draft) {
+                $transaction = $this->transactionService->incomeTransactionDelete($receive, "App\Models\Receive");
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
             }
+
+
             $receive->delete();
 
             DB::commit();
 
             return successResponse("Receive successfuly deleted");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return errorResponse();
+        }
+    }
+
+    /**
+     * approved
+     * 
+     */
+
+    /**
+     * delete
+     */
+    public function approved($id = null)
+    {
+        $receive = Receive::where(['id' => $id])->first();
+        if (empty($receive)) {
+            return errorResponse("Receive doesn't exist");
+        }
+        if (!$receive->is_draft) {
+            return errorResponse("Receive already approved");
+        }
+
+
+        try {
+            if (Auth::user()->is_admin) {
+                DB::beginTransaction();
+
+                $transaction = $this->transactionService->incomeTransaction($receive, "App\Models\Receive", $receive->total, TRANSACTION_RECEIVE);
+                if ($transaction['success'] == false) {
+                    DB::rollBack();
+                    return errorResponse($transaction['message']);
+                }
+
+                $receive->update(['is_draft' => DISABLE]);
+
+                DB::commit();
+                return successResponse("Receive successfuly approved");
+            }
+            return errorResponse("Access denied");
         } catch (Exception $e) {
             DB::rollBack();
             return errorResponse();

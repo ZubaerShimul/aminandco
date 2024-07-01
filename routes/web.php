@@ -88,6 +88,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
      */
     Route::get('receive-list', [ReceiveController::class, 'index'])->name('receive.list');
     Route::get('receive-create', [ReceiveController::class, 'create'])->name('receive.create');
+    Route::get('receive-approved/{id?}', [ReceiveController::class, 'approved'])->name('receive.approved');
     Route::post('receive-store', [ReceiveController::class, 'store'])->name('receive.store');
     Route::get('receive-edit/{id?}', [ReceiveController::class, 'edit'])->name('receive.edit');
     Route::post('receive-update', [ReceiveController::class, 'update'])->name('receive.update');
