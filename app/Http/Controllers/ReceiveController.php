@@ -22,7 +22,7 @@ class ReceiveController extends Controller
             $report_payment = Receive::query();
             return datatables($report_payment)
                 ->editColumn('checkin', function ($receive) {
-                    return '<input type="checkbox" class="item-checkbox" data-id="' . $receive->id . '">';
+                    return '<input type="checkbox" class="item-checkbox" data-id="' . $receive->id . '" data-isDraft="' . $receive->is_draft . '">';
                 })
                 ->addColumn('actions', function ($receive) {
                     $action = '<button type="button"
