@@ -74,7 +74,46 @@ class DashboardContrller extends Controller
         // $data['opening_balance']['today']       = $previous_balance + ($today_receive - $today_payment);
         $data['opening_balance']['previous']    = $previous_balance;
         $data['opening_balance']['change']      = $data['opening_balance']['today'] - $previous_balance;
+                    
+                    $currentDate = \Carbon\Carbon::now();
+                    $dates = [];
+                    for ($i = 0; $i < 10; $i++) {
+                        $dates[] = $currentDate->copy()->subDays($i)->format('d/m');
+                    }
 
+                    // Reverse the dates array to have the oldest date first
+                    $dates = array_reverse($dates);
+                    $incomeData = [];
+                    $expenseData = [];
+
+                    for ($i = 0; $i < 10; $i++) {
+                        $date = \Carbon\Carbon::now()->subDays($i)->format('Y-m-d');
+                        $cashIn = \App\Models\Transaction::whereDate('date', $date)
+                                    ->where('type', 'Cash in')
+                                    ->sum('cash_in');
+                        $cashOut = \App\Models\Transaction::whereDate('date', $date)
+                                    ->where('type', 'Cash out')
+                                    ->sum('cash_out');
+                        $incomeData[] = $cashIn;
+                        $expenseData[] = $cashOut;
+                    }
+                    // dd($incomeData);
+                    // Reverse the data arrays to match the dates order
+                    $incomeData = array_reverse($incomeData);
+                    $expenseData = array_reverse($expenseData);
+                    $data['series'] = [
+                        [
+                            'name' => 'Income',
+                            'data' => $incomeData,
+                        ],
+                        [
+                            'name' => 'Expense',
+                            'data' => $expenseData,
+                        ],
+                    ];
+                    $data['xaxis'] = [
+                        'categories' => $dates,
+                    ];
         $data['chart'] = $this->chart();
         return view('dashboard', $data);
     }

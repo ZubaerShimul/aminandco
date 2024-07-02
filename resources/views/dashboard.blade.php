@@ -191,7 +191,11 @@
 @endsection
 
 @push('script')
-
+        <script>
+            var seriesData = @json($series);
+            var xaxisCategories = @json($xaxis['categories']);
+        </script>
+    
         <!-- BEGIN: Page Vendor JS-->
         <script src="{{asset('app-assets/vendors/js/charts/apexcharts.min.js')}}"></script>
         <!-- END: Page Vendor JS-->
