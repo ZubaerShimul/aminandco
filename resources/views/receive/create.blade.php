@@ -116,7 +116,7 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="date">@lang('Receive Date') <span class="text-danger">*</span></label>
-                                                <input type="date" id="date" class="form-control" name="date" value="{{old('date')}}" required/>
+                                                <input type="date" id="date" class="form-control" name="date" value="{{Carbon\Carbon::today()->toDateString()}}" {{ Auth::user()->is_admin ? "" : 'readonly' }} required/>
                                                 <span class="text-danger">{{$errors->first('date')}}</span>
                                             </div>
                                         </div>
