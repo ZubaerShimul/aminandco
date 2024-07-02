@@ -26,6 +26,9 @@
         .info-value {
             flex: 1;
         }
+        .nowrap {
+        white-space: nowrap;
+    }
     </style>
 @endpush
 @section('content')
@@ -120,7 +123,7 @@
         autoWidth: false,
         columnDefs: [
             {"targets": 0, "className": "text-center"},
-            {"targets": 1, "className": "text-center"},
+            {"targets": 1, "className": "text-center nowrap"},
             {"targets": 2, "className": "text-center"},
             {"targets": 3, "className": "text-center"},
             {"targets": 4, "className": "text-center"},
