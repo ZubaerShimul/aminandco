@@ -15,17 +15,17 @@ class DashboardContrller extends Controller
 {
     public function index()
     {
-//         Receive::withTrashed()->update([
-//             'is_draft' => DISABLE
-//         ]);
-//         Payment::withTrashed()->update([
-//             'is_draft' => DISABLE
-//         ]);
-//         Expense::withTrashed()->update([
-//             'is_draft' => DISABLE
-//         ]);
-        
-// dd('ok');
+        //         Receive::withTrashed()->update([
+        //             'is_draft' => DISABLE
+        //         ]);
+        //         Payment::withTrashed()->update([
+        //             'is_draft' => DISABLE
+        //         ]);
+        //         Expense::withTrashed()->update([
+        //             'is_draft' => DISABLE
+        //         ]);
+
+        // dd('ok');
         $data['user'] = Auth::user();
 
         // receive
@@ -50,7 +50,7 @@ class DashboardContrller extends Controller
 
         $data['payment']['today']       = $today_payment;
         $data['payment']['previous']    = $previous_payment;
-        $data['payment']['change']      = $today_payment > 0 ?$today_payment - $previous_payment : 0;
+        $data['payment']['change']      = $today_payment > 0 ? $today_payment - $previous_payment : 0;
 
         // payment
         $today_expense = Expense::whereDate('date', Carbon::now()->toDateString())->sum('amount');
@@ -74,47 +74,48 @@ class DashboardContrller extends Controller
         // $data['opening_balance']['today']       = $previous_balance + ($today_receive - $today_payment);
         $data['opening_balance']['previous']    = $previous_balance;
         $data['opening_balance']['change']      = $data['opening_balance']['today'] - $previous_balance;
-                    
-                    $currentDate = \Carbon\Carbon::now();
-                    $dates = [];
-                    for ($i = 0; $i < 10; $i++) {
-                        $dates[] = $currentDate->copy()->subDays($i)->format('d/m');
-                    }
 
-                    // Reverse the dates array to have the oldest date first
-                    $dates = array_reverse($dates);
-                    $incomeData = [];
-                    $expenseData = [];
+        // chart
+        $currentDate = Carbon::now();
+        $dates = [];
+        for ($i = 0; $i < 10; $i++) {
+            $dates[] = $currentDate->copy()->subDays($i)->format('d/m');
+        }
 
-                    for ($i = 0; $i < 10; $i++) {
-                        $date = \Carbon\Carbon::now()->subDays($i)->format('Y-m-d');
-                        $cashIn = \App\Models\Transaction::whereDate('date', $date)
-                                    ->where('type', 'Cash in')
-                                    ->sum('cash_in');
-                        $cashOut = \App\Models\Transaction::whereDate('date', $date)
-                                    ->where('type', 'Cash out')
-                                    ->sum('cash_out');
-                        $incomeData[] = $cashIn;
-                        $expenseData[] = $cashOut;
-                    }
-                    // dd($incomeData);
-                    // Reverse the data arrays to match the dates order
-                    $incomeData = array_reverse($incomeData);
-                    $expenseData = array_reverse($expenseData);
-                    $data['series'] = [
-                        [
-                            'name' => 'Income',
-                            'data' => $incomeData,
-                        ],
-                        [
-                            'name' => 'Expense',
-                            'data' => $expenseData,
-                        ],
-                    ];
-                    $data['xaxis'] = [
-                        'categories' => $dates,
-                    ];
-        $data['chart'] = $this->chart();
+        // Reverse the dates array to have the oldest date first
+        $dates = array_reverse($dates);
+        $incomeData = [];
+        $expenseData = [];
+
+        for ($i = 0; $i < 10; $i++) {
+            $date = Carbon::now()->subDays($i)->format('Y-m-d');
+            $cashIn = Transaction::whereDate('date', $date)
+                // ->where('type', CASH_IN)
+                ->sum('cash_in');
+                // dd($cashIn );
+            $cashOut = Transaction::whereDate('date', $date)
+                ->where('description', '!=', TRANSACTION_EMPLOYEE_SALARY)
+                ->sum('cash_out');
+            $incomeData[] = $cashIn;
+            $expenseData[] = $cashOut;
+        }
+        // Reverse the data arrays to match the dates order
+        $incomeData = array_reverse($incomeData);
+        $expenseData = array_reverse($expenseData);
+        $data['series'] = [
+            [
+                'name' => 'Income',
+                'data' => $incomeData,
+            ],
+            [
+                'name' => 'Expense',
+                'data' => $expenseData,
+            ],
+        ];
+        $data['xaxis'] = [
+            'categories' => $dates,
+        ];
+        // $data['chart'] = $this->chart();
         return view('dashboard', $data);
     }
 
@@ -141,7 +142,7 @@ class DashboardContrller extends Controller
 
         for ($i = 0; $i < 7; $i++) {
             $income = Transaction::whereDate('date', $date->toDateString())->sum('cash_in');
-            $expense = Transaction::where('description','!=', TRANSACTION_EMPLOYEE_SALARY)->whereDate('date', $date->toDateString())->sum('cash_in');
+            $expense = Transaction::where('description', '!=', TRANSACTION_EMPLOYEE_SALARY)->whereDate('date', $date->toDateString())->sum('cash_in');
             $data[] = [
                 'date' => $date->toDateString(),
                 'income' => $income,
