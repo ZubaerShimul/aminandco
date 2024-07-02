@@ -192,18 +192,9 @@ $(function () {
           }
         }
       },
-      series: [
-        {
-          name: 'Income',
-          data: [90, 120, 55, 100, 80, 125, 175, 70, 88, 180]
-        },
-        {
-          name: 'Expense',
-          data: [85, 100, 30, 40, 95, 90, 30, 110, 62, 20]
-        }
-      ],
+      series: seriesData,
       xaxis: {
-        categories: ['7/12', '8/12', '9/12', '10/12', '11/12', '12/12', '13/12', '14/12', '15/12', '16/12']
+        categories: xaxisCategories
       },
       fill: {
         opacity: 1
