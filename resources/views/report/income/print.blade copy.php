@@ -37,31 +37,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/invoice/css/style-rtl.css') }}">
     <!-- END: Custom CSS-->
 
-    <style>
-        .nowrap {
-        white-space: nowrap;
-    }
-        table {
-            font-size: 10px;
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #fff2cd;
-        }
-        tr:nth-child(odd) {
-            background-color: #ebd1dc;
-        }
-
-    </style>
 </head>
 <!-- END: Head-->
 
@@ -108,11 +83,11 @@
                             <p class="mb-25">1 No. Custom Ghat Road, Punak market, Khulna</p>
                         </div>
                         <div class="mt-md-0 mt-2">
-                            <h4 class="fw-bold text-end mb-1">@if(!empty($data['site'])) {{ "Receive from " .$data['site']->name.' Report' }} @else @lang("Receive Report")@endif</h4>
-                            @if(!empty($data['account']))
+                            <h4 class="fw-bold text-end mb-1">@if(!empty($data['site'])) {{ $data['site']->name.' ('.$data['site']->type.') Report' }} @else @lang("Payment Report")@endif</h4>
+                            @if(!empty($data['payment_to']))
                             <div class="invoice-date-wrapper mb-50">
-                                <span class="invoice-date-title">Bank Account:</span>
-                                <span class="fw-bold"> {{ $data['account']->name }}</span>
+                                <span class="invoice-date-title">Payment To:</span>
+                                <span class="fw-bold"> {{ $data['payment_to']->name }}</span>
                             </div>
                             @endif
                             @if(!empty($from_date))
@@ -128,14 +103,14 @@
                         </div>
                     </div>
                     <hr class="invoice-spacing" />
-                    <!-- expenses received -->
+                    <!-- expenses Paymentd -->
                                             
                     <div class="table-responsive mt-2">
                         <div class="row" id="basic-table">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">@lang("Receive Report")</h4>
+                                        <h4 class="card-title">@lang("Payment Report")</h4>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table">
@@ -143,54 +118,57 @@
                                                 <tr>
                                                     <th>Sl</th>
                                                     <th>Date</th>
-                                                    <th>Name</th>
-                                                    <th>District/ <br>Dicvision</th>
+                                                    <th>Name (Pay TO)</th>
+                                                    <th>Site/Partner</th>
+                                                    <th>District/Dicvision</th>
                                                     <th>Area</th>
                                                     <th>Bank Name</th>
                                                     <th>Acc Number</th>
                                                     <th>Pay. Method</th>
-                                                    <th>Net R Amount</th>
+                                                    <th>Net P Amount</th>
                                                     <th>Others Amount</th>
                                                     <th>Total Amount</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                               @if(isset($receives[0]))
-                                               @foreach ($receives as $receive )
-                                               <tr>
-                                                    <td>{{ $loop->iteration }} </td>
-                                                    <td class="nowrap">{{ $receive->date }} </td>
-                                                    <td>{{ $receive->name }} </td>
-                                                    <td>{{ $receive->district }} </td>
-                                                    <td>{{ $receive->area }} </td>
-                                                    <td>{{ $receive->bank_name }} </td>
-                                                    <td>{{ $receive->account_no }} </td>
-                                                    <td>{{ $receive->payment_method }} </td>
-                                                    <td>{{ $receive->net_payment_amount }} </td>
-                                                    <td>{{ $receive->others_amount }} </td>
-                                                    <td>{{ $receive->total }} </td>
+                                                @if(isset($payments[0]))
+                                                @foreach ($payments as $payment )
+                                                <tr>
+                                                     <td>{{ $loop->iteration }} </td>
+                                                     <td>{{ Carbon\Carbon::parse($payment->date)->format('d M, Y') }} </td>
+                                                     <td>{{ $payment->name }} </td>
+                                                     <td>{{ $payment->site_name }} </td>
+                                                     <td>{{ $payment->district }} </td>
+                                                     <td>{{ $payment->area }} </td>
+                                                     <td>{{ $payment->site_bank_name }} </td>
+                                                     <td>{{ $payment->site_account_no }} </td>
+                                                     <td>{{ $payment->payment_method }} </td>
+                                                     <td>{{ $payment->net_payment_amount }} </td>
+                                                     <td>{{ $payment->others_amount }} </td>
+                                                     <td>{{ $payment->total }} </td>
+                                                 </tr>
+                                                 @php
+                                                     $net_amount     += $payment->net_payment_amount;
+                                                     $other_amount   += $payment->others_amount;
+                                                     $total_amount   += $payment->total;
+                                                 @endphp
+                                                @endforeach
+                                                <tr>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td style="font-weight:bold">Total</td>
+                                                 <td style="font-weight:bold">Tk. {{ $net_amount }}</td>
+                                                 <td style="font-weight:bold">Tk. {{ $other_amount }}</td>
+                                                 <td style="font-weight:bold">Tk. {{ $total_amount }}</td>
                                                 </tr>
-                                                @php
-                                                    $net_amount     += $receive->net_payment_amount;
-                                                    $other_amount   += $receive->others_amount;
-                                                    $total_amount   += $receive->total;
-                                                @endphp
-                                               @endforeach
-                                               @endif
-                                               <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="nowrap" style="font-weight:bold background-color: #fff2cd">Total</td>
-                                                <td class="nowrap" style="font-weight:bold background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
-                                                <td class="nowrap" style="font-weight:bold background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
-                                                <td class="nowrap" style="font-weight:bold background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
-                                               </tr>
-                                            </tbody>
+                                                @endif
+                                             </tbody>
                                         </table>
                                     </div>
                                 </div>

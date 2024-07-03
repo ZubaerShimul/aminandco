@@ -10,6 +10,26 @@
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/forms/select/select2.min.css')}}">
 <!-- END: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/vendors/css/forms/select/select2.min.css')}}">
+    <style>
+        .table-responsive{
+            padding: 20px;
+        }
+        .table td {
+            font-size: 10px;
+          }
+        .table th {
+        font-size: 10px !important;
+        }
+        .table tr:nth-child(even) {
+            background-color: #fff2cd;
+        }
+        .table tr:nth-child(odd) {
+            background-color: #ebd1dc;
+        }
+        .nowrap {
+        white-space: nowrap;
+    }
+    </style>
 @endpush
 @section('content')
     <div class="content-wrapper">
@@ -146,7 +166,7 @@
                                             <th>Sl</th>
                                             <th>Date</th>
                                             <th>Name</th>
-                                            <th>District/Dicvision</th>
+                                            <th>District/ <br>Dicvision</th>
                                             <th>Area</th>
                                             <th>Bank Name</th>
                                             <th>Acc Number</th>
@@ -161,7 +181,7 @@
                                        @foreach ($receives as $receive )
                                        <tr>
                                             <td>{{ $loop->iteration }} </td>
-                                            <td>{{ Carbon\Carbon::parse($receive->date)->format('d M, Y') }} </td>
+                                            <td class="nowrap">{{ Carbon\Carbon::parse($receive->date)->format('d M, Y') }} </td>
                                             <td>{{ $receive->name }} </td>
                                             <td>{{ $receive->district }} </td>
                                             <td>{{ $receive->area }} </td>
@@ -187,11 +207,11 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td style="font-weight:bold">Total</td>
-                                        <td style="font-weight:bold">Tk. {{ $net_amount }}</td>
-                                        <td style="font-weight:bold">Tk. {{ $other_amount }}</td>
-                                        <td style="font-weight:bold">Tk. {{ $total_amount }}</td>
-                                       </tr>
+                                        <td class="nowrap" style="font-weight:bold background-color: #fff2cd">Total</td>
+                                        <td class="nowrap" style="font-weight:bold background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
+                                        <td class="nowrap" style="font-weight:bold background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
+                                        <td class="nowrap" style="font-weight:bold background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
+                                      </tr>
                                     </tbody>
                                 </table>
                             </div>
