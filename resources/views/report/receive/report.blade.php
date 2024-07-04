@@ -199,18 +199,12 @@
                                         @endphp
                                        @endforeach
                                        @endif
-                                       <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="nowrap" style="font-weight:bold background-color: #fff2cd">Total</td>
-                                        <td class="nowrap" style="font-weight:bold background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
-                                        <td class="nowrap" style="font-weight:bold background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
-                                        <td class="nowrap" style="font-weight:bold background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
+                                       <tr class="bg-light">
+                                        <td colspan="7"></td>
+                                        <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
+                                        <td class="nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
+                                        <td class="nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
+                                        <td class="nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
                                       </tr>
                                     </tbody>
                                 </table>
