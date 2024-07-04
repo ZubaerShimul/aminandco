@@ -13,7 +13,7 @@ class SiteController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $report_paymentTo = Site::query();
+            $report_paymentTo = Site::query()->orderBy('id', 'desc');
             return datatables($report_paymentTo)
                 ->editColumn('checkin', function ($site) {
                     return '<input type="checkbox" class="item-checkbox" data-id="' . $site->id . '">';
@@ -38,7 +38,7 @@ class SiteController extends Controller
         return view('category.site.index');
     }
 
-    public function storeUpdate(SiteRequest $request)
+    public function storeUpdate(Request $request)
     {
         $site = null;
         if (!empty($request->id)) {

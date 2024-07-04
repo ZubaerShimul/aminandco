@@ -21,14 +21,14 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div class="mb-2">
-                                        <label class="form-label" for="name">@lang('Name') <span class="text-danger">*</span></label>
-                                        <input type="text" id="name" class="form-control" name="name" value="{{ isset($data) ? $data->name :  old('name')}}" required/>
+                                        <label class="form-label" for="name">@lang('Name')</label>
+                                        <input type="text" id="name" class="form-control" name="name" value="{{ isset($data) ? $data->name :  old('name')}}"/>
                                         <span class="text-danger">{{$errors->first('name')}}</span>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-2">
-                                        <label class="form-label" for="select2-basic">{{ __("Type") }} <span class="text-danger">*</span></label>
+                                        <label class="form-label" for="select2-basic">{{ __("Type") }} </label>
                                             <select class="select2 form-select" id="select2-basic" name="type">
                                                 <option value="{{ null }}">@lang('Select')</option>
                                                <option value="{{ TYPE_SITE }}" {{ isset($data) ? ($data->type == TYPE_SITE ? 'selected' : '' ) : '' }}>{{ TYPE_SITE }}</option>
