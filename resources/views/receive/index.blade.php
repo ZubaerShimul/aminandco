@@ -220,7 +220,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="invoice-title">
-                                <div class="mb-4 d-flex align-items-center">
+                                <div class="mb-1 d-flex align-items-center">
                                     <img src="{{ asset('/assets/admin/images/admin-co.jpeg') }}" height="120" class="me-3">
                                     <div>
                                         <h2 class="mb-1">{{ allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO' }}</h2>
@@ -269,7 +269,7 @@
                             </div>                    
                             <div class="">
                                 <div class="table-responsive">
-                                    <table class="table align-middle table-nowrap table-centered mb-0">
+                                    <table class="table receive-table align-middle table-nowrap table-centered mb-0">
                                         <thead>
                                             <tr>
                                                 <th>SN.</th>
@@ -282,7 +282,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <th scope="row">01</th>
+                                                <td scope="row">01</td>
                                                 <td>
                                                     `+ details.date +`
                                                 </td>

@@ -34,7 +34,12 @@ font-size: 10px !important;
 .nowrap {
 white-space: nowrap;
 }
-
+.receive-table thead tr th{
+    font-size: 0.7rem !important;
+}
+.receive-table tbody tr td{
+    font-size: 0.6rem !important;
+}
 
 /* print.css */
 
