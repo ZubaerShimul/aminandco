@@ -67,6 +67,9 @@ class PaymentController extends Controller
         $data['payment_tos']        = PaymentTo::orderBy('name', 'asc')->get();
         $data['payment_methods']     = PaymentMethod::orderBy('name', 'asc')->get();
         $data['sites']              = Site::orderBy('id', 'desc')->get();
+        
+        $data['districts']          = Site::where('division', '!=', '')->get()->unique('division');
+        $data['areas']              = Site::where('area', '!=', null)->get()->unique('area');
 
         return view('payment.create', ['data' => $data]);
     }
@@ -92,7 +95,9 @@ class PaymentController extends Controller
             $data['payment_methods']     = PaymentMethod::orderBy('name', 'asc')->get();
             $data['sites']              = Site::orderBy('id', 'desc')->get();
 
-
+            $data['districts']          = Site::where('division', '!=', '')->get()->unique('division');
+            $data['areas']              = Site::where('area', '!=', null)->get()->unique('area');
+    
             return view('payment.edit', ['payment' => $payment, 'data' => $data]);
         }
         return redirect()->route('payment.list')->with('dismiss', __("Payment. not found"));

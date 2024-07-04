@@ -43,8 +43,9 @@ class PaymentService
 
             'site_id'           => $site[0],
             'site_name'         => $site[1],
-            'district'          => $site[2],
-            'area'              => $site[3],
+           
+            'district'          => $request->district,
+            'area'              => $request->area,
 
             'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
             'bank_name'         => isset($account[1]) ? $account[1] : null,
@@ -124,8 +125,9 @@ class PaymentService
 
             'site_id'           => $site[0],
             'site_name'         => $site[1],
-            'district'          => $site[2],
-            'area'              => $site[3],
+           
+            'district'          => $request->district,
+            'area'              => $request->area,
 
             // 'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
             // 'bank_name'         => isset($account[1]) ? $account[1] : null,

@@ -29,7 +29,7 @@ class ReceiveController extends Controller
                 ->editColumn('checkin', function ($receive) {
                     return '<input type="checkbox" class="item-checkbox" data-id="' . $receive->id . '" data-isDraft="' . $receive->is_draft . '">';
                 })
-                ->editColumn('date', function ($date)  {
+                ->editColumn('date', function ($date) {
                     return date('d M, Y', strtotime($date->date));
                 })
                 ->editColumn('is_draft', function ($status) use ($approved, $draft) {
@@ -52,7 +52,7 @@ class ReceiveController extends Controller
                     // $action .= status_change_modal($receive). '</div>';
                     return $action;
                 })
-                ->rawColumns(['checkin', 'actions', 'is_draft','date'])
+                ->rawColumns(['checkin', 'actions', 'is_draft', 'date'])
                 ->make(TRUE);
         }
         return view('receive.index');
@@ -63,6 +63,8 @@ class ReceiveController extends Controller
         $data['accounts']           = BankAccount::orderBy('name', 'asc')->get();
         $data['payment_methods']    = PaymentMethod::orderBy('name', 'asc')->get();
         $data['sites']              = Site::orderBy('id', 'desc')->get();
+        $data['districts']          = Site::where('division', '!=', '')->get()->unique('division');
+        $data['areas']              = Site::where('area', '!=', null)->get()->unique('area');
 
         return view('receive.create', ['data' => $data]);
     }
@@ -87,6 +89,8 @@ class ReceiveController extends Controller
             $data['payment_methods']    = PaymentMethod::orderBy('name', 'asc')->get();
             $data['sites']              = Site::orderBy('id', 'desc')->get();
 
+            $data['districts']          = Site::where('division', '!=', '')->get()->unique('division');
+            $data['areas']              = Site::where('area', '!=', null)->get()->unique('area');
             return view('receive.edit', ['receive' => $receive, 'data' => $data]);
         }
         return redirect()->route('receive.list')->with('dismiss', __("receive. not found"));

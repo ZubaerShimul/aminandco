@@ -3,17 +3,37 @@
     $payment = 0;
     $expense = 0;
 ?>
-@extends('layouts.master',['title' => __('Income Report')])
+@extends('layouts.master',['title' => __('Income Expenditure Report')])
 @push('style')
 <!-- BEGIN: Vendor CSS-->
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/vendors.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/forms/select/select2.min.css')}}">
 <!-- END: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/vendors/css/forms/select/select2.min.css')}}">
+    <style>
+        .table-responsive{
+            padding: 20px;
+        }
+        .table td {
+            font-size: 10px;
+          }
+        .table th {
+        font-size: 10px !important;
+        }
+        .table tr:nth-child(even) {
+            background-color: #fff2cd;
+        }
+        .table tr:nth-child(odd) {
+            background-color: #ebd1dc;
+        }
+        .nowrap {
+        white-space: nowrap;
+    }
+    </style>
 @endpush
 @section('content')
     <div class="content-wrapper">
-        @include('widgets.breadcrumb', ['title' => __('Income Report'), 'subtitle'=> __('Income'), 'button' => __('')])
+        @include('widgets.breadcrumb', ['title' => __('Income Expenditure Report'), 'subtitle'=> __('Income Expenditure'), 'button' => __('')])
         <!-- Basic Tables start -->
         <div class="content-body">
             <!-- Basic Horizontal form layout section start -->
@@ -22,7 +42,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">{{__('Income Report')}}</h4>
+                                <h4 class="card-title">{{__('Income Expenditure Report')}}</h4>
                             </div>
                             <div class="card-body">
                                 <form action="{{route('report.income')}}" method="get" class="form">
@@ -97,37 +117,37 @@
                 </div>
             </section>
             <!-- Basic Horizontal form layout section end -->
-
-        </div>
-                <div class="row" id="basic-table">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Report Expense</h4>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text"></p>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Sl</th>
-                                            <th>Date</th>
-                                            <th>Site Name</th>
-                                            <th>Division</th>
-                                            <th>Area</th>
-                                            <th>Receive</th>
-                                            <th>Payment</th>
-                                            <th>Expense</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                       @if(isset($transactions[0]))
-                                       @foreach ($transactions as $transaction )
+            </div>
+            <div class="row" id="basic-table">
+                <div class="col-12">
+                    <div class="card">
+                        {{--  <div class="card-header">
+                            <h4 class="card-title">Report Receive</h4>
+                        </div>  --}}
+                        <div class="card-body">
+                            <p class="card-text" style="padding: 20px;">Date: {{ !empty($data['from_date']) ? Carbon\Carbon::parse( $data['from_date'])->format('d/m/Y')  .' To '. Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y') : "Until - ".Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y')}}  </p>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Sl</th>
+                                        <th>Date</th>
+                                        <th>Site Name</th>
+                                        <th>Division</th>
+                                        <th>Area</th>
+                                        <th>Receive</th>
+                                        <th>Payment</th>
+                                        <th>Expense</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(isset($transactions[0]))
+                                    @foreach ($transactions as $transaction )
                                        <tr>
                                             <td>{{ $loop->iteration }} </td>
-                                            <td>{{ Carbon\Carbon::parse($transaction->date)->format('d M, Y') }} </td>
+                                            <td class="nowrap">{{ Carbon\Carbon::parse($transaction->date)->format('d/m/Y') }} </td>
                                             <td>{{ $transaction->site ? $transaction->site->name : null }} </td>
                                             <td>{{ $transaction->site ? $transaction->site->division : null }} </td>
                                             <td>{{ $transaction->site ? $transaction->site->area : null }} </td>
@@ -141,27 +161,24 @@
                                            $expense += $transaction->trnxable_type =='App\Models\Expense' ? $transaction->cash_out : 0;
                                         @endphp
                                        @endforeach
-                                       @endif
-                                       <tr>
-                                        <td </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td style="font-weight:bold">Total</td>
-                                        <td style="font-weight:bold">Tk. {{ number_format($receive,2) }}</td>
-                                        <td style="font-weight:bold">Tk. {{ number_format($payment,2) }}</td>
-                                        <td style="font-weight:bold">Tk. {{ number_format($expense,2) }}</td>
-                                       </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                    @endif
+                                    <tr class="bg-light">
+                                    <td colspan="4"></td>
+                                    <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
+                                    <td class="nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $receive }}{{ number_format($receive,2) }}</td>
+                                    <td class="nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ number_format($payment,2) }}</td>
+                                    <td class="nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ number_format($expense,2) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <!-- Basic Tables end -->
-                {{--  <div class="col-12">
-                    <a type="button" class="btn btn-primary me-1" href="{{ url('report/expense-print?to_date='.$data['to_date'].'&from_date='.$data['from_date'].'&site_id='.$data['site_id']) }}" style="float: right">@lang('Print')</a>
-                </div>  --}}
+            </div>
+            <!-- Basic Tables end -->
+            <div class="col-12">
+                <a type="button" class="btn btn-primary me-1" href="{{ url('report/income-print?to_date='.$data['to_date'].'&from_date='.$data['from_date'].'&site_id='.$data['site_id'].'&division='.$data['division'].'&area='.$data['area']) }}" style="float: right">@lang('Print')</a>
+            </div>
     </div>
 
 @endsection

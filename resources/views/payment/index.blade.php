@@ -29,6 +29,15 @@
         .nowrap {
         white-space: nowrap;
     }
+            /* Flexbox for vertical alignment */
+        .d-flex {
+            display: flex;
+            align-items: center; /* Vertically center the items */
+        }
+
+        .me-3 {
+            margin-right: 1rem; /* Add margin to the right of the logo */
+        }
     </style>
 @endpush
 @section('content')
@@ -64,22 +73,22 @@
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table report_cases">
                             <thead class="table-light">
-                            <tr>
-                                <th></th>
-                                <th>@lang('Date')</th>
-                                <th>@lang('Name')</th>
-                                <th>@lang('Site Name')</th>
-                                <th>@lang('District')</th>
-                                <th>@lang('Area')</th>
-                                <th>@lang('Bank Name')</th>
-                                <th>@lang('Acc Number')</th>
-                                <th>@lang('Pay Method')</th>
-                                <th>@lang('Net R/P Amount')</th>
-                                <th>@lang('Others Amount')</th>
-                                <th>@lang('Grand Total')</th>
-                                <th>@lang('Approved')</th>
-                                <th width="30px">@lang('Actions')</th>
-                            </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>@lang('Date')</th>
+                                    <th>@lang('Name')</th>
+                                    <th>@lang('Site Name')</th>
+                                    <th>@lang('District')</th>
+                                    <th>@lang('Area')</th>
+                                    <th>@lang('Bank Name')</th>
+                                    <th>@lang('Acc Number')</th>
+                                    <th>@lang('Pay Method')</th>
+                                    <th>@lang('Net R/P Amount')</th>
+                                    <th>@lang('Others Amount')</th>
+                                    <th>@lang('Grand Total')</th>
+                                    <th>@lang('Approved')</th>
+                                    <th width="30px">@lang('Actions')</th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -91,14 +100,14 @@
                     <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="detailsModalLabel">Details</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" id="print-element">
                                 <!-- Placeholder for details -->
                                 <div id="detailsPlaceholder"></div>
                             </div>
                             <div class="modal-footer">
+                                <button type="button" class="btn btn-primary me-1" id="printButton" style="float: right">@lang('Print')</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
@@ -119,7 +128,7 @@
         serverSide: true,
         pageLength: 10,
         responsive: true,
-        order: [0, 'desc'],
+        order: [1, 'desc'],
         autoWidth: false,
         columnDefs: [
             {"targets": 0, "className": "text-center"},
@@ -152,8 +161,7 @@
                 {"data": "total"},
                 {"data": "is_draft"},
                 {"data": "actions", orderable: false, searchable: false}
-            ],
-        ajax: {
+            ],ajax: {
             url: '{{ route('payment.list') }}',
             type: 'GET',
             data: function (d) {
@@ -197,7 +205,6 @@
         var details = {
             date: this.dataset.date,
             name: this.dataset.name,
-            site_name: this.dataset.site_name,
             district: this.dataset.district,
             area: this.dataset.area,
             bank_name: this.dataset.bank_name,
@@ -216,9 +223,12 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="invoice-title">
-                                <div class="mb-4">
-                                    <h2 class="mb-1">{{allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO'}}</h2>
-                                    <p class="mb-1">1st Class Government contractor & Suppliers</p>
+                                <div class="mb-4 d-flex align-items-center">
+                                    <img src="{{ asset('/assets/admin/images/admin-co.jpeg') }}" height="120" class="me-3">
+                                    <div>
+                                        <h2 class="mb-1">{{ allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO' }}</h2>
+                                        <p class="mb-1">1st Class Government contractor & Suppliers</p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -234,12 +244,8 @@
                                 <div class="col-sm-6">
                                         <div class="info-container">
                                         <div class="info-item">
-                                            <span class="info-label">Pay To:</span>
+                                            <span class="info-label">Name:</span>
                                             <span class="info-value">`+ details.name +`</span>
-                                        </div>
-                                         <div class="info-item">
-                                            <span class="info-label">Site/Partner:</span>
-                                            <span class="info-value">`+ details.site_name +`</span>
                                         </div>
                                         <div class="info-item">
                                             <span class="info-label">Division:</span>
@@ -342,6 +348,39 @@
             return confirm("Are You Sure To Delete This!");
         });
 
-
     </script>
+    <script>
+
+    var bootstrapCSS = "{{ asset('assets/admin/css/bootstrap.css') }}";
+    var bootstrapExtendedCSS = "{{ asset('assets/admin/css/bootstrap-extended.css') }}";
+    var componentsCSS = "{{ asset('assets/admin/css/components.css') }}";
+    var vendorsCSS = "{{ asset('assets/admin/vendors/css/vendors.min.css') }}";
+    var printCSS = "{{ asset('assets/admin/css/print.css') }}";
+
+    document.getElementById('printButton').addEventListener('click', function () {
+    var printContents = document.getElementById('detailsPlaceholder').innerHTML;
+
+    var printWindow = window.open('', '', 'height=500,width=800');
+    printWindow.document.write('<html><head><title>Print</title>');
+    printWindow.document.write('<link rel="stylesheet" href="' + bootstrapCSS + '" type="text/css" />');
+    printWindow.document.write('<link rel="stylesheet" href="' + bootstrapExtendedCSS + '" type="text/css" />');
+    printWindow.document.write('<link rel="stylesheet" href="' + componentsCSS + '" type="text/css" />');
+    printWindow.document.write('<link rel="stylesheet" href="' + vendorsCSS + '" type="text/css" />');
+    printWindow.document.write('<link rel="stylesheet" href="' + printCSS + '" type="text/css" />');
+    printWindow.document.write('</head><body>');
+    printWindow.document.write('<div id="print-element">');
+    printWindow.document.write(printContents);
+    printWindow.document.write('</div></body></html>');
+
+    printWindow.document.close();
+    printWindow.focus(); // Ensure the window is in focus
+    printWindow.onload = function () {
+        printWindow.print();
+        printWindow.close();
+    };
+});
+
+
+</script>
+
 @endpush

@@ -34,15 +34,29 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
-                                                <label class="form-label" for="district">@lang('Division/District') <span class="text-danger">*</span></label>
-                                                <input type="text" id="district" class="form-control" name="district" value="{{$receive->district}}" required/>
+                                                <label class="form-label" for="select2-basic">{{ __("Division/ District") }} <span class="text-danger">*</span></label>
+                                                    <select class="select2 form-select" id="district" name="district" required>
+                                                        <option value="{{ null }}">@lang('Select')</option>
+                                                        @if(isset($data['districts'][0]))
+                                                        @foreach ($data['districts'] as $district )
+                                                            <option value="{{ $district->division}}" {{ $district->division == $receive->district ? "selected" : ""}}  >{{$district->division}} </option>
+                                                        @endforeach
+                                                        @endif
+                                                    </select>
                                                 <span class="text-danger">{{$errors->first('district')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
-                                                <label class="form-label" for="area">@lang('Area') <span class="text-danger">*</span></label>
-                                                <input type="text" id="area" class="form-control" name="area" value="{{$receive->area}}" required/>
+                                                <label class="form-label" for="select2-basic">{{ __("Area") }} <span class="text-danger">*</span></label>
+                                                    <select class="select2 form-select" id="area" name="area" required>
+                                                        <option value="{{ null }}">@lang('Select')</option>
+                                                        @if(isset($data['areas'][0]))
+                                                        @foreach ($data['areas'] as $area )
+                                                            <option value="{{ $area->area}}" {{ $area->area == $receive->area ? "selected" : ""}} >{{$area->area}} </option>
+                                                        @endforeach
+                                                        @endif
+                                                    </select>
                                                 <span class="text-danger">{{$errors->first('area')}}</span>
                                             </div>
                                         </div>

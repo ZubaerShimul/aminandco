@@ -127,7 +127,7 @@
         serverSide: true,
         pageLength: 10,
         responsive: true,
-        order: [0, 'desc'],
+        order: [1, 'desc'],
         autoWidth: false,
         columnDefs: [
             {"targets": 0, "className": "text-center"},

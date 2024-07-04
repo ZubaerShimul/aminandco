@@ -205,9 +205,15 @@
                                         <td>{{ $payment->others_amount }} </td>
                                         <td>{{ $payment->total }} </td>
                                     </tr>
+                                    
+                                    @php
+                                        $net_amount     += $payment->net_payment_amount;
+                                        $other_amount   += $payment->others_amount;
+                                        $total_amount   += $payment->total;
+                                    @endphp
                                    @endforeach
                                    <tr class="bg-light">
-                                    <td colspan="7"></td>
+                                    <td colspan="8"></td>
                                     <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
                                     <td class="nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
                                     <td class="nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
