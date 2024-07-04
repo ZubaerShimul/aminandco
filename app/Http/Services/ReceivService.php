@@ -37,8 +37,8 @@ class ReceivService
             'created_by'        => Auth::id(),
             'site_id'           => $site[0],
             'name'              => $site[1],
-            'district'          => $site[2],
-            'area'              => $site[3],
+            'district'          => $request->district,
+            'area'              => $request->area,
 
             'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
             'bank_name'         => isset($account[1]) ? $account[1] : null,
@@ -109,8 +109,8 @@ class ReceivService
         $receiveData = [
             'site_id'           => $site[0],
             'name'              => $site[1],
-            'district'          => $site[2],
-            'area'              => $site[3],
+            'district'          => $request->district,
+            'area'              => $request->area,
 
             // 'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
             // 'bank_name'         => isset($account[1]) ? $account[1] : null,

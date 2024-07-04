@@ -53,7 +53,7 @@
                                         <div class="mb-2">
                                             <label class="form-label" for="select2-basic">@lang("Select Receive From")</label>
                                             <select class="select2 form-select" id="select2-basic" name="site_id">
-                                                <option value="{{ null }}">Al</option>
+                                                <option value="{{ null }}">All</option>
                                             @if(isset($data['sites'][0]))
                                                 @foreach ($data['sites'] as $site )
                                                     <option value="{{ $site->id }}" {{ $data['site_id'] == $site->id ? "selected" : "" }}>{{ $site->name}}</option>
@@ -88,7 +88,7 @@
                                                 <option value="{{ null }}">@lang("All")</option>
                                                 @if(isset($data['districts'][0]))
                                                 @foreach ($data['districts'] as $district )
-                                                    <option value="{{ $district->district }}" {{ $data['district'] == $district->district ? "selected" : "" }}>{{ $district->district }}</option>
+                                                    <option value="{{ $district->division }}" {{ $data['district'] == $district->division ? "selected" : "" }}>{{ $district->division }}</option>
                                                 @endforeach
                                                 @endif
                                             </select>
