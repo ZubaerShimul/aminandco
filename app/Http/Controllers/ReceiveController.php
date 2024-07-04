@@ -62,7 +62,7 @@ class ReceiveController extends Controller
     {
         $data['accounts']           = BankAccount::orderBy('name', 'asc')->get();
         $data['payment_methods']    = PaymentMethod::orderBy('name', 'asc')->get();
-        $data['sites']              = Site::orderBy('id', 'desc')->get();
+        $data['sites']              = Site::where('name', '!=', null)->orderBy('id', 'desc')->get();
         $data['districts']          = Site::where('division', '!=', '')->get()->unique('division');
         $data['areas']              = Site::where('area', '!=', null)->get()->unique('area');
 
@@ -87,7 +87,7 @@ class ReceiveController extends Controller
             }
             $data['accounts']           = BankAccount::orderBy('name', 'asc')->get();
             $data['payment_methods']    = PaymentMethod::orderBy('name', 'asc')->get();
-            $data['sites']              = Site::orderBy('id', 'desc')->get();
+            $data['sites']              = Site::where('name', '!=', null)->orderBy('id', 'desc')->get();
 
             $data['districts']          = Site::where('division', '!=', '')->get()->unique('division');
             $data['areas']              = Site::where('area', '!=', null)->get()->unique('area');
