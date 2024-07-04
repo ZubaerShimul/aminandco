@@ -20,6 +20,7 @@
     <link href="{{ asset('home/assets/css/owl.transitions.css')}}" rel="stylesheet">
     <link href="{{ asset('home/assets/css/jquery.fancybox.css')}}" rel="stylesheet">
     <link href="{{ asset('home/assets/css/style.css')}}" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{asset('/assets/favicon_io/favicon.ico')}}">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>

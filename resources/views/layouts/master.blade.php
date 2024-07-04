@@ -7,6 +7,7 @@
     <meta name="author" content="Rabiul Islam">
     <meta name="keywords" content="SDR, Data Recovery, Smart Data Recovery">
     <meta name="description" content="Register and create case to recover you data">
+    <link rel="icon" type="image/x-icon" href="{{asset('/assets/favicon_io/favicon.ico')}}">
 
     <title>@lang('Amin & CO') @if(isset($title)) | {{  $title }}
         

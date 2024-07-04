@@ -1,0 +1,83 @@
+   /* Flexbox for vertical alignment */
+   .d-flex {
+    display: flex;
+    align-items: center; /* Vertically center the items */
+}
+
+.me-3 {
+    margin-right: 1rem; /* Add margin to the right of the logo */
+}
+
+.card-datatable.table-responsive{
+    padding: 20px;
+}
+.user-list-table td {
+    font-size: 10px;
+  }
+.report_cases th {
+font-size: 10px !important;
+}
+.info-container {
+    display: flex;
+    flex-direction: column;
+}
+.info-item {
+    display: flex;
+}
+.info-label {
+    width: 120px; /* Adjust the width as needed */
+    font-weight: bold;
+}
+.info-value {
+    flex: 1;
+}
+.nowrap {
+white-space: nowrap;
+}
+
+
+/* print.css */
+
+@page {
+    margin: 20mm;
+}
+
+body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+#detailsPlaceholder {
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding is included in element's width */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    page-break-inside: auto;
+    font-size: 8px;
+}
+
+table, th, td {
+    border: 1px solid black; /* Add borders for better visibility */
+}
+
+thead {
+    display: table-header-group; /* Ensure header rows are repeated on each page */
+}
+
+tfoot {
+    display: table-footer-group; /* Ensure footer rows are repeated on each page */
+}
+
+tr {
+    page-break-inside: avoid; /* Prevent page breaks inside rows */
+}
+
+.page-break {
+    page-break-before: always; /* Force page break before the element */
+}
