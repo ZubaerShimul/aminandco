@@ -24,8 +24,8 @@ class SiteRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'type' => 'required',
-            'division' => 'required|max:255',
-            'area' => 'required|max:255',
+            // 'division' => 'required|max:255',
+            // 'area' => 'required|max:255',
             // 'mobile_number' => 'required|max:255',
         ];
     }

@@ -50,15 +50,15 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-2">
-                                        <label class="form-label" for="division">@lang('Division Name') <span class="text-danger">*</span></label>
-                                        <input type="text" id="division" class="form-control" name="division" value="{{ isset($data) ? $data->division : old('division')}}" required/>
+                                        <label class="form-label" for="division">@lang('Division Name')</label>
+                                        <input type="text" id="division" class="form-control" name="division" value="{{ isset($data) ? $data->division : old('division')}}"/>
                                         <span class="text-danger">{{$errors->first('division')}}</span>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-2">
-                                        <label class="form-label" for="area">@lang('Area Name') <span class="text-danger">*</span></label>
-                                        <input type="text" id="area" class="form-control" name="area" value="{{ isset($data) ? $data->area : old('area')}}" required/>
+                                        <label class="form-label" for="area">@lang('Area Name')</label>
+                                        <input type="text" id="area" class="form-control" name="area" value="{{ isset($data) ? $data->area : old('area')}}"/>
                                         <span class="text-danger">{{$errors->first('area')}}</span>
                                     </div>
                                 </div>
