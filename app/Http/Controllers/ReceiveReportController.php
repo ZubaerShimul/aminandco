@@ -87,7 +87,8 @@ class ReceiveReportController extends Controller
         }
         $receives = $query->get();
 
+        $from_date = !empty($from_date)? Carbon::parse($from_date)->format('d/y/Y') : null;
 
-        return view('report.receive.print', ['receives' => $receives, 'to_date' => $to_date, 'from_date' => $from_date, 'data' => $data]);
+        return view('report.receive.print', ['receives' => $receives, 'to_date' => Carbon::parse($to_date)->format('d/y/Y'), 'from_date' => $from_date, 'data' => $data]);
     }
 }

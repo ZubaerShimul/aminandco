@@ -23,10 +23,10 @@ class PaymentReportController extends Controller
         $data['from_date'] = $from_date;
         $data['to_date'] = $to_date;
         $data['site_id'] = $request->site_id;
+        $data['account_id'] = $request->account_id;
         $data['payment_to_id'] = $request->payment_to_id;
         $data['site_bank_name'] = $request->site_bank_name;
         $data['district'] = $request->district;
-        $data['area'] = $request->area;
         $data['area'] = $request->area;
         $data['payment_method'] = $request->payment_method;
 
