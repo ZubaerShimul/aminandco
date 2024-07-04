@@ -313,7 +313,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="d-print-none">
+                                <div class="">
                                     <div class="text-center">
                                             <h5 class="font-size-16">18, Gogan Babu Road (2nd Lane), Khulna</h5>
                                             <p class="">Call: 01711-331360 & 01971-331360 E-mail:mdruhulamin1968@gmail.com</p>
