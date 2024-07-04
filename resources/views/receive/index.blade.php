@@ -29,6 +29,15 @@
         .nowrap {
         white-space: nowrap;
     }
+            /* Flexbox for vertical alignment */
+        .d-flex {
+            display: flex;
+            align-items: center; /* Vertically center the items */
+        }
+
+        .me-3 {
+            margin-right: 1rem; /* Add margin to the right of the logo */
+        }
     </style>
 @endpush
 @section('content')
@@ -90,14 +99,14 @@
                     <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="detailsModalLabel">Details</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" id="print-element">
                                 <!-- Placeholder for details -->
                                 <div id="detailsPlaceholder"></div>
                             </div>
                             <div class="modal-footer">
+                                <button type="button" class="btn btn-primary me-1" id="printButton" style="float: right">@lang('Print')</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
@@ -211,9 +220,12 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="invoice-title">
-                                <div class="mb-4">
-                                    <h2 class="mb-1">{{allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO'}}</h2>
-                                    <p class="mb-1">1st Class Government contractor & Suppliers</p>
+                                <div class="mb-4 d-flex align-items-center">
+                                    <img src="{{ asset('/assets/admin/images/admin-co.jpeg') }}" height="120" class="me-3">
+                                    <div>
+                                        <h2 class="mb-1">{{ allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO' }}</h2>
+                                        <p class="mb-1">1st Class Government contractor & Suppliers</p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -333,6 +345,39 @@
             return confirm("Are You Sure To Delete This!");
         });
 
-
     </script>
+    <script>
+
+    var bootstrapCSS = "{{ asset('assets/admin/css/bootstrap.css') }}";
+    var bootstrapExtendedCSS = "{{ asset('assets/admin/css/bootstrap-extended.css') }}";
+    var componentsCSS = "{{ asset('assets/admin/css/components.css') }}";
+    var vendorsCSS = "{{ asset('assets/admin/vendors/css/vendors.min.css') }}";
+    var printCSS = "{{ asset('assets/admin/css/print.css') }}";
+
+    document.getElementById('printButton').addEventListener('click', function () {
+    var printContents = document.getElementById('detailsPlaceholder').innerHTML;
+
+    var printWindow = window.open('', '', 'height=500,width=800');
+    printWindow.document.write('<html><head><title>Print</title>');
+    printWindow.document.write('<link rel="stylesheet" href="' + bootstrapCSS + '" type="text/css" />');
+    printWindow.document.write('<link rel="stylesheet" href="' + bootstrapExtendedCSS + '" type="text/css" />');
+    printWindow.document.write('<link rel="stylesheet" href="' + componentsCSS + '" type="text/css" />');
+    printWindow.document.write('<link rel="stylesheet" href="' + vendorsCSS + '" type="text/css" />');
+    printWindow.document.write('<link rel="stylesheet" href="' + printCSS + '" type="text/css" />');
+    printWindow.document.write('</head><body>');
+    printWindow.document.write('<div id="print-element">');
+    printWindow.document.write(printContents);
+    printWindow.document.write('</div></body></html>');
+
+    printWindow.document.close();
+    printWindow.focus(); // Ensure the window is in focus
+    printWindow.onload = function () {
+        printWindow.print();
+        printWindow.close();
+    };
+});
+
+
+</script>
+
 @endpush
