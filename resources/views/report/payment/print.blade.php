@@ -38,29 +38,43 @@
     <!-- END: Custom CSS-->
 
     <style>
+       .table-responsive{
+            padding: 0px 20px 0px 20px;
+        }
+        .table > :not(caption) > * > * {
+  padding: 0.2rem .2rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg); }
+        .table td {
+            font-size: 7px;
+            color:black;
+          }
+        .table th {
+        font-size: 6px !important;
+        }
+        .table tr:nth-child(even) {
+            background-color: #fff2cd;
+        }
+        .table tr:nth-child(odd) {
+            background-color: #ebd1dc;
+        }
         .nowrap {
         white-space: nowrap;
     }
-        table {
-            font-size: 10px;
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #fff2cd;
-        }
-        tr:nth-child(odd) {
-            background-color: #ebd1dc;
-        }
-
+    p{
+        font-size: 8px;
+        margin-bottom:0px !important;
+        line-height:.5rem;
+    }
+    h5{
+        margin-bottom:0px !important;
+        line-height:1rem;
+    }
+    h6{
+        margin-bottom:0px !important;
+        line-height:1rem;
+    }
     </style>
 </head>
 <!-- END: Head-->
@@ -76,75 +90,77 @@
             <div class="content-header row">
             </div>
             <div class="content-body">
-                <div class="invoice-print p-3">
+                <div class="invoice-print px-3 pt-3">
                     <div class="invoice-header d-flex justify-content-between flex-md-row flex-column">
                         <div class="mx-auto">
-                            <div class="mb-1 text-center">
-                                <h3 class="text-primary fw-bold">Amin & CO</h3>
-                                <h4 class="fw-bold text-end">@lang("Payment Report")</h4>
+                            <div class="text-center">
+                                <h5 class="text-primary fw-bold">Amin & CO</h5>
+                                <h6 class="fw-bold text-end">@lang("Payment Report")</h6>
                             </div>
                         </div>
                     </div>
-                    {{--  <hr class="invoice-spacing" />  --}}
-                    <p>Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : 'Unitil- '.$to_date }}</p>
                     <!-- expenses Payment -->
                                             
-                    <div class="table-responsive mt-2">
+                    <div class="table-responsive">
                         <div class="row" id="basic-table">
                             <div class="col-12">
+                                <div class="mx-2">
+                                    <p>Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : 'Unitil- '.$to_date }}</p>
+                                </div>
                                 <div class="card">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Sl</th>
-                                                    <th class="nowrap">Date</th>
-                                                    <th>Name (Pay TO)</th>
-                                                    <th>Site/Partner</th>
-                                                    <th>District/Dicvision</th>
-                                                    <th>Area</th>
-                                                    <th>Bank Name</th>
-                                                    <th>Acc Number</th>
-                                                    <th>Pay. Method</th>
-                                                    <th>Net P Amount</th>
-                                                    <th>Others Amount</th>
-                                                    <th>Total Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                               @if(isset($payments[0]))
-                                               @foreach ($payments as $payment )
-                                               <tr>
-                                                <td>{{ $loop->iteration }} </td>
-                                                <td>{{ Carbon\Carbon::parse($payment->date)->format('d/m/Y') }} </td>
-                                                <td>{{ $payment->name }} </td>
-                                                <td>{{ $payment->site_name }} </td>
-                                                <td>{{ $payment->district }} </td>
-                                                <td>{{ $payment->area }} </td>
-                                                <td>{{ $payment->site_bank_name }} </td>
-                                                <td>{{ $payment->site_account_no }} </td>
-                                                <td>{{ $payment->payment_method }} </td>
-                                                <td>{{ $payment->net_payment_amount }} </td>
-                                                <td>{{ $payment->others_amount }} </td>
-                                                <td>{{ $payment->total }} </td>
-                                            </tr>
-                                                @php
-                                                    $net_amount     += $payment->net_payment_amount;
-                                                    $other_amount   += $payment->others_amount;
-                                                    $total_amount   += $payment->total;
-                                                @endphp
-                                               @endforeach
-                                               @endif
-                                               <tr class="bg-light">
-                                                <td colspan="7"></td>
-                                                <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
-                                                <td class="nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
-                                                <td class="nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
-                                                <td class="nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
-                                               </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Sl</th>
+                                        <th class="nowrap">Date</th>
+                                        <th class="text-nowrap">Name (Pay TO)</th>
+                                        <th class="text-nowrap">Site/Partner</th>
+                                        <th class="text-nowrap">District/Division</th>
+                                        <th class="text-nowrap">Area</th>
+                                        <th class="text-nowrap">Bank Name</th>
+                                        <th class="text-nowrap">Acc Number</th>
+                                        <th class="text-nowrap">Pay. Method</th>
+                                        <th class="text-nowrap">Net P Amount</th>
+                                        <th class="text-nowrap">Others Amount</th>
+                                        <th class="text-nowrap">Total Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @if(isset($payments[0]))
+                                @foreach ($payments as $payment )
+                                <tr>
+                                        <td>{{ $loop->iteration }} </td>
+                                        <td class="nowrap">{{ Carbon\Carbon::parse($payment->date)->format('d M, Y') }} </td>
+                                        <td>{{ $payment->name }} </td>
+                                        <td>{{ $payment->site_name }} </td>
+                                        <td>{{ $payment->district }} </td>
+                                        <td>{{ $payment->area }} </td>
+                                        <td>{{ $payment->site_bank_name }} </td>
+                                        <td>{{ $payment->site_account_no }} </td>
+                                        <td>{{ $payment->payment_method }} </td>
+                                        <td>{{ $payment->net_payment_amount }} </td>
+                                        <td>{{ $payment->others_amount }} </td>
+                                        <td>{{ $payment->total }} </td>
+                                    </tr>
+                                    
+                                    @php
+                                        $net_amount     += $payment->net_payment_amount;
+                                        $other_amount   += $payment->others_amount;
+                                        $total_amount   += $payment->total;
+                                    @endphp
+                                @endforeach
+                                <tr class="bg-light">
+                                    <td colspan="8"></td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
+                                    </tr>
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
                                 </div>
                             </div>
                         </div>

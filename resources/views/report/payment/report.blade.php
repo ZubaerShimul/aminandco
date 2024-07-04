@@ -14,11 +14,16 @@
         .table-responsive{
             padding: 20px;
         }
+        .table > :not(caption) > * > * {
+  padding: 0.72rem .5rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg); }
         .table td {
             font-size: 10px;
           }
         .table th {
-        font-size: 10px !important;
+        font-size: 8px !important;
         }
         .table tr:nth-child(even) {
             background-color: #fff2cd;
@@ -171,29 +176,29 @@
                         </div>
                         
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Sl</th>
                                         <th class="nowrap">Date</th>
-                                        <th>Name (Pay TO)</th>
-                                        <th>Site/Partner</th>
-                                        <th>District/Dicvision</th>
-                                        <th>Area</th>
-                                        <th>Bank Name</th>
-                                        <th>Acc Number</th>
-                                        <th>Pay. Method</th>
-                                        <th>Net P Amount</th>
-                                        <th>Others Amount</th>
-                                        <th>Total Amount</th>
+                                        <th class="text-nowrap">Name (Pay TO)</th>
+                                        <th class="text-nowrap">Site/Partner</th>
+                                        <th class="text-nowrap">District/Division</th>
+                                        <th class="text-nowrap">Area</th>
+                                        <th class="text-nowrap">Bank Name</th>
+                                        <th class="text-nowrap">Acc Number</th>
+                                        <th class="text-nowrap">Pay. Method</th>
+                                        <th class="text-nowrap">Net P Amount</th>
+                                        <th class="text-nowrap">Others Amount</th>
+                                        <th class="text-nowrap">Total Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   @if(isset($payments[0]))
-                                   @foreach ($payments as $payment )
-                                   <tr>
+                                @if(isset($payments[0]))
+                                @foreach ($payments as $payment )
+                                <tr>
                                         <td>{{ $loop->iteration }} </td>
-                                        <td>{{ Carbon\Carbon::parse($payment->date)->format('d M, Y') }} </td>
+                                        <td class="nowrap">{{ Carbon\Carbon::parse($payment->date)->format('d M, Y') }} </td>
                                         <td>{{ $payment->name }} </td>
                                         <td>{{ $payment->site_name }} </td>
                                         <td>{{ $payment->district }} </td>
@@ -211,15 +216,15 @@
                                         $other_amount   += $payment->others_amount;
                                         $total_amount   += $payment->total;
                                     @endphp
-                                   @endforeach
-                                   <tr class="bg-light">
+                                @endforeach
+                                <tr class="bg-light">
                                     <td colspan="8"></td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
                                     </tr>
-                                   @endif
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -228,7 +233,7 @@
             </div>
                 <!-- Basic Tables end -->
                 <div class="col-12">
-                    <a type="button" class="btn btn-primary me-1" href="{{ url('report/receive-print?to_date='.$data['to_date'].'&from_date='.$data['from_date'].'&site_id='.$data['site_id']) }}" style="float: right">@lang('Print')</a>
+                    <a type="button" class="btn btn-primary me-1" href="{{ url('report/payment-print?to_date='.$data['to_date'].'&from_date='.$data['from_date'].'&site_id='.$data['site_id']) }}" style="float: right">@lang('Print')</a>
                 </div>
     </div>
 

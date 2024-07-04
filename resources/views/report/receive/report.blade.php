@@ -14,11 +14,16 @@
         .table-responsive{
             padding: 20px;
         }
+        .table > :not(caption) > * > * {
+  padding: 0.72rem .5rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg); }
         .table td {
             font-size: 10px;
           }
         .table th {
-        font-size: 10px !important;
+        font-size: 8px !important;
         }
         .table tr:nth-child(even) {
             background-color: #fff2cd;
@@ -160,20 +165,20 @@
                         </div>
                         
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Sl</th>
-                                        <th>Date</th>
-                                        <th>Name</th>
-                                        <th>District/ <br>Dicvision</th>
-                                        <th>Area</th>
-                                        <th>Bank Name</th>
-                                        <th>Acc Number</th>
-                                        <th>Pay. Method</th>
-                                        <th>Net R Amount</th>
-                                        <th>Others Amount</th>
-                                        <th>Total Amount</th>
+                                        <th class="nowrap">Date</th>
+                                        <th class="text-nowrap">Name</th>
+                                        <th class="text-nowrap">District/ <br>Dicvision</th>
+                                        <th class="text-nowrap">Area</th>
+                                        <th class="text-nowrap">Bank Name</th>
+                                        <th class="text-nowrap">Acc Number</th>
+                                        <th class="text-nowrap">Pay. Method</th>
+                                        <th class="text-nowrap">Net R Amount</th>
+                                        <th class="text-nowrap">Others Amount</th>
+                                        <th class="text-nowrap">Total Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -201,10 +206,10 @@
                                     @endif
                                     <tr class="bg-light">
                                     <td colspan="7"></td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
                                     </tr>
                                 </tbody>
                             </table>
