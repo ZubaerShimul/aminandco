@@ -81,29 +81,12 @@
                         <div class="mx-auto">
                             <div class="mb-1 text-center">
                                 <h3 class="text-primary fw-bold">Amin & CO</h3>
-                                <h4 class="fw-bold text-end">@if(!empty($data['site'])) {{ "Receive from " .$data['site']->name.' Report' }} @else @lang("Receive Report")@endif</h4>
+                                <h4 class="fw-bold text-end">@lang("Receive Report")</h4>
                             </div>
-                        </div>
-                        <div class="mt-md-0 mt-1">
-                            @if(!empty($data['account']))
-                            <div class="invoice-date-wrapper mb-50">
-                                <span class="invoice-date-title">Bank Account:</span>
-                                <span class="fw-bold"> {{ $data['account']->name }}</span>
-                            </div>
-                            @endif
-                            @if(!empty($from_date))
-                            <div class="invoice-date-wrapper mb-50">
-                                <span class="invoice-date-title">From:</span>
-                                <span class="fw-bold"> {{ $from_date }}</span>
-                            </div>
-                            <div class="invoice-date-wrapper">
-                                <span class="invoice-date-title">To:</span>
-                                <span class="fw-bold">{{ $to_date }}</span>
-                            </div>
-                            @endif
                         </div>
                     </div>
-                    <hr class="invoice-spacing" />
+                    {{--  <hr class="invoice-spacing" />  --}}
+                    <p>Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : 'Unitil- '.$to_date }}</p>
                     <!-- expenses received -->
                                             
                     <div class="table-responsive mt-2">
@@ -132,7 +115,7 @@
                                                @foreach ($receives as $receive )
                                                <tr>
                                                     <td>{{ $loop->iteration }} </td>
-                                                    <td class="nowrap">{{ $receive->date }} </td>
+                                                    <td class="nowrap">{{ Carbon\Carbon::parse($receive->date)->format('d/y/Y') }} </td>
                                                     <td>{{ $receive->name }} </td>
                                                     <td>{{ $receive->district }} </td>
                                                     <td>{{ $receive->area }} </td>
