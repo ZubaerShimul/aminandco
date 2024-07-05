@@ -1,3 +1,4 @@
+<!-- BEGIN: Main Menu-->
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
@@ -14,9 +15,11 @@
             </li>
         </ul>
     </div>
+
+    {{--  Dashboard   --}}
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
-        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+        <ul class="navigation navigation-main pb-2" id="main-menu-navigation" data-menu="menu-navigation">
             <li class="nav-item @if(request()->routeIs('admin.dashboard')) active @endif">
                 <a class="d-flex align-items-center" href="{{route('admin.dashboard')}}">
                     <i data-feather="home"></i>
@@ -105,14 +108,7 @@
                     <li class="@if(request()->routeIs('report.income')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.income') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Income Expenditure")</span></a> </li>
                 </ul>
             </li>
-            <li class="active nav-item"><a class="d-flex align-items-center" href="app-chat.html"><i data-feather="message-square"></i><span class="menu-title text-truncate" data-i18n="Chat">Chat</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="app-todo.html"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Todo</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="app-calendar.html"><i data-feather="calendar"></i><span class="menu-title text-truncate" data-i18n="Calendar">Calendar</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="app-kanban.html"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Kanban">Kanban</span></a>
-            </li>
         </ul>
     </div>
 </div>
+<!-- END: Main Menu-->
