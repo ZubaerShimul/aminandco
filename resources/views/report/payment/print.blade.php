@@ -105,10 +105,10 @@
                         <div class="row" id="basic-table">
                             <div class="col-12">
                                 <div class="mx-2">
-                                    <p>Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : 'Unitil- '.$to_date }}</p>
+                                    <p>Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : '- '.$to_date }}</p>
                                 </div>
                                 <div class="card">
-                                <div class="table-responsive">
+                            <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -153,9 +153,9 @@
                                 <tr class="bg-light">
                                     <td colspan="8"></td>
                                     <td class="text-nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
-                                    <td class="text-nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
-                                    <td class="text-nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
-                                    <td class="text-nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #B9D8AF !important">Tk. {{ $net_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #EDD3DE !important">Tk. {{ $other_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #CDE2F5 !important">Tk. {{ $total_amount }}</td>
                                     </tr>
                                 @endif
                                 </tbody>

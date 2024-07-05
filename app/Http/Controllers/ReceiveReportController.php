@@ -27,8 +27,8 @@ class ReceiveReportController extends Controller
 
 
         $data['sites']          = Site::whereHas('receive')->orderBy('name', 'asc')->get();
-        $data['districts']      = Site::where('division', '!=', '')->get()->unique('division');
-        $data['areas']          = Site::where('area', '!=', null)->get()->unique('area');
+        $data['districts']      = Site::where('division','!=', null)->orderBy('division', 'asc')->distinct()->select('division')->get();
+        $data['areas']          = Site::where('area','!=', null)->orderBy('area', 'asc')->distinct()->select('area')->get();
         $data['accounts']       = BankAccount::orderBy('name', 'asc')->get();
         // $data['accounts']       = Payment::where('site_bank_name','!=', null)->distinct()->select('site_bank_name')->get();
         $data['payment_methods'] = PaymentMethod::orderBy('name', 'asc')->get();

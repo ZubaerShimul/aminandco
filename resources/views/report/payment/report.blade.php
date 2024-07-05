@@ -57,7 +57,7 @@
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">@lang("Select Payment To")</label>
                                                 <select class="select2 form-select" id="select2-basic" name="payment_to_id">
-                                                    <option value="{{ null }}">@lang("Select Payment To")</option>
+                                                    <option value="{{ null }}">@lang("All")</option>
                                                     @if(isset($data['payment_tos'][0]))
                                                     @foreach ($data['payment_tos'] as $payment_to )
                                                         <option value="{{ $payment_to->id }}" {{   $data['payment_to_id'] == $payment_to->id ? "selected" : ""  }}>{{ $payment_to->name }}</option>
@@ -88,7 +88,7 @@
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">@lang("Select Site/Partner")</label>
                                                 <select class="select2 form-select" id="select2-basic" name="site_id">
-                                                    <option value="{{ null }}">@lang("Select Site/Partner")</option>
+                                                    <option value="{{ null }}">@lang("All")</option>
                                                 @if(isset($data['sites'][0]))
                                                     @foreach ($data['sites'] as $site )
                                                         <option value="{{ $site->id }}" {{ $data['site_id'] == $site->id ? "selected" : "" }}>{{ $site->name }}</option>
@@ -101,10 +101,10 @@
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">@lang("District")</label>
                                                 <select class="select2 form-select" id="select2-basic" name="district">
-                                                    <option value="{{ null }}">@lang("Select District")</option>
+                                                    <option value="{{ null }}">@lang("All")</option>
                                                     @if(isset($data['districts'][0]))
                                                     @foreach ($data['districts'] as $district )
-                                                        <option value="{{ $district->district }}" {{ $data['district'] == $district->district ? "selected" : "" }}>{{ $district->district }}</option>
+                                                        <option value="{{ $district->division }}" {{ $data['district'] == $district->division ? "selected" : "" }}>{{ $district->division }}</option>
                                                     @endforeach
                                                     @endif
                                                 </select>
@@ -114,7 +114,7 @@
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">@lang("Area")</label>
                                                 <select class="select2 form-select" id="select2-basic" name="area">
-                                                    <option value="{{ null }}">@lang("Select Area")</option>
+                                                    <option value="{{ null }}">@lang("All")</option>
                                                 @if(isset($data['areas'][0]))
                                                     @foreach ($data['areas'] as $area )
                                                         <option value="{{ $area->area }}" {{ $data['area'] == $area->area ? "selected" : "" }}>{{ $area->area }}</option>
@@ -127,7 +127,7 @@
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">@lang("Bank Account")</label>
                                                 <select class="select2 form-select" id="select2-basic" name="site_bank_name">
-                                                    <option value="{{ null }}">@lang("Select Bank Account")</option>
+                                                    <option value="{{ null }}">@lang("All")</option>
                                                     @if(isset($data['accounts'][0]))
                                                     @foreach ($data['accounts'] as $account )
                                                         <option value="{{ $account->site_bank_name }}" {{   $data['site_bank_name'] == $account->site_bank_name ? "selected" : ""  }}>{{ $account->site_bank_name }}</option>
@@ -140,7 +140,7 @@
                                             <div class="mb-2">
                                                 <label class="form-label" for="select2-basic">{{ __("Payment Method") }}  </label>   
                                                     <select class="select2 form-select" id="select2-basic" name="payment_method">
-                                                        <option value="{{ null }}">@lang('Select')</option>
+                                                        <option value="{{ null }}">@lang('All')</option>
                                                         @if(isset($data['payment_methods'][0]))
                                                         @foreach ($data['payment_methods'] as $payment_method )
                                                             <option value="{{ $payment_method->name}}" {{   $data['payment_method'] == $payment_method->name ? "selected" : ""  }}>{{ $payment_method->name }}</option>
@@ -172,7 +172,7 @@
                             <h4 class="card-title">Report Receive</h4>
                         </div>  --}}
                         <div class="card-body">
-                            <p class="card-text" style="padding: 20px;">Date: {{ !empty($data['from_date']) ? Carbon\Carbon::parse( $data['from_date'])->format('d/m/Y')  .' To '. Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y') : "Until - ".Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y')}}  </p>
+                            <p class="card-text" style="padding: 20px;">Date: {{ !empty($data['from_date']) ? Carbon\Carbon::parse( $data['from_date'])->format('d/m/Y')  .' To '. Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y') : "- ".Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y')}}  </p>
                         </div>
                         
                         <div class="table-responsive">
@@ -220,9 +220,9 @@
                                 <tr class="bg-light">
                                     <td colspan="8"></td>
                                     <td class="text-nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
-                                    <td class="text-nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
-                                    <td class="text-nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
-                                    <td class="text-nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #B9D8AF !important">Tk. {{ $net_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #EDD3DE !important">Tk. {{ $other_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #CDE2F5 !important">Tk. {{ $total_amount }}</td>
                                     </tr>
                                 @endif
                                 </tbody>

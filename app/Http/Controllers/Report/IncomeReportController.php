@@ -23,9 +23,9 @@ class IncomeReportController extends Controller
         $data['area']       = $request->area;
         $data['division']   = $request->division;
 
-        $data['sites']      = Site::orderBy('name', 'asc')->get();
-        $data['divisions']  = Site::orderBy('name', 'asc')->distinct()->select('division')->get();
-        $data['areas']      = Site::orderBy('name', 'asc')->distinct()->select('area')->get();
+        $data['sites']      = Site::where('name','!=', null)->orderBy('name', 'asc')->get();
+        $data['divisions']  = Site::where('division','!=', null)->orderBy('division', 'asc')->distinct()->select('division')->get();
+        $data['areas']      = Site::where('area','!=', null)->orderBy('area', 'asc')->distinct()->select('area')->get();
 
         if (!empty($from_date)) {
             $query = Transaction::whereDate('date', '>=', $request->from_date)->whereDate('date', '<=', $to_date);
@@ -65,9 +65,9 @@ class IncomeReportController extends Controller
         $data['area']       = $request->area;
         $data['division']   = $request->division;
 
-        $data['sites']      = Site::orderBy('name', 'asc')->get();
-        $data['divisions']  = Site::orderBy('name', 'asc')->distinct()->select('division')->get();
-        $data['areas']      = Site::orderBy('name', 'asc')->distinct()->select('area')->get();
+        $data['sites']      = Site::where('name','!=', null)->orderBy('name', 'asc')->get();
+        $data['divisions']  = Site::where('division','!=', null)->orderBy('division', 'asc')->distinct()->select('division')->get();
+        $data['areas']      = Site::where('area','!=', null)->orderBy('area', 'asc')->distinct()->select('area')->get();
 
         if (!empty($from_date)) {
             $query = Transaction::whereDate('date', '>=', $request->from_date)->whereDate('date', '<=', $to_date);

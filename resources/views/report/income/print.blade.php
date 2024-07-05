@@ -10,7 +10,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Amin & CO | Income Expenditure Report</title>
+    <title>Amin & CO | Official Expense Report</title>
     {{--  <link rel="apple-touch-icon" href="{{asset('app-assets/images/ico/apple-icon-120.png')}}">  --}}
     {{--  <link rel="shortcut icon" type="image/x-icon" href="{{asset('app-assets/images/ico/favicon.ico')}}">  --}}
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
@@ -38,29 +38,43 @@
     <!-- END: Custom CSS-->
 
     <style>
+          .table-responsive{
+            padding: 0px 20px 0px 20px;
+        }
+        .table > :not(caption) > * > * {
+  padding: 0.2rem .2rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg); }
+        .table td {
+            font-size: 7px;
+            color:black;
+          }
+        .table th {
+        font-size: 6px !important;
+        }
+        .table tr:nth-child(even) {
+            background-color: #fff2cd;
+        }
+        .table tr:nth-child(odd) {
+            background-color: #ebd1dc;
+        }
         .nowrap {
         white-space: nowrap;
     }
-        table {
-            font-size: 10px;
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #fff2cd;
-        }
-        tr:nth-child(odd) {
-            background-color: #ebd1dc;
-        }
-
+    p{
+        font-size: 8px;
+        margin-bottom:0px !important;
+        line-height:.5rem;
+    }
+    h5{
+        margin-bottom:0px !important;
+        line-height:1rem;
+    }
+    h6{
+        margin-bottom:0px !important;
+        line-height:1rem;
+    }
     </style>
 </head>
 <!-- END: Head-->
@@ -76,65 +90,65 @@
             <div class="content-header row">
             </div>
             <div class="content-body">
-                <div class="invoice-print p-3">
+                <div class="invoice-print px-3 pt-3">
                     <div class="invoice-header d-flex justify-content-between flex-md-row flex-column">
                         <div class="mx-auto">
-                            <div class="mb-1 text-center">
-                                <h3 class="text-primary fw-bold">Amin & CO</h3>
-                                <h4 class="fw-bold text-end">@lang("Income Expenditure Report")</h4>
+                            <div class="text-center">
+                                <h5 class="text-primary fw-bold">Amin & CO</h5>
+                                <h6 class="fw-bold text-end">@lang("Income Expenditure Report")</h6>
                             </div>
                         </div>
                     </div>
-                    {{--  <hr class="invoice-spacing" />  --}}
-                    <p>Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : 'Unitil- '.$to_date }}</p>
                     <!-- expenses Income Expenditured -->
                                             
-                    <div class="table-responsive mt-2">
+                    <div class="table-responsive">
                         <div class="row" id="basic-table">
                             <div class="col-12">
+                                <div class="mx-2">
+                                    <p >Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : '- '.$to_date }}</p>
+                                </div>
                                 <div class="card">
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table table-bordered">
                                             <thead>
-                                            <tr>
-                                                <th>Sl</th>
-                                                <th>Date</th>
-                                                <th>Site Name</th>
-                                                <th>Division</th>
-                                                <th>Area</th>
-                                                <th>Receive</th>
-                                                <th>Payment</th>
-                                                <th>Expense</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @if(isset($transactions[0]))
-                                            @foreach ($transactions as $transaction )
-                                            <tr>
-                                                    <td>{{ $loop->iteration }} </td>
-                                                    <td class="nowrap">{{ Carbon\Carbon::parse($transaction->date)->format('d/m/Y') }} </td>
-                                                    <td>{{ $transaction->site ? $transaction->site->name : null }} </td>
-                                                    <td>{{ $transaction->site ? $transaction->site->division : null }} </td>
-                                                    <td>{{ $transaction->site ? $transaction->site->area : null }} </td>
-                                                    <td>{{ $transaction->description =='Receive' ? $transaction->cash_in : '-' }} </td>
-                                                    <td>{{ $transaction->description =='Payment' ? $transaction->cash_out : '-' }} </td>
-                                                    <td>{{ $transaction->trnxable_type =='App\Models\Expense' ? $transaction->cash_out : '-' }} </td>
+                                                <tr>
+                                                    <th>Sl</th>
+                                                    <th class="nowrap">Date</th>
+                                                    <th class="text-nowrap">Site Name</th>
+                                                    <th class="text-nowrap">Division</th>
+                                                    <th class="text-nowrap">Area</th>
+                                                    <th class="text-nowrap">Receive</th>
+                                                    <th class="text-nowrap">Payment</th>
+                                                    <th class="text-nowrap">Expense</th>
                                                 </tr>
-                                                @php
-                                                $receive += $transaction->description =='Receive' ? $transaction->cash_in : 0;
-                                                $payment += $transaction->description =='Payment' ? $transaction->cash_out : 0;
-                                                $expense += $transaction->trnxable_type =='App\Models\Expense' ? $transaction->cash_out : 0;
-                                                @endphp
-                                            @endforeach
-                                            @endif
-                                            <tr class="bg-light">
-                                            <td colspan="4"></td>
-                                            <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
-                                            <td class="nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $receive }}{{ number_format($receive,2) }}</td>
-                                            <td class="nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ number_format($payment,2) }}</td>
-                                            <td class="nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ number_format($expense,2) }}</td>
-                                            </tr>
-                                        </tbody>
+                                            </thead>
+                                            <tbody>@if(isset($transactions[0]))
+                                                @foreach ($transactions as $transaction )
+                                                   <tr>
+                                                        <td>{{ $loop->iteration }} </td>
+                                                        <td class="nowrap">{{ Carbon\Carbon::parse($transaction->date)->format('d/m/Y') }} </td>
+                                                        <td>{{ $transaction->site ? $transaction->site->name : null }} </td>
+                                                        <td>{{ $transaction->site ? $transaction->site->division : null }} </td>
+                                                        <td>{{ $transaction->site ? $transaction->site->area : null }} </td>
+                                                        <td>{{ $transaction->description =='Receive' ? $transaction->cash_in : '-' }} </td>
+                                                        <td>{{ $transaction->description =='Payment' ? $transaction->cash_out : '-' }} </td>
+                                                        <td>{{ $transaction->trnxable_type =='App\Models\Expense' ? $transaction->cash_out : '-' }} </td>
+                                                    </tr>
+                                                    @php
+                                                       $receive += $transaction->description =='Receive' ? $transaction->cash_in : 0;
+                                                       $payment += $transaction->description =='Payment' ? $transaction->cash_out : 0;
+                                                       $expense += $transaction->trnxable_type =='App\Models\Expense' ? $transaction->cash_out : 0;
+                                                    @endphp
+                                                   @endforeach
+                                                @endif
+                                                <tr class="bg-light">
+                                                <td colspan="4"></td>
+                                                <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
+                                                <td class="nowrap" style="font-weight:bold; background-color: #B9D8AF !important">Tk. {{ number_format($receive,2) }}</td>
+                                                <td class="nowrap" style="font-weight:bold; background-color: #EDD3DE !important">Tk. {{ number_format($payment,2) }}</td>
+                                                <td class="nowrap" style="font-weight:bold; background-color: #CDE2F5 !important">Tk. {{ number_format($expense,2) }}</td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
