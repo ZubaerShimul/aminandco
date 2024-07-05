@@ -35,6 +35,45 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/invoice/css/style-rtl.css') }}">
     <!-- END: Custom CSS-->
 
+    <style>
+          .table-responsive{
+            padding: 0px 20px 0px 20px;
+        }
+        .table > :not(caption) > * > * {
+  padding: 0.2rem .2rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg); }
+        .table td {
+            font-size: 7px;
+            color:black;
+          }
+        .table th {
+        font-size: 6px !important;
+        }
+        .table tr:nth-child(even) {
+            background-color: #fff2cd;
+        }
+        .table tr:nth-child(odd) {
+            background-color: #ebd1dc;
+        }
+        .nowrap {
+        white-space: nowrap;
+    }
+    p{
+        font-size: 8px;
+        margin-bottom:0px !important;
+        line-height:.5rem;
+    }
+    h5{
+        margin-bottom:0px !important;
+        line-height:1rem;
+    }
+    h6{
+        margin-bottom:0px !important;
+        line-height:1rem;
+    }
+    </style>
 </head>
 <!-- END: Head-->
 
@@ -49,122 +88,81 @@
             <div class="content-header row">
             </div>
             <div class="content-body">
-                <div class="invoice-print p-3">
-                    <div class="invoice-header d-flex justify-content-between flex-md-row flex-column pb-2">
-                        <div>
-                            <div class="d-flex mb-1">
-                                {{--  <svg viewBox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
-                                    <defs>
-                                        <linearGradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
-                                            <stop stop-color="#000000" offset="0%"></stop>
-                                            <stop stop-color="#FFFFFF" offset="100%"></stop>
-                                        </linearGradient>
-                                        <linearGradient id="linearGradient-2" x1="64.0437835%" y1="46.3276743%" x2="37.373316%" y2="100%">
-                                            <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
-                                            <stop stop-color="#FFFFFF" offset="100%"></stop>
-                                        </linearGradient>
-                                    </defs>
-                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <g id="Artboard" transform="translate(-400.000000, -178.000000)">
-                                            <g id="Group" transform="translate(400.000000, 178.000000)">
-                                                <path class="text-primary" id="Path" d="M-5.68434189e-14,2.84217094e-14 L39.1816085,2.84217094e-14 L69.3453773,32.2519224 L101.428699,2.84217094e-14 L138.784583,2.84217094e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L6.71554594,44.4188507 C2.46876683,39.9813776 0.345377275,35.1089553 0.345377275,29.8015838 C0.345377275,24.4942122 0.230251516,14.560351 -5.68434189e-14,2.84217094e-14 Z" style="fill: currentColor"></path>
-                                                <path id="Path1" d="M69.3453773,32.2519224 L101.428699,1.42108547e-14 L138.784583,1.42108547e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L32.8435758,70.5039241 L69.3453773,32.2519224 Z" fill="url(#linearGradient-1)" opacity="0.2"></path>
-                                                <polygon id="Path-2" fill="#000000" opacity="0.049999997" points="69.3922914 32.4202615 32.8435758 70.5039241 54.0490008 16.1851325"></polygon>
-                                                <polygon id="Path-21" fill="#000000" opacity="0.099999994" points="69.3922914 32.4202615 32.8435758 70.5039241 58.3683556 20.7402338"></polygon>
-                                                <polygon id="Path-3" fill="url(#linearGradient-2)" opacity="0.099999994" points="101.428699 0 83.0667527 94.1480575 130.378721 47.0740288"></polygon>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </svg>  --}}
-                                <h3 class="text-primary fw-bold ms-1">Amin & CO</h3>
+                <div class="invoice-print px-3 pt-3">
+                    <div class="invoice-header d-flex justify-content-between flex-md-row flex-column">
+                        <div class="mx-auto">
+                            <div class="text-center">
+                                <h5 class="text-primary fw-bold">Amin & CO</h5>
+                                <h6 class="fw-bold text-end">@lang("Expense Report")</h6>
                             </div>
-                            <p class="mb-25">1 No. Custom Ghat Road, Punak market, Khulna</p>
-                        </div>
-                        <div class="mt-md-0 mt-2">
-                            <h4 class="fw-bold text-end mb-1">{{ !empty($data['type']) ? $data['type'] : "Expense" }}  Report</h4>
-                            @if(!empty($data['site']))
-                            <div class="invoice-date-wrapper mb-50">
-                                <span class="invoice-date-title">Site Name:</span>
-                                <span class="fw-bold"> {{ $data['site']->name }}</span>
-                            </div>
-                            @endif
-                            @if(!empty($from_date))
-                            <div class="invoice-date-wrapper mb-50">
-                                <span class="invoice-date-title">From:</span>
-                                <span class="fw-bold"> {{ $from_date }}</span>
-                            </div>
-                            <div class="invoice-date-wrapper">
-                                <span class="invoice-date-title">To:</span>
-                                <span class="fw-bold">{{ $to_date }}</span>
-                            </div>
-                            @endif
                         </div>
                     </div>
-                    <hr class="invoice-spacing" />
-                    <!-- expenses Expensed -->
+                    <!-- expenses received -->
                                             
-                    <div class="table-responsive mt-2">
+                    <div class="table-responsive">
                         <div class="row" id="basic-table">
                             <div class="col-12">
+                                <div class="mx-2">
+                                    <p >Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : '- '.$to_date }}</p>
+                                </div>
                                 <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">@lang("Expense Report")</h4>
-                                    </div>
                                     <div class="table-responsive">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Sl</th>
-                                                        <th>Date</th>
-                                                        <th>Name</th>
-                                                        <th>Ex. Type</th>
-                                                        @if($data['type'] != EXPENSE_TYPE_OFFICIAL)
-                                                        <th>Site Name</th>
-                                                        <th>Dicvision</th>
-                                                        <th>Area</th>
-                                                        @endif
-                                                        <th>Note</th>
-                                                        <th>Amount</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                   @if(isset($expenses[0]))
-                                                   @foreach ($expenses as $expense )
-                                                   <tr>
-                                                        <td>{{ $loop->iteration }} </td>
-                                                        <td>{{ Carbon\Carbon::parse($expense->date)->format('d M, Y') }} </td>
-                                                        <td>{{ $expense->name }} </td>
-                                                        <td>{{ $expense->type }} </td>
-                                                        @if($data['type'] != EXPENSE_TYPE_OFFICIAL)
-                                                            <td>{{ $expense->site_name }} </td>
-                                                            <td>{{ $expense->division }} </td>
-                                                            <td>{{ $expense->area }} </td>
-                                                        @endif
-                                                        <td>{{ $expense->note }} </td>
-                                                        <td>{{ $expense->amount }} </td>
-                                                    </tr>
-                                                    @php
-                                                        $amount     += $expense->amount;
-                                                    @endphp
-                                                   @endforeach
-                                                   @endif
-                                                   <tr>
-                                                    <td </td>
-                                                    @if($data['type'] != EXPENSE_TYPE_OFFICIAL)
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    @endif
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td style="font-weight:bold">Total</td>
-                                                    <td </td>
-                                                    <td style="font-weight:bold">Tk. {{ $amount }}</td>
-                                                   </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        <table class="table table-bordered">
+                                         
+                                <thead>
+                                    <tr>
+                                        <th>Sl</th>
+                                        <th class="nowrap">Date</th>
+                                        <th class="text-nowrap">Name</th>
+                                        <th class="text-nowrap">Ex. Type</th>
+                                        @if($data['type'] != EXPENSE_TYPE_OFFICIAL)
+                                        <th class="text-nowrap">Site Name</th>
+                                        <th class="text-nowrap">Dicvision</th>
+                                        <th class="text-nowrap">Area</th>
+                                        @endif
+                                        <th class="text-nowrap">Note</th>
+                                        <th class="text-nowrap">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(isset($expenses[0]))
+                                    @foreach ($expenses as $expense )
+                                    <tr>
+                                         <td>{{ $loop->iteration }} </td>
+                                         <td>{{ Carbon\Carbon::parse($expense->date)->format('d M, Y') }} </td>
+                                         <td>{{ $expense->name }} </td>
+                                         <td>{{ $expense->type }} </td>
+                                         @if($data['type'] != EXPENSE_TYPE_OFFICIAL)
+                                             <td>{{ $expense->site_name }} </td>
+                                             <td>{{ $expense->division }} </td>
+                                             <td>{{ $expense->area }} </td>
+                                         @endif
+                                         <td>{{ $expense->note }} </td>
+                                         <td>{{ $expense->amount }} </td>
+                                     </tr>
+                                     @php
+                                         $amount     += $expense->amount;
+                                     @endphp
+                                    @endforeach
+                                    @endif
+                                    <tr>
+                                        @if($data['type'] != EXPENSE_TYPE_OFFICIAL)
+                                        <tr class="bg-light">
+                                           <td colspan="6"></td>
+                                           <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
+                                           <td colspan="1"></td>
+                                           <td class="nowrap" style="font-weight:bold; background-color: #B9D8AF !important">Tk. {{ number_format($amount,2) }}</td>
+                                        
+                                        @else  
+                                        <td colspan="3"></td>
+                                        <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
+                                        <td colspan="1"></td>
+                                        <td class="nowrap" style="font-weight:bold; background-color: #B9D8AF !important">Tk. {{ number_format($amount,2) }}</td>
+                                     @endif
+                                    </tr>
+                                 </tbody>
+                            
+                                        </table>
                                     </div>
                                 </div>
                             </div>

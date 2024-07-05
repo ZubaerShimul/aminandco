@@ -14,11 +14,16 @@
         .table-responsive{
             padding: 20px;
         }
+        .table > :not(caption) > * > * {
+  padding: 0.72rem .5rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg); }
         .table td {
             font-size: 10px;
           }
         .table th {
-        font-size: 10px !important;
+        font-size: 8px !important;
         }
         .table tr:nth-child(even) {
             background-color: #fff2cd;
@@ -122,28 +127,28 @@
                 <div class="col-12">
                     <div class="card">
                         {{--  <div class="card-header">
-                            <h4 class="card-title">Report Receive</h4>
+                            <h4 class="card-title">Report Income Expenditure</h4>
                         </div>  --}}
                         <div class="card-body">
-                            <p class="card-text" style="padding: 20px;">Date: {{ !empty($data['from_date']) ? Carbon\Carbon::parse( $data['from_date'])->format('d/m/Y')  .' To '. Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y') : "Until - ".Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y')}}  </p>
+                            <p class="card-text" style="padding: 20px;">Date: {{ !empty($data['from_date']) ? Carbon\Carbon::parse( $data['from_date'])->format('d/m/Y')  .' To '. Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y') : "- ".Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y')}}  </p>
                         </div>
                         
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Sl</th>
-                                        <th>Date</th>
-                                        <th>Site Name</th>
-                                        <th>Division</th>
-                                        <th>Area</th>
-                                        <th>Receive</th>
-                                        <th>Payment</th>
-                                        <th>Expense</th>
+                                        <th></th>
+                                        <th class="nowrap">Date</th>
+                                        <th class="text-nowrap">Site Name</th>
+                                        <th class="text-nowrap">Division</th>
+                                        <th class="text-nowrap">Area</th>
+                                        <th class="text-nowrap">Receive</th>
+                                        <th class="text-nowrap">Payment</th>
+                                        <th class="text-nowrap">Expense</th>
+                                   
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @if(isset($transactions[0]))
+                                <tbody>@if(isset($transactions[0]))
                                     @foreach ($transactions as $transaction )
                                        <tr>
                                             <td>{{ $loop->iteration }} </td>
@@ -165,9 +170,9 @@
                                     <tr class="bg-light">
                                     <td colspan="4"></td>
                                     <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $receive }}{{ number_format($receive,2) }}</td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ number_format($payment,2) }}</td>
-                                    <td class="nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ number_format($expense,2) }}</td>
+                                    <td class="nowrap" style="font-weight:bold; background-color: #B9D8AF !important">Tk. {{ number_format($receive,2) }}</td>
+                                    <td class="nowrap" style="font-weight:bold; background-color: #EDD3DE !important">Tk. {{ number_format($payment,2) }}</td>
+                                    <td class="nowrap" style="font-weight:bold; background-color: #CDE2F5 !important">Tk. {{ number_format($expense,2) }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -176,8 +181,8 @@
                 </div>
             </div>
             <!-- Basic Tables end -->
-            <div class="col-12">
-                <a type="button" class="btn btn-primary me-1" href="{{ url('report/income-print?to_date='.$data['to_date'].'&from_date='.$data['from_date'].'&site_id='.$data['site_id'].'&division='.$data['division'].'&area='.$data['area']) }}" style="float: right">@lang('Print')</a>
+            <div class="col-12"> 
+                    <a type="button" class="btn btn-primary me-1" href="{{ url('report/income-print?to_date='.$data['to_date'].'&from_date='.$data['from_date'].'&site_id='.$data['site_id'].'&division='.$data['division'].'&area='.$data['area']) }}" style="float: right">@lang('Print')</a>
             </div>
     </div>
 

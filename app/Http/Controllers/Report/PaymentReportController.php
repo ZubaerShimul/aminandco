@@ -32,8 +32,8 @@ class PaymentReportController extends Controller
 
 
         $data['sites']          = Site::whereHas('payment')->orderBy('name', 'asc')->get();
-        $data['districts']      = Payment::where('district','!=', '')->get()->unique('district');
-        $data['areas']          = Payment::where('area','!=', null)->get()->unique('area');
+        $data['districts']      = Site::where('division','!=', null)->orderBy('division', 'asc')->distinct()->select('division')->get();
+        $data['areas']          = Site::where('area','!=', null)->orderBy('area', 'asc')->distinct()->select('area')->get();
         $data['payment_tos']    = PaymentTo::whereHas('payment')->orderBy('name', 'asc')->get();
         // $data['accounts']       = BankAccount::orderBy('name', 'asc')->get();
         $data['accounts']       = Payment::where('site_bank_name','!=', null)->distinct()->select('site_bank_name')->get();

@@ -161,7 +161,7 @@
                             <h4 class="card-title">Report Receive</h4>
                         </div>  --}}
                         <div class="card-body">
-                            <p class="card-text" style="padding: 20px;">Date: {{ !empty($data['from_date']) ? Carbon\Carbon::parse( $data['from_date'])->format('d/m/Y')  .' To '. Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y') : "Until - ".Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y')}}  </p>
+                            <p class="card-text" style="padding: 20px;">Date: {{ !empty($data['from_date']) ? Carbon\Carbon::parse( $data['from_date'])->format('d/m/Y')  .' To '. Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y') : "- ".Carbon\Carbon::parse( $data['to_date'])->format('d/m/Y')}}  </p>
                         </div>
                         
                         <div class="table-responsive">
@@ -207,9 +207,9 @@
                                     <tr class="bg-light">
                                     <td colspan="7"></td>
                                     <td class="text-nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
-                                    <td class="text-nowrap" style="font-weight:bold; background-color: #6c9473 !important">Tk. {{ $net_amount }}</td>
-                                    <td class="text-nowrap" style="font-weight:bold; background-color: #9c716d !important">Tk. {{ $other_amount }}</td>
-                                    <td class="text-nowrap" style="font-weight:bold; background-color: #93a8b5 !important">Tk. {{ $total_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #B9D8AF !important">Tk. {{ $net_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #EDD3DE !important">Tk. {{ $other_amount }}</td>
+                                    <td class="text-nowrap" style="font-weight:bold; background-color: #CDE2F5 !important">Tk. {{ $total_amount }}</td>
                                     </tr>
                                 </tbody>
                             </table>
