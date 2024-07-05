@@ -105,14 +105,17 @@
                     <li class="@if(request()->routeIs('report.income')) active @endif"><a class="d-flex align-items-center" href="{{ route('report.income') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">@lang("Income Expenditure")</span></a> </li>
                 </ul>
             </li>
-            <li class="active nav-item"><a class="d-flex align-items-center" href="app-chat.html"><i data-feather="message-square"></i><span class="menu-title text-truncate" data-i18n="Chat">Chat</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="app-todo.html"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Todo</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="app-calendar.html"><i data-feather="calendar"></i><span class="menu-title text-truncate" data-i18n="Calendar">Calendar</span></a>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="app-kanban.html"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Kanban">Kanban</span></a>
-            </li>
+
+            <li class="nav-item"><a class="d-flex align-items-center" href=""></a></li>
+            <li class="nav-item"><a class="d-flex align-items-center" href=""></a></li>
+            <li class="nav-item"><a class="d-flex align-items-center" href=""></a></li>
+            <li class="nav-item"><a class="d-flex align-items-center" href=""></a></li>
+            <li class="nav-item"><a class="d-flex align-items-center" href=""></a></li>
+            <li class="nav-item"><a class="d-flex align-items-center" href=""></a></li>
+            <li class="nav-item"><a class="d-flex align-items-center" href=""></a></li>
+            <li class="nav-item"><a class="d-flex align-items-center" href=""></a></li>
+            <li class="nav-item"><a class="d-flex align-items-center" href=""></a></li>
+            <li class="nav-item"><a class="d-flex align-items-center" href=""></a></li>
         </ul>
     </div>
 </div>
