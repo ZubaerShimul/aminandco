@@ -63,14 +63,14 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="bank_name">@lang('Bank Name')</label>
-                                                <input type="text" id="bank_name" class="form-control" value="{{$receive->bank_name}}" readonly/>
+                                                <input type="text" id="bank_name" class="form-control" value="{{$receive->bank_name}}"/>
                                                 <span class="text-danger">{{$errors->first('bank_name')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="account_no">@lang('Ac Number')</label>
-                                                <input type="text" id="account_no" class="form-control" value="{{$receive->account_no}}" readonly/>
+                                                <input type="text" id="account_no" name="account_no" class="form-control" value="{{$receive->account_no}}"/>
                                                 <span class="text-danger">{{$errors->first('account_no')}}</span>
                                             </div>
                                         </div>

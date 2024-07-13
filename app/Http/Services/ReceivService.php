@@ -42,7 +42,7 @@ class ReceivService
 
             'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
             'bank_name'         => isset($account[1]) ? $account[1] : null,
-            'account_no'         => isset($account[2]) ? $account[2] : null,
+            'account_no'         => $request->account_no,
             'payment_method'    => $request->payment_method,
 
             'net_payment_amount'    => $request->net_payment_amount,
@@ -101,7 +101,7 @@ class ReceivService
         }
 
         $site       =  explode('-', $request->site);
-        // $account    =  explode('-', $request->account);
+        $account    =  explode('-', $request->account);
 
         $others_amount = $request->others_amount ?? 0;
         $total = $others_amount + $request->net_payment_amount;
@@ -115,7 +115,7 @@ class ReceivService
             // 'account_id'        => isset($account[0]) && $account[0] != "" ? $account[0] : null,
             // 'bank_name'         => isset($account[1]) ? $account[1] : null,
             'payment_method'    => $request->payment_method,
-
+            'account_no'         => $request->account_no,
             'net_payment_amount'  => $request->net_payment_amount,
             'others_amount'     => $others_amount,
             'total'             => $others_amount + $request->net_payment_amount,
