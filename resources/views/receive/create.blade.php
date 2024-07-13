@@ -62,8 +62,8 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
-                                                <label class="form-label" for="select2-basic">{{ __("Bank Name") }} <span class="text-danger">*</span></label>
-                                                    <select class="select2 form-select" id="account" name="account" required>
+                                                <label class="form-label" for="select2-basic">{{ __("Bank Name") }}</label>
+                                                    <select class="select2 form-select" id="account" name="account">
                                                         <option value="{{ null }}">@lang('Select')</option>
                                                         @if(isset($data['accounts'][0]))
                                                         @foreach ($data['accounts'] as $account )
@@ -77,7 +77,7 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="account_no">@lang('Ac Number')</label>
-                                                <input type="text" id="account_no" class="form-control" name="account_no" value="{{old('account_no')}}" readonly/>
+                                                <input type="text" id="account_no" class="form-control" name="account_no" value="{{old('account_no')}}"/>
                                                 <span class="text-danger">{{$errors->first('account_no')}}</span>
                                             </div>
                                         </div>
