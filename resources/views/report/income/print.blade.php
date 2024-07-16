@@ -7,6 +7,7 @@
 <html class="loading" lang="en" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,16 +43,19 @@
             padding: 0px 20px 0px 20px;
         }
         .table > :not(caption) > * > * {
-  padding: 0.2rem .2rem;
-  background-color: var(--bs-table-bg);
-  border-bottom-width: 1px;
-  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg); }
+        padding: 0.2rem .2rem;
+        background-color: var(--bs-table-bg);
+        border-bottom-width: 1px;
+        box-shadow: inset 0 0 0 99910px var(--bs-table-accent-bg); 
+    }
         .table td {
-            font-size: 7px;
-            color:black;
+            font-size: 10px;
+            color:#000000 ;
+            text-align: left
           }
         .table th {
-        font-size: 6px !important;
+        font-size: 10px !important;
+        text-align: center
         }
         .table tr:nth-child(even) {
             background-color: #fff2cd;
@@ -63,9 +67,9 @@
         white-space: nowrap;
     }
     p{
-        font-size: 8px;
+        font-size: 10px;
         margin-bottom:0px !important;
-        line-height:.5rem;
+        {{--  line-height:.5rem;  --}}
     }
     h5{
         margin-bottom:0px !important;
@@ -75,7 +79,7 @@
         margin-bottom:0px !important;
         line-height:1rem;
     }
-    </style>
+</style>
 </head>
 <!-- END: Head-->
 
@@ -105,7 +109,7 @@
                         <div class="row" id="basic-table">
                             <div class="col-12">
                                 <div class="mx-2">
-                                    <p >Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : '- '.$to_date }}</p>
+                                    <p > <strong> Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : '- '.$to_date }}</strong></p>
                                 </div>
                                 <div class="card">
                                     <div class="table-responsive">
@@ -125,14 +129,14 @@
                                             <tbody>@if(isset($transactions[0]))
                                                 @foreach ($transactions as $transaction )
                                                    <tr>
-                                                        <td>{{ $loop->iteration }} </td>
-                                                        <td class="nowrap">{{ Carbon\Carbon::parse($transaction->date)->format('d/m/Y') }} </td>
-                                                        <td>{{ $transaction->site ? $transaction->site->name : null }} </td>
-                                                        <td>{{ $transaction->site ? $transaction->site->division : null }} </td>
-                                                        <td>{{ $transaction->site ? $transaction->site->area : null }} </td>
-                                                        <td>{{ $transaction->description =='Receive' ? $transaction->cash_in : '-' }} </td>
-                                                        <td>{{ $transaction->description =='Payment' ? $transaction->cash_out : '-' }} </td>
-                                                        <td>{{ $transaction->trnxable_type =='App\Models\Expense' ? $transaction->cash_out : '-' }} </td>
+                                                        <td><strong>{{ $loop->iteration }} </strong></td>
+                                                        <td class="nowrap"><strong>{{ Carbon\Carbon::parse($transaction->date)->format('d/m/Y') }} </strong></td>
+                                                        <td><strong>{{ $transaction->site ? $transaction->site->name : null }} </strong></td>
+                                                        <td><strong>{{ $transaction->site ? $transaction->site->division : null }} </strong></td>
+                                                        <td><strong>{{ $transaction->site ? $transaction->site->area : null }} </strong></td>
+                                                        <td style="text-align:right"><strong>{{ $transaction->description =='Receive' ? money_format($transaction->cash_in): '-' }} </strong></td>
+                                                        <td style="text-align:right"><strong>{{ $transaction->description =='Payment' ? money_format($transaction->cash_out) : '-' }} </strong></td>
+                                                        <td style="text-align:right"><strong>{{ $transaction->trnxable_type =='App\Models\Expense' ? money_format($transaction->cash_out) : '-' }} </strong></td>
                                                     </tr>
                                                     @php
                                                        $receive += $transaction->description =='Receive' ? $transaction->cash_in : 0;
@@ -143,10 +147,10 @@
                                                 @endif
                                                 <tr class="bg-light">
                                                 <td colspan="4"></td>
-                                                <td class="nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
-                                                <td class="nowrap" style="font-weight:bold; background-color: #B9D8AF !important">Tk. {{ number_format($receive,2) }}</td>
-                                                <td class="nowrap" style="font-weight:bold; background-color: #EDD3DE !important">Tk. {{ number_format($payment,2) }}</td>
-                                                <td class="nowrap" style="font-weight:bold; background-color: #CDE2F5 !important">Tk. {{ number_format($expense,2) }}</td>
+                                                <td class="nowrap" style="text-align:right;font-weight:bold; background-color: #fff2cd"><strong> Total</strong></td>
+                                                <td class="nowrap" style="text-align:right;font-weight:bold; background-color: #B9D8AF !important"><strong> Tk. {{ money_format($receive) }}</strong></td>
+                                                <td class="nowrap" style="text-align:right;font-weight:bold; background-color: #EDD3DE !important"><strong> Tk. {{ money_format($payment) }}</strong></td>
+                                                <td class="nowrap" style="text-align:right;font-weight:bold; background-color: #CDE2F5 !important"><strong> Tk. {{ money_format($expense) }}</strong></td>
                                                 </tr>
                                             </tbody>
                                         </table>

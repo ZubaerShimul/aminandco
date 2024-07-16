@@ -101,7 +101,7 @@ function fileUpload($file, $path, $old_file = null)
 // income
 function chart()
 {
-    return [100, 200 , 0, 100, 500, 300, 100];
+    return [100, 200, 0, 100, 500, 300, 100];
     // $data = array();
     // $date = Carbon::now();
 
@@ -114,4 +114,30 @@ function chart()
     //     $date->subDay();
     // }
     // return successResponse("Earning Report", $data);
+}
+
+function money_format($number)
+{
+    $decimal = (string)($number - floor($number));
+    $money = floor($number);
+    $length = strlen($money);
+    $delimiter = '';
+    $money = strrev($money);
+
+    for ($i = 0; $i < $length; $i++) {
+        if (($i == 3 || ($i > 3 && ($i - 1) % 2 == 0)) && $i != $length) {
+            $delimiter .= ',';
+        }
+        $delimiter .= $money[$i];
+    }
+
+    $result = strrev($delimiter);
+    $decimal = preg_replace("/0\./i", ".", $decimal);
+    $decimal = substr($decimal, 0, 3);
+
+    // if ($decimal != '0') {
+    //     $result = $result . $decimal;
+    // }  
+
+    return  $decimal != '0' ? $result . $decimal : $result . '.00';
 }
