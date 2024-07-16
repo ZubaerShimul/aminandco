@@ -2,6 +2,7 @@
     $net_amount = 0;
     $other_amount = 0;
     $total_amount = 0;
+    
 ?>
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
@@ -42,16 +43,19 @@
             padding: 0px 20px 0px 20px;
         }
         .table > :not(caption) > * > * {
-  padding: 0.2rem .2rem;
-  background-color: var(--bs-table-bg);
-  border-bottom-width: 1px;
-  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg); }
+        padding: 0.2rem .2rem;
+        background-color: var(--bs-table-bg);
+        border-bottom-width: 1px;
+        box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg); 
+    }
         .table td {
-            font-size: 7px;
-            color:black;
+            font-size: 10px;
+            color:#000000 ;
+            text-align: left
           }
         .table th {
-        font-size: 6px !important;
+        font-size: 10px !important;
+        text-align: center
         }
         .table tr:nth-child(even) {
             background-color: #fff2cd;
@@ -63,9 +67,9 @@
         white-space: nowrap;
     }
     p{
-        font-size: 8px;
+        font-size: 10px;
         margin-bottom:0px !important;
-        line-height:.5rem;
+        {{--  line-height:.5rem;  --}}
     }
     h5{
         margin-bottom:0px !important;
@@ -75,7 +79,7 @@
         margin-bottom:0px !important;
         line-height:1rem;
     }
-    </style>
+</style>
 </head>
 <!-- END: Head-->
 
@@ -105,41 +109,41 @@
                         <div class="row" id="basic-table">
                             <div class="col-12">
                                 <div class="mx-2">
-                                    <p >Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : '- '.$to_date }}</p>
+                                    <p ><strong> Date: {{ !empty($from_date) ? $from_date .' To '.$to_date : '- '.$to_date }} </strong></p>
                                 </div>
                                 <div class="card">
                                     <div class="table-responsive">
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Sl</th>
-                                                    <th class="nowrap">Date</th>
-                                                    <th class="text-nowrap">Name</th>
-                                                    <th class="text-nowrap">District/ <br>Dicvision</th>
-                                                    <th class="text-nowrap">Area</th>
-                                                    <th class="text-nowrap">Bank Name</th>
-                                                    <th class="text-nowrap">Acc Number</th>
-                                                    <th class="text-nowrap">Pay. Method</th>
-                                                    <th class="text-nowrap">Net R Amount</th>
-                                                    <th class="text-nowrap">Others Amount</th>
-                                                    <th class="text-nowrap">Total Amount</th>
+                                                    <th>Sl</strong></th>
+                                                    <th class="nowrap"><strong>Date</strong></th>
+                                                    <th class="text-nowrap"><strong>Name</strong></th>
+                                                    <th class="text-nowrap"><strong>Dis/Div</strong></th>
+                                                    <th class="text-nowrap"><strong>Area</strong></th>
+                                                    <th class="text-nowrap"><strong>Bank Name</strong></th>
+                                                    <th class="text-nowrap"><strong>Acc Number</strong></th>
+                                                    <th class="text-nowrap"><strong>Pay. Method</strong></th>
+                                                    <th class="text-nowrap"><strong>Net R Amount</strong></th>
+                                                    <th class="text-nowrap"><strong>Others Amount</strong></th>
+                                                    <th class="text-nowrap"><strong>Total Amount</strong></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                @if(isset($receives[0]))
                                                @foreach ($receives as $receive )
                                                <tr>
-                                                    <td>{{ $loop->iteration }} </td>
-                                                    <td class="nowrap">{{ Carbon\Carbon::parse($receive->date)->format('d/y/Y') }} </td>
-                                                    <td>{{ $receive->name }} </td>
-                                                    <td>{{ $receive->district }} </td>
-                                                    <td>{{ $receive->area }} </td>
-                                                    <td>{{ $receive->bank_name }} </td>
-                                                    <td>{{ $receive->account_no }} </td>
-                                                    <td>{{ $receive->payment_method }} </td>
-                                                    <td>{{ $receive->net_payment_amount }} </td>
-                                                    <td>{{ $receive->others_amount }} </td>
-                                                    <td>{{ $receive->total }} </td>
+                                                    <td><strong>{{ $loop->iteration }} </strong></td>
+                                                    <td class="nowrap"><strong><strong>{{ Carbon\Carbon::parse($receive->date)->format('d/y/Y') }} </strong></td>
+                                                    <td><strong>{{ $receive->name }} </strong></td>
+                                                    <td><strong>{{ $receive->district }} </strong></td>
+                                                    <td><strong>{{ $receive->area }} </strong></td>
+                                                    <td><strong>{{ $receive->bank_name }} </strong></td>
+                                                    <td><strong>{{ $receive->account_no }} </strong></td>
+                                                    <td><strong>{{ $receive->payment_method }} </strong></td>
+                                                    <td style="text-align: right"><strong>{{ money_format($receive->net_payment_amount) }} </strong></td>
+                                                    <td style="text-align: right"><strong>{{ money_format($receive->others_amount) }} </strong></td>
+                                                    <td style="text-align: right"><strong>{{ money_format($receive->total) }} </strong></td>
                                                 </tr>
                                                 @php
                                                     $net_amount     += $receive->net_payment_amount;
@@ -150,10 +154,10 @@
                                                @endif
                                                <tr class="bg-light">
                                                 <td colspan="7"></td>
-                                                <td class="text-nowrap" style="font-weight:bold; background-color: #fff2cd">Total</td>
-                                                <td class="text-nowrap" style="font-weight:bold; background-color: #B9D8AF !important">Tk. {{ $net_amount }}</td>
-                                                <td class="text-nowrap" style="font-weight:bold; background-color: #EDD3DE !important">Tk. {{ $other_amount }}</td>
-                                                <td class="text-nowrap" style="font-weight:bold; background-color: #CDE2F5 !important">Tk. {{ $total_amount }}</td>
+                                                <td class="text-nowrap" style="font-weight:bold; text-align: right; background-color: #fff2cd "><strong> Total</strong></td>
+                                                <td class="text-nowrap" style="font-weight:bold; text-align: right; background-color: #B9D8AF !important"><strong> Tk. {{ money_format($net_amount) }}</strong></td>
+                                                <td class="text-nowrap" style="font-weight:bold; text-align: right; background-color: #EDD3DE !important"><strong> Tk. {{ money_format($other_amount) }}</strong></td>
+                                                <td class="text-nowrap" style="font-weight:bold; text-align: right; background-color: #CDE2F5 !important"><strong> Tk. {{ money_format( $total_amount) }}</strong></td>
                                                </tr>
                                             </tbody>
                                         </table>
