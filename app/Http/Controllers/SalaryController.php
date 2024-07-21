@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\PaymentMethod;
 use App\Models\Salary;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class SalaryController extends Controller
 {
@@ -20,7 +21,13 @@ class SalaryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $report_salary = Salary::query();
+            
+            if($request->from_date && $request->to_date){
+                $report_salary = Salary::query()->whereBetween('date', [Carbon::parse($request->from_date)->format('Y-m-d') . " 00:00:00", Carbon::parse($request->to_date)->format('Y-m-d') . " 23:59:59"]);
+            }else{
+                $report_salary = Salary::query();
+            }
+            // dd($report_salary);
             return datatables($report_salary)
                 ->editColumn('checkin', function ($salary) {
                     return '<input type="checkbox" class="item-checkbox" data-id="' . $salary->id . '">';

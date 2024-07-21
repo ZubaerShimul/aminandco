@@ -39,6 +39,7 @@ class PaymentController extends Controller
                 })
                 ->addColumn('actions', function ($payment) {
                     $action = '<button type="button"
+                    data-id="' . $payment->id . '"
                     data-date="' . $payment->date . '"
                     data-name="' . $payment->name . '"
                     data-site_name="' . $payment->site_name . '"
@@ -52,6 +53,11 @@ class PaymentController extends Controller
                     data-total="' . $payment->total . '"
                     data-short_note="' . $payment->short_note . '"
                     class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
+                    if($payment->document!=null){
+                        $action.='<button type="button"
+                        data-doc="' . $payment->document . '"
+                        class="btn btn-sm  btn-success text-white doc-btn" style="margin-top:1px">' . VIEW_DOC . '</button>';
+                     }
                         // $action .= status_change_modal($payment). '</div>';
                     return $action;
                 })
@@ -131,6 +137,12 @@ class PaymentController extends Controller
             return redirect()->route('payment.list')->with('success', $payment['message']);
         }
         return redirect()->route('payment.list')->with('dismiss', $payment['message']);
+    }
+
+    public function print($id){
+        $details=Payment::where(['id' => $id])->with('account')->first();
+        // dd($details->name);
+        return view('payment.print',['details' => $details]);
     }
 
     // public function getLaboursByTender($tenderId)

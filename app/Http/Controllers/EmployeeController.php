@@ -23,8 +23,18 @@ class EmployeeController extends Controller
                 })
                 ->addColumn('actions', function ($employee) {
                     $action = '<button type="button"
+                    data-id="' . $employee->id . '"
+                    data-name="' . $employee->name . '"
                     data-image="'.$employee->image.'"
-                     class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
+                    data-designation="' . $employee->designation . '"
+                    data-address="' . $employee->address . '"
+                    data-nid="' . $employee->NID . '"
+                    data-contact_no="' . $employee->contact_no . '"
+                    data-blood_group="' . $employee->blood_group . '"
+                    data-joining_date="' . $employee->joining_date . '"
+                    data-resigning_date="' . $employee->resigning_date . '"
+                    data-basic_salary="' . $employee->basic_salary . '"
+                    class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
                     // $action .= status_change_modal($employee). '</div>';
                     return $action;
                 })
@@ -126,6 +136,11 @@ class EmployeeController extends Controller
         }
 
         return response()->json(['error' => 'Employee not found'], 404);
+    }
+    public function print($id){
+        $details=Employee::where(['id' => $id])->first();
+        // dd($details->name);
+        return view('employee.print',['details' => $details]);
     }
 
 }

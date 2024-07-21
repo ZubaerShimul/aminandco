@@ -37,6 +37,7 @@ class ReceiveController extends Controller
                 })
                 ->addColumn('actions', function ($receive) {
                     $action = '<button type="button"
+                    data-id="' . $receive->id . '"
                     data-date="' . $receive->date . '"
                     data-name="' . $receive->name . '"
                     data-district="' . $receive->district . '"
@@ -49,6 +50,11 @@ class ReceiveController extends Controller
                     data-total="' . $receive->total . '"
                     data-short_note="' . $receive->short_note . '"
                      class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
+                     if($receive->document!=null){
+                        $action.='<button type="button"
+                        data-doc="' . $receive->document . '"
+                        class="btn btn-sm  btn-success text-white doc-btn" style="margin-top:1px">' . VIEW_DOC . '</button>';
+                     }
                     // $action .= status_change_modal($receive). '</div>';
                     return $action;
                 })
@@ -124,5 +130,11 @@ class ReceiveController extends Controller
             return redirect()->route('receive.list')->with('success', $receive['message']);
         }
         return redirect()->route('receive.list')->with('dismiss', $receive['message']);
+    }
+
+    public function print($id){
+        $details=Receive::where(['id' => $id])->with('account')->first();
+        // dd($details->name);
+        return view('receive.print',['details' => $details]);
     }
 }

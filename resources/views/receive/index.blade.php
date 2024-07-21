@@ -38,6 +38,9 @@
         .me-3 {
             margin-right: 1rem; /* Add margin to the right of the logo */
         }
+        .table > :not(caption) > * > *{
+            padding: .72rem .5rem !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -106,7 +109,24 @@
                                 <div id="detailsPlaceholder"></div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary me-1" id="printButton" style="float: right">@lang('Print')</button>
+                                <a type="button" class="btn btn-primary me-1" href="" id="printButton" style="float: right">@lang('Print')</a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="docModal" tabindex="-1" aria-labelledby="docModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" >
+                                <!-- Placeholder for doc -->
+                                <div id="docPlaceholder"></div>
+                            </div>
+                            <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
@@ -200,6 +220,7 @@
     $(document).on('click', '.action-btn', function() {
         // Fetch details using AJAX or any other method here
         var details = {
+            id: this.dataset.id,
             date: this.dataset.date,
             name: this.dataset.name,
             district: this.dataset.district,
@@ -326,8 +347,47 @@
             </div>
         </div>`);
             // '<p>Date: ' + details.date + '</p><p>Name: ' + details.name + '</p><p>Designation: ' + details.designation + '</p><p>Bank Name: ' + details.bank_name + '</p><p>Payment Method: ' + details.payment_method + '</p><p>Gross Salary: ' + details.salary + '</p><p>TA/DA: ' + details.ta_da + '</p><p>Total Salary: ' + details.total + '</p>');
+        document.getElementById("printButton").href='/receive-details-print/'+details.id+'';
         $('#detailsModal').modal('show');
     });
+
+    $(document).on('click', '.doc-btn', function() {
+        // Fetch details using AJAX or any other method here
+        var details = {
+            doc: this.dataset.doc,
+        };
+
+        $('#docPlaceholder').html(
+            `<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="invoice-title">
+                                <div class="mb-1 d-flex align-items-center">
+                                    <img src="{{ asset('/assets/admin/images/admin-co.jpeg') }}" height="120" class="me-3">
+                                    <div>
+                                        <h2 class="mb-1">{{ allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO' }}</h2>
+                                        <p class="mb-1">1st Class Government contractor & Suppliers</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                        <div class="info-container">
+                                        	<img src="`+details.doc+`" style="width:100%;height:100%">
+                                    	</div>
+                                </div>
+                            </div>                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`);
+        $('#docModal').modal('show');
+    });
+
 });
 
     </script>
@@ -346,38 +406,5 @@
         });
 
     </script>
-    <script>
-
-    var bootstrapCSS = "{{ asset('assets/admin/css/bootstrap.css') }}";
-    var bootstrapExtendedCSS = "{{ asset('assets/admin/css/bootstrap-extended.css') }}";
-    var componentsCSS = "{{ asset('assets/admin/css/components.css') }}";
-    var vendorsCSS = "{{ asset('assets/admin/vendors/css/vendors.min.css') }}";
-    var printCSS = "{{ asset('assets/admin/css/print.css') }}";
-
-    document.getElementById('printButton').addEventListener('click', function () {
-    var printContents = document.getElementById('detailsPlaceholder').innerHTML;
-
-    var printWindow = window.open('', '', 'height=500,width=800');
-    printWindow.document.write('<html><head><title>Print</title>');
-    printWindow.document.write('<link rel="stylesheet" href="' + bootstrapCSS + '" type="text/css" />');
-    printWindow.document.write('<link rel="stylesheet" href="' + bootstrapExtendedCSS + '" type="text/css" />');
-    printWindow.document.write('<link rel="stylesheet" href="' + componentsCSS + '" type="text/css" />');
-    printWindow.document.write('<link rel="stylesheet" href="' + vendorsCSS + '" type="text/css" />');
-    printWindow.document.write('<link rel="stylesheet" href="' + printCSS + '" type="text/css" />');
-    printWindow.document.write('</head><body>');
-    printWindow.document.write('<div id="print-element">');
-    printWindow.document.write(printContents);
-    printWindow.document.write('</div></body></html>');
-
-    printWindow.document.close();
-    printWindow.focus(); // Ensure the window is in focus
-    printWindow.onload = function () {
-        printWindow.print();
-        printWindow.close();
-    };
-});
-
-
-</script>
 
 @endpush

@@ -4,7 +4,32 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/vendors.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/charts/apexcharts.css') }}">
 <!-- END: Vendor CSS-->
-    
+<style>
+    	#loader {
+		display: block;
+	}
+	@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+	.loader-object {
+		position: absolute;
+  /* left: 55%;
+  top: 50%; */
+  z-index: 1;
+  width: 180px;
+  height: 180px;
+  margin-left: 20%;
+  margin-top: 33%;
+  border: 16px solid #f3f3f3;
+  border-radius: 50% !important;
+  border-top: 16px solid #f7e0a0;
+  border-right: 16px solid #f8d3ff;
+  border-bottom: 16px solid #c3b7f7;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+</style>
 @endpush
 @section('content')
     <div class="content-wrapper">
@@ -165,26 +190,29 @@
         <!-- END: Content-->
         <div class="content-body">
             <!-- Column Chart Starts -->
-
-            <div class="card">
-                <div class="
-            card-header
-            d-flex
-            flex-md-row flex-column
-            justify-content-md-between justify-content-start
-            align-items-md-center align-items-start
-          ">
-                    {{--  <h4 class="card-title">Data Science</h4>
-                    <div class="d-flex align-items-center mt-md-0 mt-1">
-                        <i class="font-medium-2" data-feather="calendar"></i>
-                        <input type="text" class="form-control flat-picker bg-transparent border-0 shadow-none"
-                            placeholder="YYYY-MM-DD" />
-                    </div>  --}}
+             <div class="row">
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="
+                        card-header
+                        d-flex
+                        flex-md-row flex-column
+                        justify-content-md-between justify-content-start
+                        align-items-md-center align-items-start">
+                        </div>
+                        <div class="card-body">
+                            <div id="column-chart"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div id="column-chart"></div>
+                <div class="col-md-3">
+                <div class="card" style="height:95%;background-color:#380540 !important">
+                        <div class="card-body">
+                            <div id="loader" class="loader-object"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+             </div>
             <!-- Column Chart Ends -->
         </div>
     </div>

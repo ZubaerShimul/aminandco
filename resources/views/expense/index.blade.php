@@ -77,6 +77,7 @@
                                 <th>@lang('Expense Type')</th>
                                 <th>@lang('Amoun')</th>
                                 <th width="30px">@lang('Approved')</th>
+                                <th>@lang('Actions')</th>
                             </tr>
                             </thead>
                         </table>
@@ -102,7 +103,23 @@
                         </div>
                     </div>
                 </div>
-
+             <!-- Modal -->
+             <div class="modal fade" id="docModal" tabindex="-1" aria-labelledby="docModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="print-element">
+                                <!-- Placeholder for doc -->
+                                <div id="docPlaceholder"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 @endsection
@@ -131,6 +148,7 @@
             {"targets": 8, "className": "text-center"},
             {"targets": 9, "className": "text-center"},
             {"targets": 10, "className": "text-center"},
+            {"targets": 11, "className": "text-center"},
         ],
         columns: [
                 {"data": "checkin", orderable: false, searchable: false},
@@ -143,8 +161,8 @@
                 {"data": "payment_method"},
                 {"data": "type"},
                 {"data": "amount"},
-                {"data": "is_draft"}
-               // {"data": "actions", orderable: false, searchable: false}
+                {"data": "is_draft"},
+               {"data": "actions", orderable: false, searchable: false}
             ],
         ajax: {
             url: '{{ route('expense.list') }}',
@@ -312,6 +330,43 @@
 </div>`);
             // '<p>Date: ' + details.date + '</p><p>Name: ' + details.name + '</p><p>Designation: ' + details.designation + '</p><p>Bank Name: ' + details.bank_name + '</p><p>Payment Method: ' + details.payment_method + '</p><p>Gross Salary: ' + details.salary + '</p><p>TA/DA: ' + details.ta_da + '</p><p>Total Salary: ' + details.total + '</p>');
         $('#detailsModal').modal('show');
+    });
+
+    $(document).on('click', '.doc-btn', function() {
+        // Fetch details using AJAX or any other method here
+        var details = {
+            doc: this.dataset.doc,
+        };
+
+        $('#docPlaceholder').html(
+            `<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="invoice-title">
+                                <div class="mb-1 d-flex align-items-center">
+                                    <img src="{{ asset('/assets/admin/images/admin-co.jpeg') }}" height="120" class="me-3">
+                                    <div>
+                                        <h2 class="mb-1">{{ allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO' }}</h2>
+                                        <p class="mb-1">1st Class Government contractor & Suppliers</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                        <div class="info-container">
+                                        	<img src="`+details.doc+`" style="width:100%;height:100%">
+                                    	</div>
+                                </div>
+                            </div>                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`);
+        $('#docModal').modal('show');
     });
 });
 
