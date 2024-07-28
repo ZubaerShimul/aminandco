@@ -31,7 +31,7 @@
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/core/menu/menu-types/vertical-menu.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/pages/app-invoice-print.css')}}">
+    {{--  <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/pages/app-invoice-print.css')}}">  --}}
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
@@ -55,6 +55,7 @@
           }
         .table th {
         font-size: 10px !important;
+        color:#000000 ;
         text-align: center
         }
         .table tr:nth-child(even) {
@@ -69,14 +70,17 @@
     p{
         font-size: 10px;
         margin-bottom:0px !important;
-        {{--  line-height:.5rem;  --}}
+        color: #000;
+        line-height:.5rem;
     }
     h5{
         margin-bottom:0px !important;
+        color: #000;
         line-height:1rem;
     }
     h6{
         margin-bottom:0px !important;
+        color: #000;
         line-height:1rem;
     }
 </style>
@@ -152,6 +156,12 @@
                                                 <td class="nowrap" style="text-align:right;font-weight:bold; background-color: #EDD3DE !important"><strong> Tk. {{ money_format($payment) }}</strong></td>
                                                 <td class="nowrap" style="text-align:right;font-weight:bold; background-color: #CDE2F5 !important"><strong> Tk. {{ money_format($expense) }}</strong></td>
                                                 </tr>
+                                                <tr class="bg-light">
+                                                    <td colspan="4"></td>
+                                                    <td class="nowrap" style="text-align:right;font-weight:bold; background-color: #d8afd3"><strong> Profit/ Loss</strong></td>
+                                                    <td colspan="1"></td>
+                                                    <td class="nowrap" style="text-align:center;font-weight:bold; background-color: #cdf5e0 !important"><strong> Tk. {{ money_format($receive - ($expense + $payment) )}}</strong></td>
+                                                    </tr>
                                             </tbody>
                                         </table>
                                     </div>
