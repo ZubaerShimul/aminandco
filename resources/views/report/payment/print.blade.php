@@ -31,7 +31,7 @@
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/core/menu/menu-types/vertical-menu.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/pages/app-invoice-print.css')}}">
+    {{--  <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/pages/app-invoice-print.css')}}">  --}}
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
@@ -55,6 +55,7 @@
           }
         .table th {
         font-size: 9px !important;
+        color:#000000 ;
         text-align: center
         }
         .table tr:nth-child(even) {
@@ -68,15 +69,18 @@
     }
     p{
         font-size: 9px;
+        color:#000000 ;
         margin-bottom:0px !important;
         {{--  line-height:.5rem;  --}}
     }
     h5{
         margin-bottom:0px !important;
+        color:#000000 ;
         line-height:1rem;
     }
     h6{
         margin-bottom:0px !important;
+        color:#000000 ;
         line-height:1rem;
     }
 </style>
