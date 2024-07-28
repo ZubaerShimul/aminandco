@@ -21,6 +21,6 @@ class Payment extends Model
     }
 
     public function getDocumentAttribute($document){
-        return asset($document);
+        return isset($document)? asset($document):null;
     }
 }

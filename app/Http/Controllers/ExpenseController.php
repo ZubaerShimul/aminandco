@@ -34,6 +34,7 @@ class ExpenseController extends Controller
                 ->editColumn('date', function ($date)  {
                     return date('d M, Y', strtotime($date->date));
                 })
+                ->addColumn('actions', function ($payment) {
                 // ->addColumn('actions', function ($payment) {
                 //     $action = '<button type="button"
                 //     data-date="' . $payment->date . '"
@@ -52,6 +53,14 @@ class ExpenseController extends Controller
                 //         // $action .= status_change_modal($payment). '</div>';
                 //     return $action;
                 // })
+                if($payment->document!=null){
+                    $action='<button type="button"
+                    data-doc="' . $payment->document . '"
+                    class="btn btn-sm  btn-success text-white doc-btn" style="margin-top:1px">' . VIEW_DOC . '</button>';
+                 }
+                    // $action .= status_change_modal($payment). '</div>';
+                return $action;
+                })
                 ->rawColumns(['checkin', 'actions', 'is_draft','date'])
                 ->make(TRUE);
         }

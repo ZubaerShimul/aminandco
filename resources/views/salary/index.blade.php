@@ -35,6 +35,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="mb-2">
+                                    <label class="form-label" for="date">@lang('From Date') <span class="text-danger">*</span> </label>
+                                    <input type="date" id="from_date" class="form-control" name="from_date"  required/>
+                                    <span class="text-danger">{{$errors->first('date')}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-2">
+                                    <label class="form-label" for="date">@lang('To Date') <span class="text-danger">*</span> </label>
+                                    <input type="date" id="to_date" class="form-control" name="to_date"  required/>
+                                    <span class="text-danger">{{$errors->first('date')}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-1 pt-2">
+                                <button type="submit" id="filter" class="btn btn-lg btn-primary" style="float: right">@lang('Filter')</button>
+                             </div>
+                        </div>
                     </div>
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table report_cases">
@@ -116,7 +135,9 @@
             url: '{{ route('salary.list') }}',
             type: 'GET',
             data: function (d) {
-                d.tender_id = $('#tender').val(); // Pass the selected tender ID as parameter
+                d.tender_id = $('#tender').val(); 
+                d.from_date = $('#from_date').val(); 
+                d.to_date = $('#to_date').val(); 
             }
         },
         initComplete: function() {
@@ -144,6 +165,18 @@
     $('#tender').on('change', function() {
         // Reload DataTable with the updated AJAX URL
         dataTable.ajax.reload();
+    });
+
+    $('#filter').on('click', function() {
+        // Reload DataTable with the updated AJAX URL
+
+        if($('#from_date').val()=="") {
+            alert("From Date is required");
+        }else if($('#to_date').val()=="") {
+            alert("To Date is required");
+        }else{
+            dataTable.ajax.reload();
+        }
     });
 
     $(document).on('click', '.action-btn', function() {

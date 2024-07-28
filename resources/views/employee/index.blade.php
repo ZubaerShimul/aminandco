@@ -6,6 +6,44 @@
         .card-datatable.table-responsive{
             padding: 20px;
         }
+        .user-list-table td {
+            font-size: 10px;
+          }
+        .report_cases th {
+        font-size: 10px !important;
+        }
+      .info-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .info-item {
+            display: flex;
+        }
+        .info-label {
+            width: 120px; /* Adjust the width as needed */
+            font-weight: bold;
+        }
+        .info-value {
+            flex: 1;
+        }
+        .nowrap {
+        white-space: nowrap;
+    }
+            /* Flexbox for vertical alignment */
+        .d-flex {
+            display: flex;
+            align-items: center; /* Vertically center the items */
+        }
+
+        .me-3 {
+            margin-right: 1rem; /* Add margin to the right of the logo */
+        }
+        .receive-table  thead th, .table tfoot th{
+            font-size: 0.7rem !important;
+        }
+        .table > :not(caption) > * > *{
+            padding: .72rem .5rem !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -58,18 +96,18 @@
                 <!-- list and filter end -->
             </section>
             <!-- Modal -->
-                <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
+            <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="detailsModalLabel">Details</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" id="print-element">
                                 <!-- Placeholder for details -->
                                 <div id="detailsPlaceholder"></div>
                             </div>
                             <div class="modal-footer">
+                                <a type="button" class="btn btn-primary me-1" href="" id="printButton" style="float: right">@lang('Print')</a>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
@@ -107,7 +145,7 @@
                 {"data": "joining_date"},
                 {"data": "resigning_date"},
                 {"data": "basic_salary"},
-                {"data": "image", orderable: false, searchable: false}
+                {"data": "actions", orderable: false, searchable: false}
             ],
         ajax: {
             url: '{{ route('employee.list') }}',
@@ -146,9 +184,114 @@
     $(document).on('click', '.action-btn', function() {
         // Fetch details using AJAX or any other method here
         var details = {
+            id: this.dataset.id,
+            name: this.dataset.name,
             image: this.dataset.image,
+            designation: this.dataset.designation,
+            address: this.dataset.address,
+            nid: this.dataset.nid,
+            contact_no: this.dataset.contact_no,
+            blood_group: this.dataset.blood_group,
+            joining_date: this.dataset.joining_date,
+            resigning_date: this.dataset.resigning_date,
+            basic_salary: this.dataset.basic_salary,
         };
-        $('#detailsPlaceholder').html('<img src='+details.image+'/>');
+        $('#detailsPlaceholder').html(`
+            <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="invoice-title">
+                                <div class="mb-1 d-flex align-items-center">
+                                    <img src="{{ asset('/assets/admin/images/admin-co.jpeg') }}" height="120" class="me-3">
+                                    <div>
+                                        <h2 class="mb-1">{{ allSetting('company_title') ? allSetting('company_title') : 'M/S Amin & CO' }}</h2>
+                                        <p class="mb-1">1st Class Government contractor & Suppliers</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="mt-2">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4 text-center mx-auto">
+                                        <h4 class="font-size-16 border px-1 py-1">Employee Details</h4>
+                                        <div class="info-item ">
+                                            <img class="mx-auto" src=`+details.image+` style="width: 150px; height:150px;"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                        <div class="info-container">
+                                        
+                                        <div class="info-item">
+                                            <span class="info-label">Name:</span>
+                                            <span class="info-value">`+ details.name +`</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Designation:</span>
+                                            <span class="info-value">`+ details.designation +`</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Address:</span>
+                                            <span class="info-value">`+ details.address +`</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                    
+                            <div class="">
+                                <div class="table-responsive">
+                                    <table class="table receive-table align-middle table-nowrap table-centered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>NID No</th>
+                                                <th>Contact No</th>
+                                                <th>Blood Group</th>
+                                                <th>Joining Date</th>
+                                                <th>Resign Date</th>
+                                                <th class="text-end" style="width: 120px;">Basic Salary</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td scope="row">`+ details.nid +`</td>
+                                                <td>
+                                                    `+ details.contact_no +`
+                                                </td>
+                                                <td>
+                                                        `+ details.blood_group +`
+                                                </td>
+                                                <td>
+                                                        `+ details.joining_date +`
+                                                </td>
+                                                <td>
+                                                        `+ details.resigning_date +`
+                                                </td>
+                                                <td class="text-end">
+                                                        `+ details.basic_salary +`
+                                                </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="text-center">
+                                            <h5 class="font-size-16">18, Gogan Babu Road (2nd Lane), Khulna</h5>
+                                            <p class="">Call: 01711-331360 & 01971-331360 E-mail:mdruhulamin1968@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `);
+        document.getElementById("printButton").href='/employee-details-print/'+details.id+'';
         $('#detailsModal').modal('show');
     });
 });

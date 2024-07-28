@@ -87,6 +87,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
      * receive
      */
     Route::get('receive-list', [ReceiveController::class, 'index'])->name('receive.list');
+    Route::get('receive-details-print/{id}', [ReceiveController::class, 'print'])->name('receive.print');
     Route::get('receive-create', [ReceiveController::class, 'create'])->name('receive.create');
     Route::get('receive-approved/{id?}', [ReceiveController::class, 'approved'])->name('receive.approved');
     Route::post('receive-store', [ReceiveController::class, 'store'])->name('receive.store');
@@ -98,6 +99,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
      * payment
      */
     Route::get('payment-list', [PaymentController::class, 'index'])->name('payment.list');
+    Route::get('payment-details-print/{id}', [PaymentController::class, 'print'])->name('payment.print');
     Route::get('payment-create', [PaymentController::class, 'create'])->name('payment.create');
     Route::post('payment-store', [PaymentController::class, 'store'])->name('payment.store');
     Route::get('payment-approved/{id?}', [PaymentController::class, 'approved'])->name('payment.approved');
@@ -160,6 +162,7 @@ Route::group(['middleware' => ['admin', 'lang']], function () {
      * Employee
      */
     Route::get('employee-list', [EmployeeController::class, 'index'])->name('employee.list');
+    Route::get('employee-details-print/{id}', [EmployeeController::class, 'print'])->name('employee.print');
     Route::get('employee-create', [EmployeeController::class, 'create'])->name('employee.create');
     Route::post('employee-store', [EmployeeController::class, 'store'])->name('employee.store');
     Route::get('employee-edit/{id?}', [EmployeeController::class, 'edit'])->name('employee.edit');
