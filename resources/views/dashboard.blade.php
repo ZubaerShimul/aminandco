@@ -191,7 +191,7 @@
         <div class="content-body">
             <!-- Column Chart Starts -->
              <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-8">
                     <div class="card">
                         <div class="
                         card-header
@@ -205,7 +205,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                 <div class="card" style="height:95%;background-color:#380540 !important">
                         <div class="card-body">
                             <div id="loader" class="loader-object"></div>

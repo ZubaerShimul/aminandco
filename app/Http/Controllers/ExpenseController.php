@@ -31,37 +31,38 @@ class ExpenseController extends Controller
                 ->editColumn('is_draft', function ($status) use ($approved, $draft) {
                     return $status->is_draft == 1 ? $draft : $approved;
                 })
-                ->editColumn('date', function ($date)  {
+                ->editColumn('date', function ($date) {
                     return date('d M, Y', strtotime($date->date));
                 })
                 ->addColumn('actions', function ($payment) {
-                // ->addColumn('actions', function ($payment) {
-                //     $action = '<button type="button"
-                //     data-date="' . $payment->date . '"
-                //     data-name="' . $payment->name . '"
-                //     data-site_name="' . $payment->site_name . '"
-                //     data-district="' . $payment->district . '"
-                //     data-area="' . $payment->area . '"
-                //     data-bank_name="' . $payment->site_bank_name . '"
-                //     data-account_no="' . $payment->site_account_no . '"
-                //     data-payment_method="' . $payment->payment_method . '"
-                //     data-net_payment_amount="' . $payment->net_payment_amount . '"
-                //     data-others_amount="' . $payment->others_amount . '"
-                //     data-total="' . $payment->total . '"
-                //     data-short_note="' . $payment->short_note . '"
-                //     class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
-                //         // $action .= status_change_modal($payment). '</div>';
-                //     return $action;
-                // })
-                if($payment->document!=null){
-                    $action='<button type="button"
+                    $action = '';
+                    // ->addColumn('actions', function ($payment) {
+                    //     $action = '<button type="button"
+                    //     data-date="' . $payment->date . '"
+                    //     data-name="' . $payment->name . '"
+                    //     data-site_name="' . $payment->site_name . '"
+                    //     data-district="' . $payment->district . '"
+                    //     data-area="' . $payment->area . '"
+                    //     data-bank_name="' . $payment->site_bank_name . '"
+                    //     data-account_no="' . $payment->site_account_no . '"
+                    //     data-payment_method="' . $payment->payment_method . '"
+                    //     data-net_payment_amount="' . $payment->net_payment_amount . '"
+                    //     data-others_amount="' . $payment->others_amount . '"
+                    //     data-total="' . $payment->total . '"
+                    //     data-short_note="' . $payment->short_note . '"
+                    //     class="btn btn-sm  btn-info text-white action-btn" style="margin-right:10px">' . VIEW_ICON . '</button>';
+                    //         // $action .= status_change_modal($payment). '</div>';
+                    //     return $action;
+                    // })
+                    if ($payment->document != null) {
+                        $action = '<button type="button"
                     data-doc="' . $payment->document . '"
                     class="btn btn-sm  btn-success text-white doc-btn" style="margin-top:1px">' . VIEW_DOC . '</button>';
-                 }
+                    }
                     // $action .= status_change_modal($payment). '</div>';
-                return $action;
+                    return $action;
                 })
-                ->rawColumns(['checkin', 'actions', 'is_draft','date'])
+                ->rawColumns(['checkin', 'actions', 'is_draft', 'date'])
                 ->make(TRUE);
         }
         return view('expense.index');
@@ -119,7 +120,7 @@ class ExpenseController extends Controller
         return redirect()->route('expense.list')->with('dismiss', $expense['message']);
     }
 
-    
+
     public function approved($id = null)
     {
         $receive = $this->expenseService->approved($id);
