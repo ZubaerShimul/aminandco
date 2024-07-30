@@ -77,7 +77,7 @@
                                 <th>@lang('Expense Type')</th>
                                 <th>@lang('Amoun')</th>
                                 <th width="30px">@lang('Approved')</th>
-                                <th>@lang('Actions')</th>
+                                <th>@lang('File')</th>
                             </tr>
                             </thead>
                         </table>
@@ -134,7 +134,7 @@
         serverSide: true,
         pageLength: 10,
         responsive: true,
-        order: [0, 'desc'],
+        order: [1, 'desc'],
         autoWidth: false,
         columnDefs: [
             {"targets": 0, "className": "text-center"},
@@ -162,7 +162,7 @@
                 {"data": "type"},
                 {"data": "amount"},
                 {"data": "is_draft"},
-               {"data": "actions", orderable: false, searchable: false}
+                {"data": "actions", orderable: false, searchable: false}
             ],
         ajax: {
             url: '{{ route('expense.list') }}',

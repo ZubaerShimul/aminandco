@@ -50,9 +50,11 @@
                                     <span class="text-danger">{{$errors->first('date')}}</span>
                                 </div>
                             </div>
-                            <div class="col-md-1 pt-2">
+                            <div class="col-md-6">
+                            <div>
                                 <button type="submit" id="filter" class="btn btn-lg btn-primary" style="float: right">@lang('Filter')</button>
                              </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-datatable table-responsive pt-0">
